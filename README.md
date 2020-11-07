@@ -1,4 +1,4 @@
-# Pizza Delivery Project
+# Pizza Delivery Project 1
 
 ## Dependency Installation:
 1. `npm install`
