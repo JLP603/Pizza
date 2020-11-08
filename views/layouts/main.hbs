@@ -1,33 +1,49 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
+<html lang="en"><head>
     <meta charset="utf-8">
-    {{title}}
-    
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <!--//Latest compiled and minified CSS--> 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
-    <!--// Latest compiled and minified JavaScript-->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
-  
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+
+    <title>{{title}}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
     <!--//importing personal styles-->
-    <link href="https://fonts.googleapis.com/css?family=Spartan&display=swap" rel="stylesheet">
-    <link href='https://fonts.googleapis.com/css?family=Space Mono' rel='stylesheet'>
-		<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
-    <link rel="stylesheet" href="css/navbar style.css">
-    <script src="https://kit.fontawesome.com/07167c6e0a.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="css/tables.css">
+
     
-    <link rel="stylesheet" href="css/{{style}}">
-    <link rel="stylesheet" href="css/{{style2}}">
-  </head>
-  <body>
-    {{> navbar}} <!-- This is a partial, we use > right after the opening mustache to denote it's a partial -->
+    <style type="text/css">@font-face {
+    font-family: 'rbicon';
+    src: url(chrome-extension://dipiagiiohfljcicegpgffpbnjmgjcnf/fonts/rbicon.woff2) format("woff2");
+    font-weight: normal;
+    font-style: normal; }
+    </style></head>
+
+    <body>
+      {{> navbar}}
+    
+
     
     <div class="container">
-      {{{ body }}} <!-- THIS IS REQUIRED, body is a keyword. Notice it's 3 mustaches, not just 2. To escape HTML tags -->
+        {{{body}}}
     </div>
 
     
-  </body>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>
+      Holder.addTheme('thumb', {
+        bg: '#55595c',
+        fg: '#eceeef',
+        text: 'Thumbnail'
+      });
+    </script>
+  
+
+    </body>
 </html>
