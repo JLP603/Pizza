@@ -1,0 +1,163 @@
+body{
+    margin: 0;
+    padding:0;
+    font-family: 'Roboto';
+    font-size: 14px;
+    background: #fbfbfb ;
+}
+.container{
+    width:100%;
+    margin:0 auto;
+}
+header{
+    background:#8b8b8b;
+}
+header::after{
+    content:'';
+    display: table;
+    clear:both;
+}
+.logo
+{
+    padding: 10px;
+    float:left;
+}
+nav{
+    float: inline-start;
+}
+nav ul{
+    
+    margin:0;
+    padding:0;
+    list-style: none;
+}
+nav li{
+    
+    display:inline-block;
+    margin-left: 25px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    position: relative;
+}
+nav ul li a{
+    color:#fbfbfb;
+    text-decoration: none;
+    font-family: 'Space Mono';
+    text-transform:uppercase;
+    font-size:14px;
+}
+.welcome h2{
+    text-decoration: none;
+    font-family: 'Space Mono';
+    text-transform:uppercase;
+    font-size:25px;
+    color:#92a90e;
+    text-align:center;
+}
+.welcome h4{
+    text-decoration: none;
+    font-family: 'Roboto';
+    text-transform:uppercase;
+    font-size:14px;
+    color:black;
+    text-align:left;
+}
+nav ul li a:hover{
+    color:#e3b983;
+}
+nav ul li a:before{
+    content:'';
+    display:block;
+    height:5px;
+    width:0%;
+    background-color: #92a90e;
+    transition: all ease-in-out 150ms;
+    position:absolute;
+    top:0;
+}
+nav ul li a:hover::before{
+    width: 100%;
+}
+.search-box{
+    float:right;
+    margin-right:180px;
+    left: 70%;
+    margin-top:-60px;
+    background:#e3b983;
+    height:45px;
+    border-radius: 25px;
+    padding: 10px;
+}
+.search-btn{
+    color:  #fbfbfb;
+    float: right;
+    width: 46px;
+    height:46px;
+    transform: translate(25%,-24%);
+    border-radius: 50%;
+    background: #92a90e;
+    display:flex;
+    justify-content:center;
+    align-items: center;
+}
+.search-btn:hover{
+    color:  black;
+}
+.search-txt{
+    border:none;
+    background:none;
+    outline:none;
+    float: left;
+    padding 0;
+    transform: translateX(5%);
+    color: #fbfbfb;
+    font-family: 'Space Mono';
+    text-transform:uppercase;
+    font-size:14px;
+    transition:0.4s;
+    line-height: 25px;
+    width:220px;
+}
+.login-btn{
+    color:  #fbfbfb;
+    float: right;
+    margin-right:40px;
+    margin-top:-50px;
+    width: 96px;
+    padding: 6px;
+    height:45px;
+    transform: translate(20%,-20%);
+    border-radius: 25px;
+    background: #92a90e;
+    display:flex;
+    justify-content:center;
+    align-items: center;
+    font-family: 'Space Mono';
+    text-transform:uppercase;
+    font-size:14px;
+}
+.login-btn:hover{
+    color:  black;
+}
+#log-in-header{
+	background-color:  #92a90e;
+    text-align: center;
+	padding: 20px;
+	height:72px;
+	margin: auto;
+	color: #fbfbfb;
+}
+#log-in-body{
+	background-color:  #cccccc;
+	text-align: center;
+	padding: 24px;
+	margin: auto;
+}
+
+#log-in-container{
+    border: 1px solid #cccccc;
+	width: 50%;
+	text-align: center;
+	margin: auto;
+	background-color: #cccccc;
+}

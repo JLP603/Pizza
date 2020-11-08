@@ -1,0 +1,23 @@
+#div-read{
+	justify-content: space-around;
+	text-align: center;
+	padding: 24px;
+}
+
+.btn-read{
+	text-align: center;
+	margin:auto;
+	padding: 12px 32px;
+	background-color:#92a90e;
+	border-radius: 25px;
+	text-decoration: none;
+    font-family: 'Space Mono';
+    text-transform:uppercase;
+	color: #fbfbfb;
+	margin: 10px;
+}
+
+.btn-read:hover{
+	color:  black;
+
+}

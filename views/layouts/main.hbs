@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    {{title}}
+    
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <!--//Latest compiled and minified CSS--> 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <!--// Latest compiled and minified JavaScript-->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+  
+    <!--//importing personal styles-->
+    <link href="https://fonts.googleapis.com/css?family=Spartan&display=swap" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Space Mono' rel='stylesheet'>
+		<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <link rel="stylesheet" href="css/navbar style.css">
+    <script src="https://kit.fontawesome.com/07167c6e0a.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/tables.css">
+    
+    <link rel="stylesheet" href="css/{{style}}">
+    <link rel="stylesheet" href="css/{{style2}}">
+  </head>
+  <body>
+    {{> navbar}} <!-- This is a partial, we use > right after the opening mustache to denote it's a partial -->
+    
+    <div class="container">
+      {{{ body }}} <!-- THIS IS REQUIRED, body is a keyword. Notice it's 3 mustaches, not just 2. To escape HTML tags -->
+    </div>
+
+    
+  </body>
+</html>
