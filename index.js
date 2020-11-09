@@ -4,7 +4,7 @@ const exphandle = require('express-handlebars')
 const handlebars = require('handlebars')
 
 const app = express()
-const port = 9090
+const port = 9000
 
 app.engine('hbs', exphandle({
     extname: 'hbs',
