@@ -1,0 +1,78 @@
+.menu-card-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.menu-card {
+    display: flex;
+    flex-direction: column;
+
+    width: 30%;
+    height: calc(100vh / 2)px;
+
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+
+    margin-bottom: 5%;
+}
+
+.menu-card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.menu-item-image {
+    max-width: 100%;
+    height: 60%;
+
+    vertical-align: middle;
+}
+
+.card-img {
+    overflow: hidden;
+}
+  
+.card-img img {
+    width: 100%;
+    height: 250px;
+}
+
+.menu-info {
+    display: flex;
+    flex-direction: column;
+
+    margin: 5%;
+
+    width: 90%;
+    height: 90%;
+}
+
+.menu-item-title {
+    height: 30%;
+    overflow: hidden;
+}
+
+.menu-item-desc {
+    height: 45%;
+    overflow: hidden;
+}
+
+.menu-item-price {
+    height: 15%;
+    overflow: hidden;
+    
+    text-align: right;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover {
+    color: black;
+}

@@ -52,8 +52,8 @@ app.get('/login', function(req, res){
 app.get('/menu', function(req, res){
     res.render('menu', {
         title: "MENU",
+        styles: "/css/menu.css",
         /*
-        styles: "",
         scripts: "script/",
         */
     })
