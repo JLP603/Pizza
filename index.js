@@ -4,7 +4,7 @@ const exphandle = require('express-handlebars')
 const handlebars = require('handlebars')
 
 const app = express()
-const port = 9090
+const port = 9000
 
 app.engine('hbs', exphandle({
     extname: 'hbs',
@@ -16,15 +16,125 @@ app.engine('hbs', exphandle({
 
 app.set('view engine', 'hbs')
 
-//For login page
+/* ---------------------------------------- ALL 6 ROUTES ---------------------------------------- */
+
+// [PAGE-01] ABOUT
 app.get('/', function(req, res){
-    res.render('login', {
-        title: "Login Page"
+    res.render('about', {
+        title: "ABOUT US",
+        /*
+        styles: "",
+        scripts: "script/",
+        */
     })
 })
+// [PAGE-02] CHECKOUT
+app.get('/checkout', function(req, res){
+    res.render('checkout', {
+        title: "CHECKOUT",
+        /*
+        styles: "",
+        scripts: "script/",
+        */
+    })
+})
+// [PAGE-03] LOGIN & REGISTER
+app.get('/login', function(req, res){
+    res.render('login', {
+        title: "LOGIN",
+
+        styles: "css/styles_login.css",
+        scripts: "script/LoginScript.js",
+        
+    })
+})
+// [PAGE-04] MENU
+app.get('/menu', function(req, res){
+    res.render('menu', {
+        title: "MENU",
+        /*
+        styles: "",
+        scripts: "script/",
+        */
+    })
+})
+// [PAGE-05] ORDER
+app.get('/order', function(req, res){
+    res.render('order', {
+        title: "ORDER",
+        /*
+        styles: "",
+        scripts: "script/",
+        */
+    })
+})
+// [PAGE-06] USER_ORDERS
+app.get('/user_orders', function(req, res){
+    res.render('user_orders', {
+        title: "MY ORDERS",
+        /*
+        styles: "",
+        scripts: "script/",
+        */
+    })
+})
+/* ---------------------------------------- END OF ROUTES --------------------------------------- */
 
 app.use(express.static('public'))
 
 app.listen(port, function() {
     console.log('App listening at port '  + port)
   });
+/* ---------------------------------- FEATURES & POST REQUESTS ---------------------------------- */
+/*  
+// [PAGE-03] LOGIN & REGISTER REQUESTS
+app.post('/newUser', function (req, res) {
+    var user = new userModel({
+        username:     req.body.username,
+        password:     req.body.password,
+
+    });
+    var result;
+    //you can re register the same person with the same details over and over
+
+    user.save(function(err, user) {
+        if (err){
+            console.log(err.errors);
+
+            result = {success: false, message: "new user was not created"};
+            res.send(result);
+        }
+        else{
+            console.log("new user added");
+            console.log(user);
+
+            result = {success: true, message: "new user was created"};
+
+
+            res.send(result);
+            // tempRoute = "-" + order.ordernum
+
+
+        }
+    });
+});
+
+app.post('/login',function (req,res){
+  userModel.findOne({username: req.body.user.username, password: req.body.user.password}, function(err, user){
+    var result = {cont: user, ok: true};
+    if (err)
+        console.log('There is an error when searching for a user.');
+    console.log("User: " + user);
+    if (user == null)
+        result.ok = false;
+    else{
+        result.ok = true;
+        curr_username = user.username;
+    }
+      
+    console.log("Result: " + result.ok);
+    res.send(result);
+  });
+});
+*/
+/*test stuff for log in end*/
