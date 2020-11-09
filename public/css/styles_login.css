@@ -1,0 +1,172 @@
+/*
+    This is the CSS File for the login page
+*/
+/* -------------------------------------- [PAGE-01] LOGIN --------------------------------------- */
+
+.error-text{
+	background: #F8D7DA;
+	position: absolute;
+	padding:8px 0;
+	top:-50px;
+	width:100%;
+	text-align:center;
+	border-radius:5px;
+	color:#8B3E46;
+	border: 1px solid #F5C6CB;
+	display:none;
+}
+.error-text.matched{
+	background: #D4EDDA;
+	color: #588C64;
+	border-color: #C3E6CB;
+  }
+
+
+
+
+.button-box{
+	width: 280px;
+	margin:35px auto;
+	position:relative;
+	box-shadow: 0 0 20px 9px #ff61241f;
+	border-radius:30px;
+}
+.toggle-btn{
+	padding: 10px 20px;
+	color: #fbfbfb;
+	width:135px;
+	cursor:pointer;
+	background: transparent;
+	border: 0;
+	outline: none;
+	position: relative;
+	font-family: 'Space Mono';
+    text-transform:uppercase;
+}
+#btn{
+	top: 0;
+	left: 0;
+	position: absolute;
+	width: 140px;
+	height: 100%;
+	background: linear-gradient(to right,#f8961E,#756f62);
+	border-radius:30px;
+	transition:.5s;
+}
+.input-group{
+	top:180px;
+	position: absolute;
+	width:280px;
+	transition:0.5s;
+}
+.input-field{
+	width: 100%;
+	padding: 10px 0;
+	margin:5px 0;
+	border-left:0;
+	border-top:0;
+	border-right:0;
+	font-family: 'Roboto';
+	color:#fff;
+	border-bottom:1px solid #999;
+	outline:none;
+	background:transparent;
+}
+.submit-btn#log{
+	width:85%;
+	padding: 10px 30px;
+	cursor:pointer;
+	display: block;
+	background:linear-gradient(to right,#f8961E,#756f62);
+	border:0;
+	outline:none;
+	border-radius:30px;
+	margin-top: 70px;
+	margin-left: 25px;
+	margin-bottom: -50px;
+	font-family: 'Space Mono';
+	color:#fff;
+    text-transform:uppercase;
+}
+.submit-btn#reg{
+	width:85%;
+	padding: 10px 30px;
+	cursor:pointer;
+	display: block;
+	margin:auto;
+	background:linear-gradient(to right,#f8961E,#756f62);
+	border:0;
+	outline:none;
+	border-radius:30px;
+	
+	margin-left: 0px;
+	margin-bottom: -40px;
+	font-family: 'Space Mono';
+	color:#fff;
+    text-transform:uppercase;
+}
+.submit-btn:hover{
+	color:rgb(148, 128, 76);
+}
+.submit-btn#reg:hover{
+	color:rgb(148, 128, 76);
+}
+.submit-btn#login:hover{
+	color:rgb(148, 128, 76);
+}
+.toggle-btn:hover{
+	color:rgb(148, 128, 76);
+}
+.check-box{
+	margin:30px 10px 30px 0;
+}
+span{
+	color:#fff;
+	font-size:14px;
+	left:20px;
+	bottom: 26px;
+	position: absolute;
+	font-family: 'Roboto';
+}
+#login{
+	left: 50px;
+}
+#register{
+	left: 450px;
+}
+.form-box{
+	width:380px;
+	height:480px;
+	position: relative;
+	margin: 6% auto;
+	background: rgb(97, 96, 96);
+	box-shadow: 0 0 20px 2px rgba(0,0,0,0.5);
+	padding:5px;
+	overflow:hidden;
+}
+::placeholder{
+	color: #ccc;
+}
+.fa{
+	
+}
+.eye{
+	position: absolute;
+	margin:30px 10px 55px 265px;
+}
+.eye:hover{
+	color:  rgb(148, 128, 76);
+}
+#hide1{
+	display:none;
+}
+#hide3{
+	display:none;
+}
+.eyes{
+	position: absolute;
+	margin:30px 10px 60px 265px;
+}
+.eyes:hover{
+	color:  rgb(148, 128, 76);
+}
