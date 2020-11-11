@@ -1,0 +1,85 @@
+
+<div class="d-flex flex-column content"> 
+  <div class="container">
+    <h2>Upcoming Orders</h2>
+    <br>
+    <!--
+    <a href="order-information-{{this.main.ordernum}}" style="text-decoration: none; color: rgb(33, 37, 41);">
+    -->
+        <a style="text-decoration: none; color: rgb(33, 37, 41);">
+            <div class="card d-flex flex-row justify-content-between bg-light text-dark home-box">
+                <div class="d-flex">
+                  <h4 id="ordernumber">Order #<span id="span_ordernum">1<!--{{ordernum}}--></span></h4>
+                </div>
+
+                <div class="d-flex">
+                  <div class="home-col1">
+                    <button type="button" class="btn btn-outline-dark btn-block disabled home-date"><!--{{this.main.date}}-->11/11/2020</button>
+                  </div>
+
+                  <div class="home-col2">
+                    <button id="info-pbutton" type="button" class="btn btn-warning btn-block home-status"  data-toggle="modal" data-target="#myModal"><!--{{this.main.pan_used}}-->View Details</button>
+                  </div>
+                    <!-- The Modal -->
+                <div class="modal" id="myModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                    <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Order Details</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                    <!-- Modal body -->
+                            <div class="modal-body">
+                                1 XL 4 Cheese Pizza
+                                <br>
+                                <br>
+                                Remarks:
+                                <br>
+                                Look for CUSOMTER NAME
+                            </div>
+                            
+                         </div>
+                     </div>
+                </div>      
+
+
+                  <div class="home-col3">
+                    <buttontype="button" class="btn btn-success btn-block home-status"><!--{{this.main.status}}-->Pending</button>
+                  </div>
+                </div>
+            </div>
+          </a>
+    <!--
+    {{#if records}}
+      {{#each records}}
+          <a href="order-information-{{this.main.ordernum}}" style="text-decoration: none; color: rgb(33, 37, 41);">
+            <div class="card d-flex flex-row justify-content-between home-box">
+                <div class="d-flex">
+                  <h4 id="home-customer">{{this.clientinfo.name}}</h4>
+                </div>
+
+                <div class="d-flex">
+                  <div class="home-col1">
+                    <button type="button" class="btn btn-outline-dark btn-block home-date">{{this.main.date}}</button>
+                  </div>
+
+                  <div class="home-col2">
+                    <button id="info-pbutton" type="button" class="btn btn-warning btn-block home-status">{{this.main.pan_used}}</button>
+                  </div>
+
+                  <div class="home-col3">
+                    <buttontype="button" class="btn btn-success btn-block home-status">{{this.main.status}}</button>
+                  </div>
+                </div>
+            </div>
+          </a>
+        {{/each}}
+    {{else}}
+        <p>No upcoming orders available.</p>
+    {{/if}}
+    -->
+  </div>
+</div>

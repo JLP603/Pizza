@@ -21,7 +21,7 @@ app.set('view engine', 'hbs')
 // [PAGE-01] ABOUT
 app.get('/', function(req, res){
     res.render('about', {
-        title: "ABOUT US",
+        title: "About Us",
         /*
         styles: "",
         scripts: "script/",
@@ -31,7 +31,7 @@ app.get('/', function(req, res){
 // [PAGE-02] CHECKOUT
 app.get('/checkout', function(req, res){
     res.render('checkout', {
-        title: "CHECKOUT",
+        title: "Checkout",
         /*
         styles: "",
         scripts: "script/",
@@ -41,7 +41,7 @@ app.get('/checkout', function(req, res){
 // [PAGE-03] LOGIN & REGISTER
 app.get('/login', function(req, res){
     res.render('login', {
-        title: "LOGIN",
+        title: "LOg-In",
 
         styles: "css/styles_login.css",
         scripts: "script/LoginScript.js",
@@ -51,7 +51,7 @@ app.get('/login', function(req, res){
 // [PAGE-04] MENU
 app.get('/menu', function(req, res){
     res.render('menu', {
-        title: "MENU",
+        title: "Menu",
         styles: "/css/menu.css",
         /*
         scripts: "script/",
@@ -61,7 +61,7 @@ app.get('/menu', function(req, res){
 // [PAGE-05] ORDER
 app.get('/order', function(req, res){
     res.render('order', {
-        title: "ORDER",
+        title: "Order",
         /*
         styles: "",
         scripts: "script/",
@@ -71,7 +71,7 @@ app.get('/order', function(req, res){
 // [PAGE-06] USER_ORDERS
 app.get('/user_orders', function(req, res){
     res.render('user_orders', {
-        title: "MY ORDERS",
+        title: "My Orders",
         /*
         styles: "",
         scripts: "script/",

@@ -1,0 +1,66 @@
+
+
+.content {
+    margin: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 50px;
+    justify-content: center;
+    align-items: center;
+
+}
+
+/* ------------------------------------ [PAGE-06] USER_ORDERS -------------------------------------- */
+.home-box {
+    background-color: #f7f7f7;
+    padding: 10px;
+    text-align: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.home-date {
+    cursor: default;
+    pointer-events: none;
+}
+
+.home-col1 {
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 160px;
+}
+
+.home-col2 {
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 200px;
+}
+
+.home-col3 {
+    padding-left: 10px;
+    width: 200px;
+}
+
+.home-status {
+    cursor: default;
+    pointer-events: none;
+}
+
+.home-status:hover {
+    cursor: default;
+    pointer-events: none;
+}
+
+.home-status:active{
+    cursor: default;
+    pointer-events: none;
+}
+
+.home-status:focus{
+    cursor: default;
+    pointer-events: none;
+}
+
+#home-customer {
+    margin: 0;
+}
