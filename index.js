@@ -41,7 +41,7 @@ app.get('/checkout', function(req, res){
 // [PAGE-03] LOGIN & REGISTER
 app.get('/login', function(req, res){
     res.render('login', {
-        title: "LOg-In",
+        title: "Log-In",
 
         styles: "css/styles_login.css",
         scripts: "script/LoginScript.js",
@@ -72,8 +72,9 @@ app.get('/order', function(req, res){
 app.get('/user_orders', function(req, res){
     res.render('user_orders', {
         title: "My Orders",
+        
+        styles: "/css/styles_user_orders.css",
         /*
-        styles: "",
         scripts: "script/",
         */
     })

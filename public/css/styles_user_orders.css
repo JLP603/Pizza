@@ -40,7 +40,7 @@
     padding-left: 10px;
     width: 200px;
 }
-
+/*
 .home-status {
     cursor: default;
     pointer-events: none;
@@ -60,7 +60,8 @@
     cursor: default;
     pointer-events: none;
 }
-
-#home-customer {
-    margin: 0;
+*/
+.modal-body{
+    padding: 10px;
+    text-align: left;
 }
