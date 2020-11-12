@@ -53,7 +53,7 @@ app.get('/login', function(req, res){
 app.get('/menu', function(req, res){
     res.render('menu', {
         title: "Menu",
-        styles: "/css/menu.css",
+        styles: "/css/styles_menu.css",
         /*
         scripts: "script/",
         */
@@ -63,10 +63,8 @@ app.get('/menu', function(req, res){
 app.get('/order', function(req, res){
     res.render('order', {
         title: "Order",
-        /*
-        styles: "",
-        scripts: "script/",
-        */
+        styles: "/css/styles_order.css",
+        scripts: "scripts/OrderScript.js",
     })
 })
 // [PAGE-06] USER_ORDERS

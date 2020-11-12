@@ -1,0 +1,72 @@
+.content {
+    margin: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 50px;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.item {
+    background-color: #f7f7f7;
+    padding: 10px;
+    text-align: left;
+    align-items: center;
+    margin-bottom: 15px;;
+}
+
+input[type=checkbox]
+{
+    /* Double-sized Checkboxes */
+    -ms-transform: scale(2); /* IE */
+    -moz-transform: scale(2); /* FF */
+    -webkit-transform: scale(2); /* Safari and Chrome */
+    -o-transform: scale(2); /* Opera */
+    padding: 10px;
+}
+
+.toggle {
+    margin-left: 10px;
+    margin-right: 50px;
+}
+
+.item-name {
+    width: 100%;
+}
+
+.price {
+    padding-left: 30px;
+    padding-right: 10px;
+    width: 200px;
+}
+
+.quantity {
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 100px;
+}
+
+.quantity-gray {
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 100px;
+}
+
+.total {
+    background-color: #ffd0d0;
+    padding: 10px;
+    margin-bottom: 15px;
+    margin-top: 45px;
+}
+
+#subtotal {
+    text-emphasis: bold;
+}
+
+#warning-outer {
+    color: red;
+    padding: 10px;
+    margin-bottom: 15px;
+    margin-top: 45px;
+}

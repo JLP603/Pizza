@@ -1,0 +1,53 @@
+<div class="d-flex flex-column content">
+    <div class="container">
+        <h2>Select to Order</h2><br>
+
+        <div class="card d-flex flex-row justify-content-between item">
+            <input class="toggle" type="checkbox">
+            <h4 class="item-name">Item 1</h4>
+
+            <div class="d-flex flex-row justify-content-between">
+                <h4 class="price">Php 0.00</h4>
+                <input type="number" class="quantity" hidden="true">
+                <input type="number" class="quantity-gray" disabled="disabled">
+            </div>
+        </div>
+
+        <div class="card d-flex flex-row justify-content-between item">
+            <input class="toggle" type="checkbox">
+            <h4 class="item-name">Item 2</h4>
+
+            <div class="d-flex flex-row justify-content-between">
+                <h4 class="price">Php 0.00</h4>
+                <input type="number" class="quantity" hidden="true">
+                <input type="number" class="quantity-gray" disabled="disabled">
+            </div>
+        </div>
+
+        <div class="card d-flex flex-row justify-content-between item">
+            <input class="toggle" type="checkbox">
+            <h4 class="item-name">Item 3 Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic ullam dignissimos, voluptate perferendis fuga, ad nihil magnam sapiente inventore saepe sunt dolorem soluta! Recusandae optio, enim magni facere veniam rerum.</h4>
+
+            <div class="d-flex flex-row justify-content-between">
+                <h4 class="price">Php 0.00</h4>
+                <input type="number" class="quantity" hidden="true">
+                <input type="number" class="quantity-gray" disabled="disabled">
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="d-flex flex-row justify-content-between">
+            <div id="warning-outer">
+                <h5 id="warning"></h5>
+            </div>
+            <div class="card d-flex flex-row justify-content-end total">
+                <h4 class="item-name">Subtotal</h4>
+                <div class="d-flex flex-row justify-content-between">
+                    <h4 class="price">Php 0.00</h4>
+                    <buttontype="button" id="checkout" class="btn btn-success btn-block quantity">Checkout</buttontype>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
