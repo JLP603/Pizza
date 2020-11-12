@@ -38,8 +38,6 @@ $(document).ready(function() {
             $('.quantity').eq(i).prop('hidden', true);
             $('.quantity-gray').eq(i).prop('hidden', false);
         }
-
-        console.log(i);
     }
     
     // on checkbox change, update corresponding quantity input
