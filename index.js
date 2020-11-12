@@ -22,9 +22,10 @@ app.set('view engine', 'hbs')
 app.get('/', function(req, res){
     res.render('about', {
         title: "About Us",
+        
+        styles: "css/styles_about.css",
         /*
-        styles: "",
-        scripts: "script/",
+        scripts: "",
         */
     })
 })
