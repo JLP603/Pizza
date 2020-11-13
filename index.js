@@ -33,10 +33,8 @@ app.get('/', function(req, res){
 app.get('/checkout', function(req, res){
     res.render('checkout', {
         title: "Checkout",
-        /*
-        styles: "",
-        scripts: "script/",
-        */
+        styles: "css/styles_checkout.css",
+        scripts: "scripts/CheckoutScript.js",
     })
 })
 // [PAGE-03] LOGIN & REGISTER

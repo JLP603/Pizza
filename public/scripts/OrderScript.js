@@ -62,7 +62,7 @@ $(document).ready(function() {
         var status = selectedValid($('.toggle'), $('.quantity'));
         var warning;
         if (status == 0) {
-            //
+            window.location = '/checkout';
         } else if (status == 1) {
             warning = 'Cannot have less than one order!';
         } else if (status == 2) {
