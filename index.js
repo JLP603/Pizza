@@ -13,8 +13,16 @@ app.engine('hbs', exphandle({
     partialsDir: path.join(__dirname, '/views/partials'), // Partials folder
 }))
 
-
 app.set('view engine', 'hbs')
+
+app.use(express.static('public'))
+
+app.listen(port, function() {
+    console.log('App listening at port '  + port)
+});
+
+const db = require('./models/db.js')
+db.connect();
 
 /* ---------------------------------------- ALL 6 ROUTES ---------------------------------------- */
 
@@ -76,11 +84,6 @@ app.get('/user_orders', function(req, res){
 })
 /* ---------------------------------------- END OF ROUTES --------------------------------------- */
 
-app.use(express.static('public'))
-
-app.listen(port, function() {
-    console.log('App listening at port '  + port)
-  });
 /* ---------------------------------- FEATURES & POST REQUESTS ---------------------------------- */
 /*  
 // [PAGE-03] LOGIN & REGISTER REQUESTS
