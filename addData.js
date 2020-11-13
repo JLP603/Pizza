@@ -11,16 +11,30 @@ database.deleteMany(User, {}, function() {
 });
 
 /* ---------------------------------------- ADDITION OF NEW DATA ---------------------------------------- */
-/*   Username:    test    */
-/*   Pasword:     root    */
+/*   Username:    test-customer */
+/*   Pasword:     root          */
 let password = 'root';
 bcrypt.hash(password, 10, function(err, hash){
     let user = {
-        name: "test",
+        username: "test-customer",
         password: hash,
         user_type: "customer",
         current_order: "",
     }
 
     database.insertOne(User, user, (result) => {});
+});
+
+/*   Username:    test-admin    */
+/*   Pasword:     root          */
+let password2 = 'root';
+bcrypt.hash(password2, 10, function(err, hash){
+    let user2 = {
+        username: "test-admin",
+        password: hash,
+        user_type: "admin",
+        current_order: "",
+    }
+
+    database.insertOne(User, user2, (result) => {});
 });

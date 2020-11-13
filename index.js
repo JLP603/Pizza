@@ -2,6 +2,7 @@ const express = require('express')
 const path = require('path')
 const exphandle = require('express-handlebars')
 const handlebars = require('handlebars')
+const bodyParser = require('body-parser')
 
 const app = express()
 const port = 9000
@@ -16,12 +17,19 @@ app.engine('hbs', exphandle({
 app.set('view engine', 'hbs')
 
 app.use(express.static('public'))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.listen(port, function() {
     console.log('App listening at port '  + port)
 });
 
 const db = require('./models/db.js')
+const User = require('./models/UserModel.js');
+const Product = require('./models/UserModel.js');
+const Order = require('./models/UserModel.js');
+const bcrypt = require('bcrypt');
+const database = require('./models/db.js')
 db.connect();
 
 /* ---------------------------------------- ALL 6 ROUTES ---------------------------------------- */
@@ -51,7 +59,7 @@ app.get('/login', function(req, res){
         title: "Log-In",
 
         styles: "css/styles_login.css",
-        scripts: "script/LoginScript.js",
+        scripts: "scripts/LoginScript.js",
         
     })
 })
@@ -85,55 +93,70 @@ app.get('/user_orders', function(req, res){
 /* ---------------------------------------- END OF ROUTES --------------------------------------- */
 
 /* ---------------------------------- FEATURES & POST REQUESTS ---------------------------------- */
-/*  
+ 
 // [PAGE-03] LOGIN & REGISTER REQUESTS
 app.post('/newUser', function (req, res) {
-    var user = new userModel({
-        username:     req.body.username,
-        password:     req.body.password,
+    if (req.body.type == 'username_check') {
+        var username = req.body.username;
+        db.findOne(User, {username: username}, {}, function(user) {
+            if (user) {
+                res.status(200).send({ok: false});
+            } else {
+                res.status(200).send({ok: true});
+            }
+        });
+    } else if (req.body.type == 'register') {
+        db.findOne(User, {username: req.body.username}, {}, function(user) {
+            if (user) {
+                res.status(200).send({ok: false, message: 'Username already taken!'});
+            } else {
+                bcrypt.hash(req.body.password, 10, function(err, hash) {
+                    let newUser = {
+                        username: req.body.username,
+                        password: hash,
+                        user_type: 'customer',
+                        current_order: ''
+                    };
 
-    });
-    var result;
-    //you can re register the same person with the same details over and over
+                    database.insertOne(User, newUser, (result) => {})
+                });
 
-    user.save(function(err, user) {
-        if (err){
-            console.log(err.errors);
-
-            result = {success: false, message: "new user was not created"};
-            res.send(result);
-        }
-        else{
-            console.log("new user added");
-            console.log(user);
-
-            result = {success: true, message: "new user was created"};
-
-
-            res.send(result);
-            // tempRoute = "-" + order.ordernum
-
-
-        }
-    });
-});
-
-app.post('/login',function (req,res){
-  userModel.findOne({username: req.body.user.username, password: req.body.user.password}, function(err, user){
-    var result = {cont: user, ok: true};
-    if (err)
-        console.log('There is an error when searching for a user.');
-    console.log("User: " + user);
-    if (user == null)
-        result.ok = false;
-    else{
-        result.ok = true;
-        curr_username = user.username;
+                res.status(200).send({ok: true, message: 'Succesfully registered!'});
+            }
+        })
     }
-      
-    console.log("Result: " + result.ok);
-    res.send(result);
-  });
 });
-*/
+
+app.post('/login', function(req, res) {
+    if (req.body.type == 'username_check') {
+        db.findOne(User, {username: req.body.username}, {}, function(user) {
+            if (user) {
+                res.status(200).send({ok: true});
+            } else {
+                res.status(200).send({ok: false});
+            }
+        });
+    } else if (req.body.type == 'login') {
+        db.findOne(User, { username: req.body.username }, {}, function (user) {
+            if (user) {
+                bcrypt.compare(req.body.password, user.password, function (err, equal) {
+                    if (equal) {
+                        /*
+                        req.session.name = user.name;
+                        req.session._id = user._id;
+                        req.session.user_type = user.user_type;
+                        */
+
+                        res.status(200).send({ok: true, redirect_url: '/'});
+                    } else {
+                        res.status(200).send({ok: false, message: 'Invalid Password!'});
+                    }
+                });
+            } else {
+                res.status(200).send({ok: false, message: 'Username not found!'});
+            }
+        })
+    }
+});
+
 /*test stuff for log in end*/

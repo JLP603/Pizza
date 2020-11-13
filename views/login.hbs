@@ -1,71 +1,44 @@
 <div class="form-box">
 		<div class="button-box">
 			<div id="btn"></div>
-			<button type="button" class="toggle-btn" onclick="login()">Log In</button>
-			<button type="button" class="toggle-btn" onclick="register()">Register</button>
+			<button id="login-toggle" type="button" class="toggle-btn" >Log In</button>
+			<button id="register-toggle" type="button" class="toggle-btn" >Register</button>
 		</div>
-		<form id="login" class="input-group">
-			<input id="username1"type="text" class="input-field"placeholder="Username" required>
-			<input id="password"type="password" class="input-field"placeholder="Password"  required>
+		<div id="login" class="input-group">
+			<div id="error1" class="error-text">Passwords do not match</div>
+			<div id="confirm" class="matched"></div>
 
-			<span class="eye" onclick="myFunction()">
+			<input id="username1"type="text" class="input-field"placeholder="Username">
+			<input id="password"type="password" class="input-field"placeholder="Password">
+
+			<span id="eye1" class="eye">
 				<i id="hide1" class="fa fa-eye" ></i>
 				<i id="hide2" class="fa fa-eye-slash"></i>
 			</span>
 
 			<button id="log" type="button" class="submit-btn">Log in</button>
-		</form>
-		<form id="register"class="input-group">
+		</div>
+		<div id="register"class="input-group">
 
-			<div class="error-text">Passwords do not match</div>
+			<div id="error2" class="error-text">Passwords do not match</div>
 
-			<input id="username2"type="text" class="input-field"placeholder="Username" name="username" required>
-			<input id="pswrd_1"type="text" class="input-field"placeholder="Password" name="password"required>
-
-			<input id="pswrd_2"type="password" class="input-field"placeholder="Confirm Password" name="password2" required>
-			<span class="eyes" onclick="myFunctions()">
+			<input id="username2"type="text" class="input-field"placeholder="Username" name="username">
+			<input id="pswrd_1"type="password" class="input-field"placeholder="Password" name="password">
+			<span id="eye3" class="eyess">
+				<i id="hide5" class="fa fa-eye" ></i>
+				<i id="hide6" class="fa fa-eye-slash"></i>
+			</span>
+			<input id="pswrd_2"type="password" class="input-field"placeholder="Confirm Password" name="password2">
+			<span id="eye2" class="eyes">
 				<i id="hide3" class="fa fa-eye" ></i>
 				<i id="hide4" class="fa fa-eye-slash"></i>
 			</span>
 
 			<input id="checkbox" type="checkbox" class="check-box" required><span>I agree to the terms and conditions</span>
 			<button id="reg" type="submit" class="submit-btn">Register</button>
-		</form>
+		</div>
 	</div>
-
-	<script>
-		function myFunction(){
-			var x = document.getElementById("password");
-			var y = document.getElementById("hide1");
-			var z = document.getElementById("hide2");
-			if(x.type === 'password'){
-				x.type = "text";
-				y.style.display = "block";
-				z.style.display = "none";
-			}
-			else{
-				x.type = "password";
-				y.style.display = "none";
-				z.style.display = "block";
-			}
-		}
-		function myFunctions(){
-			var m = document.getElementById("pswrd_2");
-			var n = document.getElementById("hide3");
-			var o = document.getElementById("hide4");
-			if(m.type === 'password'){
-				m.type = "text";
-				n.style.display = "block";
-				o.style.display = "none";
-			}
-			else{
-				m.type = "password";
-				n.style.display = "none";
-				o.style.display = "block";
-			}
-		}
-	</script>
-
+<!--
 <script>
 	  const checkbox = document.querySelector("#checkbox");
 	  const username2 = document.querySelector("#username2");
@@ -139,21 +112,4 @@
         }
       }
 
-    </script>
-
-	<script>
-
-			var x = document.getElementById("login");
-			var y = document.getElementById("register");
-			var z = document.getElementById("btn");
-			function register(){
-				x.style.left = "-400px";
-				y.style.left = "50px";
-				z.style.left = "140px";
-			}
-			function login(){
-				x.style.left = "50px";
-				y.style.left = "450px";
-				z.style.left = "0px";
-			}
-	</script>
+    </script>-->
