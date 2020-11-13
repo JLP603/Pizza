@@ -52,9 +52,7 @@ app.get('/menu', function(req, res){
     res.render('menu', {
         title: "Menu",
         styles: "/css/styles_menu.css",
-        /*
-        scripts: "script/",
-        */
+        scripts: "scripts/MenuScript.js",
     })
 })
 // [PAGE-05] ORDER
