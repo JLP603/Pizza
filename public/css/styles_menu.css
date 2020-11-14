@@ -52,17 +52,17 @@
 }
 
 .menu-item-title {
-    height: 30%;
+    height: 50px;
     overflow: hidden;
 }
 
 .menu-item-desc {
-    height: 45%;
+    height: 150px;
     overflow: hidden;
 }
 
 .menu-item-price {
-    height: 15%;
+    height: 30px;
     overflow: hidden;
     
     text-align: right;

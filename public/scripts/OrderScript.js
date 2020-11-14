@@ -34,7 +34,6 @@ function updateSubtotal() {
             var qty = $('.quantity').eq(i).val();
 
             total += price * qty;
-            console.log(price * qty);
         }
     }
 
@@ -51,23 +50,52 @@ function updateWarning() {
 
     $('#warning').html(warning);
 }
+function sendCurrentOrder() {
+    var order = [];
 
-$(document).ready(function() {
-    // set all default values to 1
-    $('.quantity').val(1);
-
-    // on load check all checkbox states and update subtotal
     for (var i = 0; i < $('.toggle').length; i++) {
         if($('.toggle').eq(i).is(':checked')) {
-            $('.quantity').eq(i).prop('hidden', false);
-            $('.quantity-gray').eq(i).prop('hidden', true);
-        } else {
-            $('.quantity').eq(i).prop('hidden', true);
-            $('.quantity-gray').eq(i).prop('hidden', false);
+            order.push({name: $('.item-name').eq(i).html(), quantity: $('.quantity').eq(i).val()});
         }
     }
-    updateSubtotal();
-    updateWarning();
+
+    $.post('/order', {order: JSON.stringify(order)}, function(data, status) {});
+}
+
+$(document).ready(function() {
+    // get user current order / initialize values to 1
+    $.get('/getcurrentorder', function(data, status) {
+        if (data.loggedin) {console.log(JSON.parse(data.order));
+            var order = JSON.parse(data.order);
+            if (order.length == 0) {
+                $('.quantity').val(1);
+            } else {
+                for (var i = 0; i < order.length; i++) {
+                    for (var j = 0; j < $('.item-name').length; j++) {
+                        if (order[i].name == $('.item-name').eq(j).html()) {
+                            $('.toggle').eq(j).attr('checked', true);
+                            $('.quantity').eq(j).val(parseFloat(order[i].quantity));
+                        }
+                    }
+                }
+            }
+        } else {
+            $('.quantity').val(1);
+        }
+
+        // afterwards check all checkbox states, update quantity diabled, and update subtotal
+        for (var i = 0; i < $('.toggle').length; i++) {
+            if($('.toggle').eq(i).is(':checked')) {
+                $('.quantity').eq(i).prop('hidden', false);
+                $('.quantity-gray').eq(i).prop('hidden', true);
+            } else {
+                $('.quantity').eq(i).prop('hidden', true);
+                $('.quantity-gray').eq(i).prop('hidden', false);
+            }
+        }
+        updateSubtotal();
+        updateWarning();
+    });
     
     // on checkbox change, update corresponding quantity input
     $('.toggle').change(function() {
@@ -101,14 +129,22 @@ $(document).ready(function() {
 
         $('#warning').html(warning);
     });
+    $('#forbidden').click(function() {
+        $('#warning').html('Sign in to proceed!');
+    })
+
 
     //updating subtotal on change
+    //updating current_order if signed in
     $('.toggle').change(function() {
         updateSubtotal();
         updateWarning();
+        sendCurrentOrder();
     });
     $('.quantity').change(function() {
         updateSubtotal();
         updateWarning();
+        sendCurrentOrder();
     });
+
 })

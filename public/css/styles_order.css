@@ -1,3 +1,7 @@
+.login-warning {
+    color: red;
+    font-weight: bold;
+}
 .content {
     margin: 50px;
     padding-left: 50px;
