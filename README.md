@@ -7,5 +7,5 @@
 
 ## To view database using mongoDB compass
 -   Paste this into the 'connect' field
--   
--   navigate to '' to see all the collections
+-   `mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false`
+-   navigate to 'pizza' to see all the collections
