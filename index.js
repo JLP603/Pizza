@@ -126,6 +126,17 @@ app.get('/user_orders', function(req, res){
         res.redirect('/login');
     }
 })
+// [PAGE-07] MANAGER_ORDERS
+app.get('/manager_orders', function(req, res){
+    res.render('manager_orders', {
+        title: "Orders",
+        
+        styles: "/css/styles_user_orders.css",
+        /*
+        scripts: "script/",
+        */
+    })
+})
 /* ---------------------------------------- END OF ROUTES --------------------------------------- */
 
 /* ---------------------------------- FEATURES & POST REQUESTS ---------------------------------- */
