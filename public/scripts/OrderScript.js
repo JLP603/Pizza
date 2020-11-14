@@ -5,7 +5,6 @@ function getPosition(eArray, e) {
 
     return -1;
 }
-
 function selectedValid(checkBoxes, quantities) {
     var totalQty = 0;
 
@@ -24,12 +23,40 @@ function selectedValid(checkBoxes, quantities) {
 
     return 0;
 }
+function updateSubtotal() {
+    var total = 0.0;
+    for (var i = 0; i < $('.toggle').length; i++) {
+        if($('.toggle').eq(i).is(":checked")) {
+            var price = $('.price').eq(i).html();
+            price = price.substring(4, price.length);
+            price = parseFloat(price)
+            
+            var qty = $('.quantity').eq(i).val();
+
+            total += price * qty;
+            console.log(price * qty);
+        }
+    }
+
+    $('#subtotal').html('Php ' + total.toFixed(2));
+}
+function updateWarning() {
+    $('#warning').html('');
+    var status = selectedValid($('.toggle'), $('.quantity'));
+
+    var warning = '';
+    if (status == 1) {
+        warning = 'Cannot have less than one order!';
+    }
+
+    $('#warning').html(warning);
+}
 
 $(document).ready(function() {
     // set all default values to 1
     $('.quantity').val(1);
 
-    // on load check all checkbox states
+    // on load check all checkbox states and update subtotal
     for (var i = 0; i < $('.toggle').length; i++) {
         if($('.toggle').eq(i).is(':checked')) {
             $('.quantity').eq(i).prop('hidden', false);
@@ -39,6 +66,8 @@ $(document).ready(function() {
             $('.quantity-gray').eq(i).prop('hidden', false);
         }
     }
+    updateSubtotal();
+    updateWarning();
     
     // on checkbox change, update corresponding quantity input
     $('.toggle').change(function() {
@@ -62,6 +91,7 @@ $(document).ready(function() {
         var status = selectedValid($('.toggle'), $('.quantity'));
         var warning;
         if (status == 0) {
+            //check if logged in first
             window.location = '/checkout';
         } else if (status == 1) {
             warning = 'Cannot have less than one order!';
@@ -70,5 +100,15 @@ $(document).ready(function() {
         }
 
         $('#warning').html(warning);
+    });
+
+    //updating subtotal on change
+    $('.toggle').change(function() {
+        updateSubtotal();
+        updateWarning();
+    });
+    $('.quantity').change(function() {
+        updateSubtotal();
+        updateWarning();
     });
 })
