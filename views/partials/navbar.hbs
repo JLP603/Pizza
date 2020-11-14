@@ -8,10 +8,15 @@
     </h5>
     <!-- <img src="../../public/img/plogo.png" alt="logo" class="logo"> -->
     <nav my-2 my-md-0 mr-md-3>
+        {{#equals user_type "admin"}}
+          <a class="p-2 text-dark" href="/manager_orders">Customer Orders</a>
+        {{/equals}}
+        {{#notequals user_type "admin"}}
         <a class="p-2 text-dark" href="/">Home</a>
         <a class="p-2 text-dark" href="/menu">Menu</a>
         <a class="p-2 text-dark" href="/order">Order</a>
         {{#if username}}<a class="p-2 text-dark" href="/user_orders">Your Orders</a>{{/if}}
+        {{/notequals}}
     </nav>
 
     {{#if username}}

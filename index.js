@@ -30,6 +30,14 @@ app.use(session({
 	saveUninitialized: false	
 }));
 
+handlebars.registerHelper('equals', function (arg1, arg2, options) {
+    return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+});
+
+handlebars.registerHelper('notequals', function (arg1, arg2, options) {
+    return (arg1 != arg2) ? options.fn(this) : options.inverse(this);
+});
+
 app.listen(port, function() {
     console.log('App listening at port '  + port)
 });
@@ -45,28 +53,32 @@ db.connect();
 /* ---------------------------------------- ALL 6 ROUTES ---------------------------------------- */
 
 // [PAGE-01] ABOUT
-app.get('/', function(req, res){
+app.get('/', function(req, res) {
     res.render('about', {
         title: "About Us",
         styles: "css/styles_about.css",
+        
         username: req.session.username,
+        user_type: req.session.user_type,
     });
 })
 // [PAGE-02] CHECKOUT
-app.get('/checkout', function(req, res){
+app.get('/checkout', function(req, res) {
     if (req.session._id) {
         res.render('checkout', {
             title: "Checkout",
             styles: "css/styles_checkout.css",
             scripts: "scripts/CheckoutScript.js",
+            
             username: req.session.username,
+            user_type: req.session.user_type,
         });
     } else {
         res.redirect('/login');
     }
 })
 // [PAGE-03] LOGIN & REGISTER
-app.get('/login', function(req, res){
+app.get('/login', function(req, res) {
     if (req.session._id) {
         res.redirect('/home');
     } else {
@@ -78,19 +90,22 @@ app.get('/login', function(req, res){
     }
 })
 // [PAGE-04] MENU
-app.get('/menu', function(req, res){
+app.get('/menu', function(req, res) {
     db.findMany(Product, {}, {}, function(productArray) {
         res.render('menu', {
             title: "Menu",
             styles: "/css/styles_menu.css",
             scripts: "scripts/MenuScript.js",
+
             username: req.session.username,
+            user_type: req.session.user_type,
+
             products: productArray,
         });
     });
 })
 // [PAGE-05] ORDER
-app.get('/order', function(req, res){
+app.get('/order', function(req, res) {
     db.findMany(Product, {}, {}, function(productArray) {
         var productsNoDescriptionNoCategories = []
         productArray.forEach(function(doc) {
@@ -106,37 +121,62 @@ app.get('/order', function(req, res){
             title: "Order",
             styles: "/css/styles_order.css",
             scripts: "scripts/OrderScript.js",
+
             username: req.session.username,
+            user_type: req.session.user_type,
+
             products: productsNoDescriptionNoCategories,
         });
     });
 })
 // [PAGE-06] USER_ORDERS
-app.get('/user_orders', function(req, res){
+app.get('/user_orders', function(req, res) {
     if (req.session._id) {
         res.render('user_orders', {
             title: "My Orders",
-            
             styles: "/css/styles_user_orders.css",
             /*
             scripts: "script/",
             */
+            username: req.session.username,
+            user_type: req.session.user_type,
         });
     } else {
         res.redirect('/login');
     }
 })
 // [PAGE-07] MANAGER_ORDERS
-app.get('/manager_orders', function(req, res){
-    res.render('manager_orders', {
-        title: "Orders",
-        
-        styles: "/css/styles_user_orders.css",
+app.get('/manager_orders', function(req, res) {
+    if (req.session.user_type == 'admin') {
+        res.render('manager_orders', {
+            title: "Orders",
+            styles: "/css/styles_user_orders.css",
+            /*
+            scripts: "scripts/",
+            */
+            username: req.session.username,
+            user_type: req.session.user_type,
+        });
+    } else {
+        res.redirect('/404');
+    }
+});
+
+app.get('/404', function(req, res) {
+    res.render('404', {
+        title: '404 Not Found',
+        styles: "", 
         /*
-        scripts: "script/",
+        scripts: "scripts/",
         */
-    })
-})
+        username: req.session.username,
+        user_type: req.session.user_type,
+    });
+});
+
+app.use((req, res, next) => {
+    res.status(404).redirect('/404');
+});
 /* ---------------------------------------- END OF ROUTES --------------------------------------- */
 
 /* ---------------------------------- FEATURES & POST REQUESTS ---------------------------------- */
@@ -203,10 +243,16 @@ app.post('/login', function(req, res) {
                         req.session.username = user.username;
                         req.session._id = user._id;
                         req.session.user_type = user.user_type;
-
+                        
+                        var redirect_url;
+                        if (user.user_type == 'customer') {
+                            redirect_url = '/';
+                        } else {
+                            redirect_url = '/manager_orders';
+                        }
                         res.status(200).send({
                             ok: true, 
-                            redirect_url: '/'
+                            redirect_url: redirect_url,
                         });
                     } else {
                         res.status(200).send({
