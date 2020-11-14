@@ -97,16 +97,15 @@ app.get('/user_orders', function(req, res){
 // [PAGE-03] LOGIN & REGISTER REQUESTS
 app.post('/newUser', function (req, res) {
     if (req.body.type == 'username_check') {
-        var username = req.body.username;
-        db.findOne(User, {username: username}, {}, function(user) {
+        db.findOne(User, {username: req.body.username.toLowerCase()}, {}, function(user) {
             if (user) {
                 res.status(200).send({ok: false});
             } else {
                 res.status(200).send({ok: true});
             }
         });
-    } else if (req.body.type == 'register') {
-        db.findOne(User, {username: req.body.username}, {}, function(user) {
+    } else if (req.body.type == 'register') {oLowerCas
+        db.findOne(User, {username: req.body.username.te()}, {}, function(user) {
             if (user) {
                 res.status(200).send({ok: false, message: 'Username already taken!'});
             } else {
@@ -129,7 +128,7 @@ app.post('/newUser', function (req, res) {
 
 app.post('/login', function(req, res) {
     if (req.body.type == 'username_check') {
-        db.findOne(User, {username: req.body.username}, {}, function(user) {
+        db.findOne(User, {username: req.body.username.toLowerCase()}, {}, function(user) {
             if (user) {
                 res.status(200).send({ok: true});
             } else {
@@ -137,7 +136,7 @@ app.post('/login', function(req, res) {
             }
         });
     } else if (req.body.type == 'login') {
-        db.findOne(User, { username: req.body.username }, {}, function (user) {
+        db.findOne(User, { username: req.body.username.toLowerCase() }, {}, function (user) {
             if (user) {
                 bcrypt.compare(req.body.password, user.password, function (err, equal) {
                     if (equal) {
