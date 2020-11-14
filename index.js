@@ -161,7 +161,7 @@ app.get('/manager_orders', function(req, res) {
         res.redirect('/404');
     }
 });
-
+// [PAGE-08] 404
 app.get('/404', function(req, res) {
     res.render('404', {
         title: '404 Not Found',
