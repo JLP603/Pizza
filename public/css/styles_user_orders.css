@@ -11,6 +11,14 @@
 }
 
 /* ------------------------------------ [PAGE-06] USER_ORDERS -------------------------------------- */
+#no-order {
+    display: none;
+}
+
+#has-order {
+    display: block;
+}
+
 .home-box {
     background-color: #f7f7f7;
     padding: 10px;
@@ -27,7 +35,7 @@
 .home-col1 {
     padding-left: 10px;
     padding-right: 10px;
-    width: 160px;
+    width: 30%;
 }
 
 .home-col2 {
@@ -40,6 +48,11 @@
     padding-left: 10px;
     width: 200px;
 }
+
+#delivered {
+    display: none;
+}
+
 /*
 .home-status {
     cursor: default;
@@ -64,4 +77,59 @@
 .modal-body{
     padding: 10px;
     text-align: left;
+}
+
+.title {
+    padding: 10px;
+}
+
+.item {
+    background-color: #f7f7f7;
+    padding: 10px;
+}
+
+.item-name {
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 100%;
+    margin-right: 50px;
+}
+
+.item-col {
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 300px;
+}
+
+.important {
+    border-radius: 10px;
+    color: red;
+}
+
+textarea {
+    resize: none;
+}
+
+textarea:focus {
+    outline: none !important;
+    border: none;
+}
+
+input:focus {
+    outline: none !important;
+    border: none;
+}
+
+.page-container {
+    margin: 10px;
+}
+
+.page {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    background-color: #f7f7f7;
 }

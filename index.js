@@ -4,6 +4,13 @@ const exphandle = require('express-handlebars')
 const handlebars = require('handlebars')
 const bodyParser = require('body-parser')
 const session = require('express-session');
+const bcrypt = require('bcrypt');
+
+const db = require('./models/db.js')
+const User = require('./models/UserModel.js');
+const Product = require('./models/ProductModel.js');
+const Order = require('./models/OrderModel.js');
+const database = require('./models/db.js')
 
 const app = express()
 const port = 9000
@@ -33,7 +40,6 @@ app.use(session({
 handlebars.registerHelper('equals', function (arg1, arg2, options) {
     return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
 });
-
 handlebars.registerHelper('notequals', function (arg1, arg2, options) {
     return (arg1 != arg2) ? options.fn(this) : options.inverse(this);
 });
@@ -41,13 +47,6 @@ handlebars.registerHelper('notequals', function (arg1, arg2, options) {
 app.listen(port, function() {
     console.log('App listening at port '  + port)
 });
-
-const db = require('./models/db.js')
-const User = require('./models/UserModel.js');
-const Product = require('./models/ProductModel.js');
-const Order = require('./models/OrderModel.js');
-const bcrypt = require('bcrypt');
-const database = require('./models/db.js')
 db.connect();
 
 /* ---------------------------------------- ALL 6 ROUTES ---------------------------------------- */
@@ -138,6 +137,7 @@ app.get('/user_orders', function(req, res) {
             /*
             scripts: "script/",
             */
+
             username: req.session.username,
             user_type: req.session.user_type,
         });
@@ -174,9 +174,6 @@ app.get('/404', function(req, res) {
     });
 });
 
-app.use((req, res, next) => {
-    res.status(404).redirect('/404');
-});
 /* ---------------------------------------- END OF ROUTES --------------------------------------- */
 
 /* ---------------------------------- FEATURES & POST REQUESTS ---------------------------------- */
@@ -211,7 +208,7 @@ app.post('/newUser', function (req, res) {
                         current_order: '[]'
                     };
 
-                    database.insertOne(User, newUser, (result) => {})
+                    db.insertOne(User, newUser, (result) => {})
                 });
 
                 res.status(200).send({
@@ -278,7 +275,7 @@ app.post('/logout', function(req, res) {
 // [PAGE-05] GET AND POST CURRENT_ORDER REQUESTS
 app.get('/getcurrentorder', function(req, res) {
     if (req.session._id) {
-        database.findOne(User, {_id: req.session._id}, {}, function(user) {
+        db.findOne(User, {_id: req.session._id}, {}, function(user) {
             res.status(200).send({
                 loggedin: true, 
                 order: user.current_order
@@ -292,7 +289,7 @@ app.get('/getcurrentorder', function(req, res) {
 });
 app.post('/order', function(req, res) {
     if (req.session._id) {
-        database.findOne(User, {_id: req.session._id}, {}, function(user) {
+        db.findOne(User, {_id: req.session._id}, {}, function(user) {
             var updated = {
                 username: user.username,
                 password: user.password,
@@ -300,8 +297,12 @@ app.post('/order', function(req, res) {
                 current_order: req.body.order
             }
 
-            database.updateOne(User, {_id: req.session._id}, updated); 
+            db.updateOne(User, {_id: req.session._id}, updated); 
         });
     }
 });
-/*test stuff for log in end*/
+
+/* ---------------------------------- FOR 404 PAGE ---------------------------------- */
+app.use((req, res, next) => {
+    res.status(404).redirect('/404');
+});

@@ -14,11 +14,11 @@ var OrderSchema = new mongoose.Schema({
         required: true,
     },
     order: {
-        type: Number,
+        type: String,
         required: false,
     },
     special_instructions: {
-        type: Number,
+        type: String,
         required: false,
     },
     date_time: {
