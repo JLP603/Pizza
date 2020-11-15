@@ -43,6 +43,9 @@ handlebars.registerHelper('equals', function (arg1, arg2, options) {
 handlebars.registerHelper('notequals', function (arg1, arg2, options) {
     return (arg1 != arg2) ? options.fn(this) : options.inverse(this);
 });
+handlebars.registerHelper('concat', function(arg1, arg2, options) {
+    return arg1.concat(arg2);
+});
 
 app.listen(port, function() {
     console.log('App listening at port '  + port)
@@ -90,7 +93,7 @@ app.get('/login', function(req, res) {
 })
 // [PAGE-04] MENU
 app.get('/menu', function(req, res) {
-    db.findMany(Product, {}, {}, function(productArray) {
+    db.findMany(Product, {}, {}, function(productArray) {        
         res.render('menu', {
             title: "Menu",
             styles: "/css/styles_menu.css",
