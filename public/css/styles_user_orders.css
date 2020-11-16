@@ -1,24 +1,4 @@
-
-
-.content {
-    margin: 50px;
-    padding-left: 50px;
-    padding-right: 50px;
-    padding-bottom: 50px;
-    justify-content: center;
-    align-items: center;
-
-}
-
 /* ------------------------------------ [PAGE-06] USER_ORDERS -------------------------------------- */
-#no-order {
-    display: none;
-}
-
-#has-order {
-    display: block;
-}
-
 .home-box {
     background-color: #f7f7f7;
     padding: 10px;
@@ -104,6 +84,7 @@
 .important {
     border-radius: 10px;
     color: red;
+    font-weight: bold;
 }
 
 textarea {

@@ -10,27 +10,20 @@
             <h4 class="item-col">Total</h4>
         </div>
 
-        <div class="card item">
-            <div class="d-flex flex-row justify-content-between item">
-                <h4 class="item-name">Item 1 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maiores ducimus facilis, architecto at dicta sapiente perferendis, ad itaque fugiat harum deserunt odio eum tempora minus. Iste culpa eveniet quod error!</h4>
-                <h4 class="item-col">Php 1.00</h4>
-                <h4 class="item-col">3</h4>
-                <h4 class="item-col">Php 3.00</h4>
+        <div id="order-summary-box" class="card item">
+            {{#each details}}
+            <div class="d-flex flex-row justify-content-between item detail">
+                <h4 class="item-name">{{this.name}}</h4>
+                <h4 class="item-col">Php {{this.price}}</h4>
+                <h4 class="item-col">{{this.quantity}}</h4>
+                <h4 class="item-col total">Php {{this.total}}</h4>
             </div>
-            <hr>
-            <div class="d-flex flex-row justify-content-between item">
-                <h4 class="item-name">Item 2</h4>
-                <h4 class="item-col">Php 1.00</h4>
-                <h4 class="item-col">3</h4>
-                <h4 class="item-col">Php 3.00</h4>
-            </div>
-            <hr>
-            <div class="d-flex flex-row justify-content-between item">
-                <h4 class="item-name">Item 3</h4>
-                <h4 class="item-col">Php 1.00</h4>
-                <h4 class="item-col">3</h4>
-                <h4 class="item-col">Php 3.00</h4>
-            </div>
+
+                {{#if @last}}
+                {{else}}
+                <hr>
+                {{/if}}
+            {{/each}}
         </div>
 
         <hr>
@@ -43,12 +36,15 @@
             </h4>
             <h4 class="item-col"</h4>
             <h4 class="item-col">Grand Total</h4>
-            <h4 class="item-col important"><strong>Php 69.00</strong></h4>
+            <h4 id="grandtotal" class="item-col important">Loading...</h4>
         </div>
 
         <br><br><br>
 
-        <h4>Enter Delivery Details</h4><br>
+        <h4>Enter Delivery Details</h4>
+        <h4 id="warning" class="important hidden"></h4>
+        <a href="/user_orders" id="link" class="hidden"></a>
+        <br>
         <div class="card item">
             <div class="form-group">
                 <label><h5>Address:</h5></label>

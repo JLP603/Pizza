@@ -12,6 +12,10 @@ function selectedValid(checkBoxes, quantities) {
         if ($(checkBoxes[i]).is(":checked")) {
             if (quantities.eq(i).val() < 0) {
                 return 1;
+            } else if (quantities.eq(i).val() == '') {
+                return 2;
+            } else if (quantities.eq(i).val() == 0) {
+                return 3;
             } else {
                 totalQty += quantities.eq(i).val();
             }
@@ -19,7 +23,7 @@ function selectedValid(checkBoxes, quantities) {
     }
 
     if (totalQty == 0)
-        return 2;
+        return 3;
 
     return 0;
 }
@@ -46,6 +50,10 @@ function updateWarning() {
     var warning = '';
     if (status == 1) {
         warning = 'Cannot have less than one order!';
+    } else if (status == 2) {
+        warning = 'Missing fields!';
+    } else if (status == 3) {
+        warning = 'cannot have 0 orders for an item!';
     }
 
     $('#warning').html(warning);
@@ -65,7 +73,7 @@ function sendCurrentOrder() {
 $(document).ready(function() {
     // get user current order / initialize values to 1
     $.get('/getcurrentorder', function(data, status) {
-        if (data.loggedin) {console.log(JSON.parse(data.order));
+        if (data.loggedin) {
             var order = JSON.parse(data.order);
             if (order.length == 0) {
                 $('.quantity').val(1);

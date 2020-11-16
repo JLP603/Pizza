@@ -46,13 +46,14 @@ handlebars.registerHelper('notequals', function (arg1, arg2, options) {
 handlebars.registerHelper('concat', function(arg1, arg2, options) {
     return arg1.concat(arg2);
 });
+handlebars.registerHelper('dateFormat', require('handlebars-dateformat'));
 
 app.listen(port, function() {
     console.log('App listening at port '  + port)
 });
 db.connect();
 
-/* ---------------------------------------- ALL 6 ROUTES ---------------------------------------- */
+/* ---------------------------------------- ALL 7 ROUTES ---------------------------------------- */
 
 // [PAGE-01] ABOUT
 app.get('/', function(req, res) {
@@ -67,13 +68,35 @@ app.get('/', function(req, res) {
 // [PAGE-02] CHECKOUT
 app.get('/checkout', function(req, res) {
     if (req.session._id) {
-        res.render('checkout', {
-            title: "Checkout",
-            styles: "css/styles_checkout.css",
-            scripts: "scripts/CheckoutScript.js",
-            
-            username: req.session.username,
-            user_type: req.session.user_type,
+        database.findOne(User, {_id: req.session._id}, {}, function(user) {
+            var order = JSON.parse(user.current_order);
+
+            var details = [];
+            order.forEach(function (doc) {
+                var newDetail = {
+                    name: doc.name,
+                    price: null,
+                    quantity: doc.quantity,
+                    total: null,
+                };
+
+                database.findOne(Product, {name: doc.name}, {}, function(product) {
+                    newDetail.price = product.price.toFixed(2);
+                    newDetail.total = (product.price * newDetail.quantity).toFixed(2);
+                    details.push(newDetail);
+                });
+            });
+
+            res.render('checkout', {
+                title: "Checkout",
+                styles: "css/styles_checkout.css",
+                scripts: "scripts/CheckoutScript.js",
+
+                username: req.session.username,
+                user_type: req.session.user_type,
+
+                details: details,
+            });
         });
     } else {
         res.redirect('/login');
@@ -82,7 +105,7 @@ app.get('/checkout', function(req, res) {
 // [PAGE-03] LOGIN & REGISTER
 app.get('/login', function(req, res) {
     if (req.session._id) {
-        res.redirect('/home');
+        res.redirect('/');
     } else {
         res.render('login', {
             title: "Log-In",
@@ -134,16 +157,86 @@ app.get('/order', function(req, res) {
 // [PAGE-06] USER_ORDERS
 app.get('/user_orders', function(req, res) {
     if (req.session._id) {
-        res.render('user_orders', {
-            title: "My Orders",
-            styles: "/css/styles_user_orders.css",
-            /*
-            scripts: "script/",
-            */
+        database.findOne(Order, {user_id: req.session._id, is_completed: false}, {}, function(db_order) {
+            if (db_order) {                
+                var details = db_order;
+                var order = JSON.parse(details.order);
+                var orderNew = [];
+                order.forEach(function(doc) {
+                    var newEntry = {
+                        name: doc.name,
+                        price: null,
+                        quantity: doc.quantity,
+                        total: null,
+                    };
 
-            username: req.session.username,
-            user_type: req.session.user_type,
-        });
+                    database.findOne(Product, {name: doc.name}, {}, function(product) {
+                        newEntry.price = product.price.toFixed(2);
+                        newEntry.total = (product.price * newEntry.quantity).toFixed(2);
+                        orderNew.push(newEntry);
+                    });
+                });
+                
+                res.render('user_orders', {
+                    title: "My Orders",
+                    styles: "/css/styles_user_orders.css",
+                    scripts: "scripts/UserOrdersScript.js",
+
+                    username: req.session.username,
+                    user_type: req.session.user_type,
+
+                    has_order: true,
+                    details: details,
+                    order: orderNew,
+                })
+            } else {
+                database.findOne(Order, {user_id: req.session._id, is_completed: true}, {}, function(db_order) {
+                    if (db_order) {
+                        var details = db_order;
+                        var order = JSON.parse(details.order);
+                        var orderNew = [];
+                        order.forEach(function(doc) {
+                            var newEntry = {
+                                name: doc.name,
+                                price: null,
+                                quantity: doc.quantity,
+                                total: null,
+                            };
+
+                            database.findOne(Product, {name: doc.name}, {}, function(product) {
+                                newEntry.price = product.price.toFixed(2);
+                                newEntry.total = (product.price * newEntry.quantity).toFixed(2);
+                                orderNew.push(newEntry);
+                            });
+                        });
+
+                        res.render('user_orders', {
+                            title: "My Orders",
+                            styles: "/css/styles_user_orders.css",
+                            scripts: "scripts/UserOrdersScript.js",
+        
+                            username: req.session.username,
+                            user_type: req.session.user_type,
+        
+                            has_order: true,
+                            details: details,
+                            order: orderNew,
+                        })
+                    } else {
+                        res.render('user_orders', {
+                            title: "My Orders",
+                            styles: "/css/styles_user_orders.css",
+                            scripts: "scripts/UserOrdersScript.js",
+        
+                            username: req.session.username,
+                            user_type: req.session.user_type,
+        
+                            has_order: false,
+                        })
+                    }
+                });
+            }
+        })
     } else {
         res.redirect('/login');
     }
@@ -301,6 +394,52 @@ app.post('/order', function(req, res) {
             }
 
             db.updateOne(User, {_id: req.session._id}, updated); 
+        });
+    }
+});
+
+// [PAGE-02] CHECKOUT ORDER POST
+app.post('/postorder', function(req, res) {
+    if (req.session._id) {
+        database.findOne(Order, {user_id: req.session._id, is_completed: false}, {}, function(order) {
+            if (!order) {
+                database.findOne(User, {_id: req.session._id}, {}, function(user) {
+                    var today = new Date();
+                    var newOrder = {
+                        user_id: user._id,
+                        address: req.body.address,
+                        mobile: req.body.contact,
+                        order: user.current_order,
+                        special_instructions: req.body.special_instructions,
+                        date_time: today,
+                        is_completed: false,
+                    };
+        
+                    database.insertOne(Order, newOrder, function() {
+                        var updatedUser = {
+                            username: user.username,
+                            password: user.password,
+                            user_type: user.user_type,
+                            current_order: '[]',
+                        }
+                        database.updateOne(User, {_id: user._id}, updatedUser);
+                        
+                        res.status(200).send({
+                            has_current: false,
+                            loggedin: true
+                        });
+                    });
+                });
+            } else {
+                res.status(200).send({
+                    loggedin: true,
+                    has_current: true,
+                });
+            }
+        });        
+    } else {
+        res.status(200).send({
+            loggedin: false
         });
     }
 });
