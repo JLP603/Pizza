@@ -9,7 +9,8 @@
     <!-- <img src="../../public/img/plogo.png" alt="logo" class="logo"> -->
     <nav my-2 my-md-0 mr-md-3>
         {{#equals user_type "admin"}}
-          <a class="p-2 text-dark" href="/manager_orders">Pending Customer Orders</a>
+          <a class="p-2 text-dark" href="/manager_orders?pending=true">Pending Customer Orders</a>
+          <a class="p-2 text-dark" href="/manager_orders?pending=false">Completed Customer Orders</a>
         {{/equals}}
         {{#notequals user_type "admin"}}
         <a class="p-2 text-dark" href="/">Home</a>

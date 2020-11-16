@@ -8,36 +8,44 @@
 
 <div class="d-flex flex-column mx-5">
   <a style="text-decoration: none; color: rgb(33, 37, 41);">
+    {{#each order_details}}
     <div class="card d-flex flex-row justify-content-between home-box">
+      <div class="_id">{{this._id}}</div>
       <div class="d-flex">
-        <h4 id="ordernumber">Customer username</h4>
+        <h4 id="ordernumber">{{this.username}}</h4>
       </div>
 
       <div class="d-flex">
         <div class="home-col1">
-          <button type="button" class="btn btn-outline-dark btn-block home-date">11/11/2020</button>
+          <button type="button" class="btn btn-outline-dark btn-block home-date">{{dateFormat this.date_time "LTS"}}</button>
         </div>
 
         <div class="home-col1">
-          <button type="button" class="btn btn-outline-dark btn-block home-date">00:00:00 am</button>
+          <button type="button" class="btn btn-outline-dark btn-block home-date">{{dateFormat this.date_time "MMM Do, YYYY"}}</button>
         </div>
 
         <div class="home-col2">
-          <button id="info-pbutton" type="button" class="btn btn-warning btn-block home-status"  data-toggle="modal" data-target="#myModal">View Details</button>
+          <button type="button" class="btn btn-warning btn-block home-status getDetails"  data-toggle="modal" data-target="#myModal">View Details</button>
         </div>
 
         <div class="home-col3">
-          <button buttontype="button" class="btn btn-success btn-block home-status disabled">Pending</button>
+          {{#if this.is_completed}}
+          <button buttontype="button" class="btn btn-success btn-block home-status" data-toggle="modal" data-target="#changeStatusModal">Completed</button>
+          {{else}}
+          <button buttontype="button" class="btn btn-warning btn-block home-status" data-toggle="modal" data-target="#changeStatusModal">Pending</button>
+          {{/if}}
         </div>
       </div>
     </div>
+    {{/each}}
   </a>
-  <!-- The Modal -->
+  
+  <!-- The Modal details -->
   <div class="modal" id="myModal">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Order for &lt;username&gt;</h4>
+          <h4 id="username" class="modal-title"></h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
@@ -52,7 +60,7 @@
             <h4 class="item-col">Total</h4>
           </div>
 
-          <div class="card item">
+          <div id="details-card" class="card item">
             <div class="d-flex flex-row justify-content-between item">
               <h4 class="item-name">Item 1 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maiores ducimus facilis, architecto at dicta sapiente perferendis, ad itaque fugiat harum deserunt odio eum tempora minus. Iste culpa eveniet quod error!</h4>
               <h4 class="item-col">Php 1.00</h4>
@@ -66,7 +74,7 @@
             <h4 class="item-name"></h4>
             <h4 class="item-col"</h4>
             <h4 class="item-col">Total</h4>
-            <h4 class="item-col important"><strong>Php 69.00</strong></h4>
+            <h4 id="grand-total" class="item-col important"><strong>Php 69.00</strong></h4>
           </div>
           <br>
           <div class="d-flex flex-row justify-content-between title">
@@ -92,22 +100,24 @@
     </div>
   </div>
 
-  <div class="d-flex flex-row justify-content-center page-container">
-    <div class="page card">
-      prev
-    </div>
-    <div class="page card">
-      1
-    </div>
-    <div class="page card">
-      2
-    </div>
-    <div class="page card">
-      3
-    </div>
-    <div class="page card">
-      next
-    </div>
+  <!-- The Modal confirm change -->
+  <div class="modal" id="changeStatusModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Order for &lt;username&gt;</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="d-flex flex-row">
+            <h4>Change order status for [username] to [status]?</h4>
+            <button buttontype="button" class="btn btn-success btn-block home-status">Change to [status]</button>
+          </div>
+        </div>
+      </div>
+    </div> 
   </div>
 
-</div>      
+</div>
+
+{{> pagination}}

@@ -11,11 +11,11 @@
     <a style="text-decoration: none; color: rgb(33, 37, 41);">
       <div class="card d-flex flex-row justify-content-between home-box">
         <div class="home-col1">
-          <button type="button" class="btn btn-outline-dark btn-block home-date">{{dateFormat details.date_time "MMMM Do, YYYY"}}</button>
+          <button type="button" class="btn btn-outline-dark btn-block home-date">{{dateFormat details.date_time "MMM Do, YYYY"}}</button>
         </div>
 
         <div class="home-col1">
-          <button type="button" class="btn btn-outline-dark btn-block home-date">{{{dateFormat details.date_time "LTS"}}}</button>
+          <button type="button" class="btn btn-outline-dark btn-block home-date">{{dateFormat details.date_time "LTS"}}</button>
         </div>
             
         <div class="home-col1">
@@ -66,12 +66,12 @@
         <h4 class="item-col">Php {{this.price}}</h4>
         <h4 class="item-col">{{this.quantity}}</h4>
         <h4 class="item-col total">Php {{this.total}}</h4>
-          {{#if @last}}
-          {{else}}
-            <hr>
-          {{/if}}
-      {{/each}}
       </div>
+        {{#if @last}}
+        {{else}}
+          <hr>
+        {{/if}}
+      {{/each}}
     </div>
     <hr>
     <div class="d-flex flex-row justify-content-end title">

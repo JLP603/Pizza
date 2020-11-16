@@ -47,13 +47,20 @@ handlebars.registerHelper('concat', function(arg1, arg2, options) {
     return arg1.concat(arg2);
 });
 handlebars.registerHelper('dateFormat', require('handlebars-dateformat'));
+handlebars.registerHelper('repeat', require('handlebars-helper-repeat'));
+handlebars.registerHelper("add", function (a, b) {
+  return parseInt(a) + b;
+});
+handlebars.registerHelper("minus", function (a, b) {
+  return parseInt(a) - b;
+});
 
 app.listen(port, function() {
     console.log('App listening at port '  + port)
 });
 db.connect();
 
-/* ---------------------------------------- ALL 7 ROUTES ---------------------------------------- */
+/* ---------------------------------------- ALL 8 ROUTES ---------------------------------------- */
 
 // [PAGE-01] ABOUT
 app.get('/', function(req, res) {
@@ -72,7 +79,7 @@ app.get('/checkout', function(req, res) {
             var order = JSON.parse(user.current_order);
 
             var details = [];
-            order.forEach(function (doc) {
+            order.forEach(function (doc, i, array) {
                 var newDetail = {
                     name: doc.name,
                     price: null,
@@ -84,18 +91,20 @@ app.get('/checkout', function(req, res) {
                     newDetail.price = product.price.toFixed(2);
                     newDetail.total = (product.price * newDetail.quantity).toFixed(2);
                     details.push(newDetail);
+
+                    if (i == array.length - 1) {
+                        res.render('checkout', {
+                            title: "Checkout",
+                            styles: "css/styles_checkout.css",
+                            scripts: "scripts/CheckoutScript.js",
+            
+                            username: req.session.username,
+                            user_type: req.session.user_type,
+            
+                            details: details,
+                        });
+                    }
                 });
-            });
-
-            res.render('checkout', {
-                title: "Checkout",
-                styles: "css/styles_checkout.css",
-                scripts: "scripts/CheckoutScript.js",
-
-                username: req.session.username,
-                user_type: req.session.user_type,
-
-                details: details,
             });
         });
     } else {
@@ -243,16 +252,46 @@ app.get('/user_orders', function(req, res) {
 })
 // [PAGE-07] MANAGER_ORDERS
 app.get('/manager_orders', function(req, res) {
-    if (req.session.user_type == 'admin') {
-        res.render('manager_orders', {
-            title: "Orders",
-            styles: "/css/styles_user_orders.css",
-            /*
-            scripts: "scripts/",
-            */
-            username: req.session.username,
-            user_type: req.session.user_type,
-        });
+    if (req.session.user_type == 'admin') {      
+        Order.countDocuments({is_completed: !(req.query.pending == 'true')}, function(err, count) {
+            var perPage = 10;
+            var page = parseInt(req.query.page) || 1;
+            
+            Order
+            .find({is_completed: !(req.query.pending == 'true')})
+            .skip(perPage * page - perPage)
+            .limit(perPage)
+            .exec(function(err, orders) {
+                var order_details = [];
+                orders.forEach(function(doc) {
+                    database.findOne(User, {_id: doc.user_id}, {}, function(user) {
+                        var new_detail = {
+                            _id: doc._id,
+                            username: user.username,
+                            date_time: doc.date_time,
+                            is_completed: doc.is_completed,
+                        };
+    
+                        order_details.push(new_detail);
+                    });
+                });
+
+                res.render('manager_orders', {
+                    title: "Orders",
+                    styles: "/css/styles_user_orders.css",
+                    scripts: "scripts/ManagerOrdersScript.js",
+                    
+                    username: req.session.username,
+                    user_type: req.session.user_type,
+                    
+                    order_details: order_details,
+
+                    url: 'manager_orders?pending=' + req.query.pending + '&',
+                    current: page,
+                    pages: Math.ceil(count / perPage),
+                });
+            });
+        })
     } else {
         res.redirect('/404');
     }
@@ -273,8 +312,7 @@ app.get('/404', function(req, res) {
 /* ---------------------------------------- END OF ROUTES --------------------------------------- */
 
 /* ---------------------------------- FEATURES & POST REQUESTS ---------------------------------- */
- 
-// [PAGE-03] LOGIN & REGISTER REQUESTS
+ // [PAGE-03] LOGIN & REGISTER REQUESTS
 app.post('/newUser', function (req, res) {
     if (req.body.type == 'username_check') {
         db.findOne(User, {username: req.body.username.toLowerCase()}, {}, function(user) {
@@ -341,7 +379,7 @@ app.post('/login', function(req, res) {
                         if (user.user_type == 'customer') {
                             redirect_url = '/';
                         } else {
-                            redirect_url = '/manager_orders';
+                            redirect_url = '/manager_orders?pending=true';
                         }
                         res.status(200).send({
                             ok: true, 
@@ -444,6 +482,37 @@ app.post('/postorder', function(req, res) {
     }
 });
 
+// [PAGE-07] ORDER DETAILS REQUEST
+app.post('/getdetails', function (req, res) {
+    database.findOne(Order, {_id: req.body._id}, {}, function(db_order) {
+        database.findOne(User, {_id: db_order.user_id}, {}, function(user) {
+            var order = JSON.parse(db_order.order);
+            var orderDetails = [];
+            order.forEach(function (doc, i, array) {
+                database.findOne(Product, {name: doc.name}, {}, function(product) {
+                    var newDetail = {
+                        name: product.name,
+                        price: product.price,
+                        quantity: doc.quantity,
+                        total: product.price * parseInt(doc.quantity),
+                    };
+
+                    orderDetails.push(newDetail);
+
+                    if (i == array.length - 1) {
+                        res.status(200).send({
+                            username: user.username,
+                            address: db_order.address,
+                            contact: db_order.mobile,
+                            special_instructions: db_order.special_instructions,
+                            details: orderDetails,
+                        });
+                    }
+                });
+            });
+        });
+    });
+});
 /* ---------------------------------- FOR 404 PAGE ---------------------------------- */
 app.use((req, res, next) => {
     res.status(404).redirect('/404');
