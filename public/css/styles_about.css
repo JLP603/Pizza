@@ -1,0 +1,23 @@
+
+  
+  .carousel-caption h3 {
+    color: #fff !important;
+  }
+  @media (max-width: 600px) {
+    .carousel-caption {
+      display: none; /* Hide the carousel text when the screen is less than 600 pixels wide */
+    }
+  }
+  .textcontainer {
+    padding: 20px 120px;
+  }
+
+  .container-fluid {
+    padding: 20px 50px;
+  }
+  .bg-grey {
+    background-color: #f6f6f6;
+  }
+  
+
+ 
