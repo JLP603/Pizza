@@ -3,39 +3,40 @@
 
 <div class="menu-card-container">
 
-    {{#each products}}
-    <div class="menu-card">
-        <div class="card-img">
-            <div class="show-overlay">
-                <img src="">
-            </div>
-        </div>
-        <div class="menu-info">
-            <div class="menu-item-title">
-                <div class="show-overlay">
-                    <h2>{{this.name}}</h2>
-                </div>
-            </div>
-            <div class="menu-item-desc">{{this.description}}</div>
-            <div class="menu-item-price text-right">Php {{this.price}}</div>
-        </div>
+  {{#each products}}
+  <div class="menu-card">
+    <div class="card-img">
+      <div class="show-overlay">
+        <img src="">
+      </div>
     </div>
-    <div class="overlay">
-        <div class="overlay-container vertical-center d-flex flex-column justify-content-start">
-            <div class="d-flex flex-row justify-content-end overlay-close-container">
-                <div class="overlay-close">&#10006;</div>
-            </div>
-            <div class="d-flex flex-row justify-content-start overlay-content-container">
-                <div class="d-flex flex-column justify-content-end overlay-product-container">
-                    <div class="overlay-image">
-                        <img src="">
-                    </div>
-                    <div class="overlay-name"><h4>{{this.name}}</h4></div>
-                    <div class="overlay-price"><h4>Php {{this.price}}</h4></div>
-                </div>
-                <div class="overlay-desc"><h3>{{this.description}}</h3></div>
-            </div>
+    <div class="menu-info">
+      <div class="menu-item-title">
+        <div class="show-overlay">
+          <h2>{{this.name}}</h2>
         </div>
+      </div>
+      <div class="menu-item-desc">{{this.description}}</div>
+      <div class="menu-item-price text-right">Php {{this.price}}</div>
     </div>
-    {{/each}}
+  </div>
+  <div class="overlay">
+    <div class="overlay-container vertical-center d-flex flex-column justify-content-start">
+      <div class="d-flex flex-row justify-content-end overlay-close-container">
+          <div class="overlay-close">&#10006;</div>
+      </div>
+      <div class="d-flex flex-row justify-content-start overlay-content-container">
+        <div class="d-flex flex-column justify-content-end overlay-product-container">
+          <div class="overlay-image">
+            <img src="">
+          </div>
+          <div class="overlay-name"><h4>{{this.name}}</h4></div>
+          <div class="overlay-price"><h4>Php {{this.price}}</h4></div>
+        </div>
+        <div class="overlay-desc"><h3>{{this.description}}</h3></div>
+      </div>
+    </div>
+  </div>
+  {{/each}}
+  
 </div>
