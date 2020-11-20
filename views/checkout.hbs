@@ -1,71 +1,74 @@
+<link rel="stylesheet" href="css/styles_checkout.css">
+<script src="scripts/checkoutScript.js"></script>
+
 <div class="d-flex flex-column content">
-    <div class="container">
-        <h2>Checkout</h2><br>
-        <h4>Review your order</h4><br>
+  <div class="container">
+    <h2>Checkout</h2><br>
+    <h4>Review your order</h4><br>
 
-        <div class="d-flex flex-row justify-content-between title">
-            <h4 class="item-name">Item</h4>
-            <h4 class="item-col">Price</h4>
-            <h4 class="item-col">Quantity</h4>
-            <h4 class="item-col">Total</h4>
-        </div>
-
-        <div id="order-summary-box" class="card item">
-            {{#each details}}
-            <div class="d-flex flex-row justify-content-between item detail">
-                <h4 class="item-name">{{this.name}}</h4>
-                <h4 class="item-col">Php {{this.price}}</h4>
-                <h4 class="item-col">{{this.quantity}}</h4>
-                <h4 class="item-col total">Php {{this.total}}</h4>
-            </div>
-
-                {{#if @last}}
-                {{else}}
-                <hr>
-                {{/if}}
-            {{/each}}
-        </div>
-
-        <hr>
-
-        <div class="d-flex flex-row justify-content-end title">
-            <h4 class="item-name">
-                <div class="d-flex flex-row justify-content-start">
-                    <a href="/order">&#x25c0; Redo Order</a>
-                </div>
-            </h4>
-            <h4 class="item-col"</h4>
-            <h4 class="item-col">Grand Total</h4>
-            <h4 id="grandtotal" class="item-col important">Loading...</h4>
-        </div>
-
-        <br><br><br>
-
-        <h4>Enter Delivery Details</h4>
-        <h4 id="warning" class="important hidden"></h4>
-        <a href="/user_orders" id="link" class="hidden"></a>
-        <br>
-        <div class="card item">
-            <div class="form-group">
-                <label><h5>Address:</h5></label>
-                <textarea id="address"class="form-control" rows="5" id="comment"></textarea>
-            </div> 
-            <div class="form-group">
-                <label><h5>Contact No.</h5></label>
-                <input id="contact" class="form-control">
-            </div>
-            <div class="form-group">
-                <label><h5>Special Instructions:</h5></label>
-                <textarea id="special_instructions"class="form-control" rows="3" id="comment"></textarea>
-            </div> 
-        </div>
-        <br>
-
-        <div class="d-flex flex-row justfify-content-center">
-            <buttontype="button" id="checkout" class="btn btn-success btn-block">Confirm Delivery</buttontype>
-        </div>
-
-        <br>
-        <br>
+    <div class="d-flex flex-row justify-content-between title">
+      <h4 class="item-name">Item</h4>
+      <h4 class="item-col">Price</h4>
+      <h4 class="item-col">Quantity</h4>
+      <h4 class="item-col">Total</h4>
     </div>
+
+    <div id="order-summary-box" class="card item">
+      {{#each details}}
+      <div class="d-flex flex-row justify-content-between item detail">
+        <h4 class="item-name">{{this.name}}</h4>
+        <h4 class="item-col">Php {{this.price}}</h4>
+        <h4 class="item-col">{{this.quantity}}</h4>
+        <h4 class="item-col total">Php {{this.total}}</h4>
+      </div>
+
+        {{#if @last}}
+        {{else}}
+        <hr>
+        {{/if}}
+      {{/each}}
+    </div>
+
+    <hr>
+
+    <div class="d-flex flex-row justify-content-end title">
+      <h4 class="item-name">
+        <div class="d-flex flex-row justify-content-start">
+          <a href="/order">&#x25c0; Redo Order</a>
+        </div>
+      </h4>
+      <h4 class="item-col"</h4>
+      <h4 class="item-col">Grand Total</h4>
+      <h4 id="grandtotal" class="item-col important">Loading...</h4>
+    </div>
+
+    <br><br><br>
+
+    <h4>Enter Delivery Details</h4>
+    <h4 id="warning" class="important hidden"></h4>
+    <a href="/user_orders" id="link" class="hidden"></a>
+    <br>
+    <div class="card item">
+      <div class="form-group">
+        <label><h5>Address:</h5></label>
+        <textarea id="address"class="form-control" rows="5" id="comment"></textarea>
+      </div> 
+      <div class="form-group">
+        <label><h5>Contact No.</h5></label>
+        <input id="contact" class="form-control">
+      </div>
+      <div class="form-group">
+        <label><h5>Special Instructions:</h5></label>
+        <textarea id="special_instructions"class="form-control" rows="3" id="comment"></textarea>
+      </div> 
+    </div>
+    <br>
+
+    <div class="d-flex flex-row justfify-content-center">
+      <buttontype="button" id="checkout" class="btn btn-success btn-block">Confirm Delivery</buttontype>
+    </div>
+
+    <br>
+    <br>
+  </div>
 </div>
