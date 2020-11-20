@@ -1,106 +1,106 @@
 /* ------------------------------------ [PAGE-06] USER_ORDERS -------------------------------------- */
 .home-box {
-    background-color: #f7f7f7;
-    padding: 10px;
-    text-align: center;
-    align-items: center;
-    margin-bottom: 15px;
+  background-color: #f7f7f7;
+  padding: 10px;
+  text-align: center;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
 .home-date {
-    cursor: default;
-    pointer-events: none;
+  cursor: default;
+  pointer-events: none;
 }
 
 .home-col1 {
-    padding-left: 10px;
-    padding-right: 10px;
-    width: 25%;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 25%;
 }
 
 .home-col2 {
-    padding-left: 10px;
-    padding-right: 10px;
-    width: 200px;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 200px;
 }
 
 .home-col3 {
-    padding-left: 10px;
-    width: 200px;
+  padding-left: 10px;
+  width: 200px;
 }
 
 #delivered {
-    display: none;
+  display: none;
 }
 
 /*
 .home-status {
-    cursor: default;
-    pointer-events: none;
+  cursor: default;
+  pointer-events: none;
 }
 
 .home-status:hover {
-    cursor: default;
-    pointer-events: none;
+  cursor: default;
+  pointer-events: none;
 }
 
 .home-status:active{
-    cursor: default;
-    pointer-events: none;
+  cursor: default;
+  pointer-events: none;
 }
 
 .home-status:focus{
-    cursor: default;
-    pointer-events: none;
+  cursor: default;
+  pointer-events: none;
 }
 */
 .modal-body{
-    padding: 10px;
-    text-align: left;
+  padding: 10px;
+  text-align: left;
 }
 
 .title {
-    padding: 10px;
+  padding: 10px;
 }
 
 .item {
-    background-color: #f7f7f7;
-    padding: 10px;
+  background-color: #f7f7f7;
+  padding: 10px;
 }
 
 .item-name {
-    padding-left: 10px;
-    padding-right: 10px;
-    width: 100%;
-    margin-right: 50px;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 100%;
+  margin-right: 50px;
 }
 
 .item-col {
-    padding-left: 10px;
-    padding-right: 10px;
-    width: 330px;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 330px;
 }
 
 .important {
-    border-radius: 10px;
-    color: red;
-    font-weight: bold;
+  border-radius: 10px;
+  color: red;
+  font-weight: bold;
 }
 
 textarea {
-    resize: none;
+  resize: none;
 }
 
 textarea:focus {
-    outline: none !important;
-    border: none;
+  outline: none !important;
+  border: none;
 }
 
 input:focus {
-    outline: none !important;
-    border: none;
+  outline: none !important;
+  border: none;
 }
 
 ._id{
-    display: none;
+  display: none;
 }
