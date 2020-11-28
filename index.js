@@ -37,23 +37,36 @@ app.use(session({
   saveUninitialized: false	
 }));
 
-handlebars.registerHelper("equals", function (arg1, arg2, options) {
-  return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
-});
-handlebars.registerHelper("notequals", function (arg1, arg2, options) {
-  return (arg1 != arg2) ? options.fn(this) : options.inverse(this);
-});
-handlebars.registerHelper("concat", function(arg1, arg2, options) {
-  return arg1.concat(arg2);
-});
-handlebars.registerHelper("dateFormat", require("handlebars-dateformat"));
-handlebars.registerHelper("repeat", require("handlebars-helper-repeat"));
-handlebars.registerHelper("add", function (a, b) {
-  return parseInt(a) + b;
-});
-handlebars.registerHelper("minus", function (a, b) {
-  return parseInt(a) - b;
-});
+const myHelpers = {
+  equalsHelper: function (arg1, arg2, options) {
+    return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+  },
+
+  notEqualsHelper: function (arg1, arg2, options) {
+    return (arg1 != arg2) ? options.fn(this) : options.inverse(this);
+  },
+
+  concatHelper: function(arg1, arg2) {
+    return arg1.concat(arg2);
+  },
+
+  addHelper: function (a, b) {
+    return parseInt(a) + b;
+  },
+  
+  minusHelper: function (a, b) {
+    return parseInt(a) - b;
+  },
+}
+
+handlebars.registerHelper("equals", myHelpers.equalsHelper);
+handlebars.registerHelper("notequals", myHelpers.notEqualsHelper)
+handlebars.registerHelper("concat", myHelpers.concatHelper)
+handlebars.registerHelper("add", myHelpers.addHelper)
+handlebars.registerHelper("minus", myHelpers.minusHelper)
+
+handlebars.registerHelper("dateFormat", require("handlebars-dateformat")),
+handlebars.registerHelper("repeat", require("handlebars-helper-repeat"))
 
 app.listen(port, function() {
   console.log("App listening at port "  + port)
@@ -520,3 +533,5 @@ app.post("/getdetails", function (req, res) {
 app.use((req, res, next) => {
   res.status(404).redirect("/404");
 });
+
+module.exports = myHelpers
