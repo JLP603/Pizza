@@ -6,6 +6,8 @@ const bodyParser = require("body-parser")
 const session = require("express-session");
 const bcrypt = require("bcrypt");
 
+const router = express.Router();
+
 const db = require("./models/db.js")
 const User = require("./models/UserModel.js");
 const Product = require("./models/ProductModel.js");
@@ -68,10 +70,10 @@ handlebars.registerHelper("minus", myHelpers.minusHelper)
 handlebars.registerHelper("dateFormat", require("handlebars-dateformat")),
 handlebars.registerHelper("repeat", require("handlebars-helper-repeat"))
 
-app.listen(port, function() {
-  console.log("App listening at port "  + port)
+const server = app.listen(port, function() {
+  console.log("App listening at port "  + port);
+  db.connect();
 });
-db.connect();
 
 /* ---------------------------------------- ALL 8 ROUTES ---------------------------------------- */
 
@@ -409,8 +411,8 @@ app.post("/login", function(req, res) {
           }
         });
       } else {
-        res.status(200).send(
-          {ok: false, 
+        res.status(200).send({
+          ok: false, 
           message: "Username not found!"
         });
       }
@@ -534,4 +536,7 @@ app.use((req, res, next) => {
   res.status(404).redirect("/404");
 });
 
-module.exports = myHelpers
+module.exports = {
+  myHelpers,
+  server
+}

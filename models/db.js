@@ -16,7 +16,7 @@ const database = {
     connect: function () {
         mongoose.connect(url, options, function (error) {
             if (error) throw error;
-            console.log('Connected to: ' + url);
+            //console.log('Connected to: ' + url);
         });
     },
 
@@ -25,9 +25,9 @@ const database = {
     */
     insertOne: function (model, doc, callback) {
         model.create(doc, function (error, result) {
-            console.log(error);
+            //console.log(error);
             if (error) return callback(false);
-            console.log('Added ' + result);
+            //console.log('Added ' + result);
             return callback(true);
         });
     },
@@ -38,7 +38,7 @@ const database = {
     insertMany: function (model, docs) {
         model.insertMany(docs, function (error, result) {
             if (error) throw error;
-            console.log('Added ' + result);
+            //console.log('Added ' + result);
             return result;
         });
     },
@@ -77,7 +77,7 @@ const database = {
     updateOne: function (model, filter, update) {
         model.updateOne(filter, update, function (error, result) {
             if (error) throw error;
-            console.log('Document modified: ' + result.nModified);
+            //console.log('Document modified: ' + result.nModified);
             return result;
         });
     },
@@ -90,7 +90,7 @@ const database = {
     updateMany: function (model, filter, update) {
         model.updateMany(filter, update, function (error, result) {
             if (error) return callback(false);
-            console.log('Documents modified: ' + result.nModified);
+            //console.log('Documents modified: ' + result.nModified);
             return callback(true);
         });
     },
@@ -102,7 +102,7 @@ const database = {
     deleteOne: function (model, conditions) {
         model.deleteOne(conditions, function (error, result) {
             if (error) throw error;
-            console.log('Document deleted: ' + result.deletedCount);
+            //console.log('Document deleted: ' + result.deletedCount);
             return result;
         });
     },
@@ -114,7 +114,7 @@ const database = {
     deleteMany: function (model, conditions, callback) {
         model.deleteMany(conditions, function (error, result) {
             if (error) return callback(false);
-            console.log('Document deleted: ' + result.deletedCount);
+            //console.log('Document deleted: ' + result.deletedCount);
             return callback(true);
         });
     }
