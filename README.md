@@ -1,17 +1,16 @@
 # STSWENG Pizza Delivery Project
 
+## Type the following into the command line before anything
+**`npm i`**
 ## Type the following into the command line to run the application
-1. **`npm i`**
-2. **`node addData`**
-3. **`node index`** or **`npm run dev`**
+1. **`node addData`**
+1. **`node index`** or **`npm run dev`**
  - **`node index`** - run normally
  - **`npm run dev`** - restarts the application when there's new changes
-4. Open a browser and got to [localhost:9000](localhost:9000)
+1. Open a browser and got to [localhost:9000](localhost:9000)
 
 ## Type the following into the command line to test the application
-1. **`npm i`**
-2. **`node addData`**
-3. **`npm run test`**
+1. **`npm run test`**
 
 ## To view database using MongoDB Compass
 -   Paste this into the 'connect' field
