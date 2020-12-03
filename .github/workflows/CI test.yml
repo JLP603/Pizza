@@ -27,6 +27,6 @@ jobs:
 
       - name: Build 🏗️
         run: npm install express-session
-        run: npm run start
+        run: npm start
       - name: Test 🚨
         run: npm test
