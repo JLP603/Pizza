@@ -43,8 +43,7 @@ jobs:
 
       - name: Test 🚨
         run: npm test
-        env:
-        CI: true
+       
       
       #name: Deploy
       
