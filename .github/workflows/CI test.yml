@@ -23,4 +23,4 @@ jobs:
           persist-credentials: false
 
       - name: Test 🚨
-        run: npm test
+        run: npm test_
