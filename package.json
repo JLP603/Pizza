@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test_": "node addData.js && mocha || true"
+    "test": "node addData.js && mocha || true"
   },
   "author": "",
   "license": "ISC",
