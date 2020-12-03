@@ -15,21 +15,12 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      #- uses: actions/checkout@v2
+      #- uses: actions/checkout@v2 
 
       - name: Checkout 🛎️
         uses: actions/checkout@master
         with:
           persist-credentials: false
-
-      - name: Install 🔧
-        run: npm install
-
-      - name: Build 🏗️
-        run: npm install express-session
-
-      - name: Build 🏗️ 
-        run: npm start
 
       - name: Test 🚨
         run: npm test
