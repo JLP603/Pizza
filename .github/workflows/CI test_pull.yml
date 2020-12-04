@@ -2,8 +2,6 @@ name: CI test_pull
 
 # Controls when the action will run. 
 on:
-  push:
-    branches: [testing]
   pull_request:
     branches: [testing]
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
