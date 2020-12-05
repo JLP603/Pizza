@@ -1,6 +1,6 @@
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
 
-var OrderSchema = new mongoose.Schema({
+var orderSchema = new mongoose.Schema({
   user_id: {
     type: String,
     required: true,
@@ -31,4 +31,4 @@ var OrderSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('Order', OrderSchema);
+module.exports = mongoose.model("Order", orderSchema);

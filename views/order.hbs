@@ -1,9 +1,17 @@
+<link rel="stylesheet" href="css/styles_order.css">
+<script src="scripts/orderScript.js"></script>
+
 <div class="d-flex flex-column content">
   <div class="container">
     <h2>Select to Order</h2>
     {{#if username}}{{else}}
       <h4 class="login-warning">You need to be signed in to save and place orders!</h4>
       <h6><a href="/login">Sign in Here</a></h6>
+    {{/if}}
+
+    {{#if hascurrent}}
+      <h4 class="login-warning">You cannot place another order while having an ongoing one!</h4>
+      <h6><a href="/user_orders">View your ongoing order here</a></h6>
     {{/if}}
     <br>
 
@@ -29,7 +37,16 @@
         <h4 class="item-name">Subtotal</h4>
         <div class="d-flex flex-row justify-content-between">
           <h4 id="subtotal">Php 0.00</h4>
-          <buttontype="button" {{#if username}}id="checkout"{{else}}id="forbidden"{{/if}} class="btn btn-success btn-block quantity">Checkout</buttontype>
+          <buttontype="button"  {{#if username}}
+                                  {{#if hascurrent}}
+                                    id="hascurrent"
+                                  {{else}}
+                                    id="checkout"
+                                  {{/if}}
+                                {{else}}
+                                id="forbidden"
+                                {{/if}}
+          class="btn btn-success btn-block quantity">Checkout</buttontype>
         </div>
       </div>
     </div>

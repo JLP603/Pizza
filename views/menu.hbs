@@ -1,3 +1,6 @@
+<link rel="stylesheet" href="css/styles_menu.css">
+<script src="scripts/menuScript.js"></script>
+
 <h1 class="px-5 pt-5 text-center">Menu</h1>
 <h5 class="px-5 pb-5 text-center">Click each item to see their full description</h5>
 
@@ -7,7 +10,7 @@
   <div class="menu-card">
     <div class="card-img">
       <div class="show-overlay">
-        <img src="">
+        <img src="{{concat "img/menu/" this.name}}">
       </div>
     </div>
     <div class="menu-info">
@@ -23,12 +26,12 @@
   <div class="overlay">
     <div class="overlay-container vertical-center d-flex flex-column justify-content-start">
       <div class="d-flex flex-row justify-content-end overlay-close-container">
-          <div class="overlay-close">&#10006;</div>
+        <div class="overlay-close">&#10006;</div>
       </div>
       <div class="d-flex flex-row justify-content-start overlay-content-container">
         <div class="d-flex flex-column justify-content-end overlay-product-container">
           <div class="overlay-image">
-            <img src="">
+            <img src="{{concat "img/menu/" this.name}}">
           </div>
           <div class="overlay-name"><h4>{{this.name}}</h4></div>
           <div class="overlay-price"><h4>Php {{this.price}}</h4></div>
@@ -38,5 +41,4 @@
     </div>
   </div>
   {{/each}}
-  
 </div>

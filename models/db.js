@@ -10,38 +10,38 @@ const options = {
 // database functions (CRUD functions)
 const database = {
 
-  /*
-    connects to database
-  */
-  connect: function () {
-    mongoose.connect(url, options, function (error) {
-      if (error) throw error;
-      console.log('Connected to: ' + url);
-    });
-  },
+    /*
+        connects to database
+    */
+    connect: function () {
+        mongoose.connect(url, options, function (error) {
+            if (error) throw error;
+            //console.log('Connected to: ' + url);
+        });
+    },
 
-  /*
-    inserts a single `doc` to the database based on the model `model`
-  */
-  insertOne: function (model, doc, callback) {
-    model.create(doc, function (error, result) {
-      console.log(error);
-      if (error) return callback(false);
-      console.log('Added ' + result);
-      return callback(true);
-    });
-  },
+    /*
+        inserts a single `doc` to the database based on the model `model`
+    */
+    insertOne: function (model, doc, callback) {
+        model.create(doc, function (error, result) {
+            //console.log(error);
+            if (error) return callback(false);
+            //console.log('Added ' + result);
+            return callback(true);
+        });
+    },
 
-  /*
-    inserts multiple `docs` to the database based on the model `model`
-  */
-  insertMany: function (model, docs) {
-    model.insertMany(docs, function (error, result) {
-      if (error) throw error;
-      console.log('Added ' + result);
-      return result;
-    });
-  },
+    /*
+        inserts multiple `docs` to the database based on the model `model`
+    */
+    insertMany: function (model, docs) {
+        model.insertMany(docs, function (error, result) {
+            if (error) throw error;
+            //console.log('Added ' + result);
+            return result;
+        });
+    },
 
   /*
     searches for a single document based on the model `model`
@@ -69,55 +69,55 @@ const database = {
     });
   },
 
-  /*
-    updates the value defined in the object `update`
-    on a single document based on the model `model`
-    filtered by the object `filter`
-  */
-  updateOne: function (model, filter, update) {
-    model.updateOne(filter, update, function (error, result) {
-      if (error) throw error;
-      console.log('Document modified: ' + result.nModified);
-      return result;
-    });
-  },
+    /*
+        updates the value defined in the object `update`
+        on a single document based on the model `model`
+        filtered by the object `filter`
+    */
+    updateOne: function (model, filter, update) {
+        model.updateOne(filter, update, function (error, result) {
+            if (error) throw error;
+            //console.log('Document modified: ' + result.nModified);
+            return result;
+        });
+    },
 
-  /*
-    updates the value defined in the object `update`
-    on multiple documents based on the model `model`
-    filtered using the object `filter`
-  */
-  updateMany: function (model, filter, update) {
-    model.updateMany(filter, update, function (error, result) {
-      if (error) return callback(false);
-      console.log('Documents modified: ' + result.nModified);
-      return callback(true);
-    });
-  },
+    /*
+        updates the value defined in the object `update`
+        on multiple documents based on the model `model`
+        filtered using the object `filter`
+    */
+    updateMany: function (model, filter, update) {
+        model.updateMany(filter, update, function (error, result) {
+            if (error) return callback(false);
+            //console.log('Documents modified: ' + result.nModified);
+            return callback(true);
+        });
+    },
 
-  /*
-    deletes a single document based on the model `model`
-    filtered using the object `conditions`
-  */
-  deleteOne: function (model, conditions) {
-    model.deleteOne(conditions, function (error, result) {
-      if (error) throw error;
-      console.log('Document deleted: ' + result.deletedCount);
-      return result;
-    });
-  },
+    /*
+        deletes a single document based on the model `model`
+        filtered using the object `conditions`
+    */
+    deleteOne: function (model, conditions) {
+        model.deleteOne(conditions, function (error, result) {
+            if (error) throw error;
+            //console.log('Document deleted: ' + result.deletedCount);
+            return result;
+        });
+    },
 
-  /*
-    deletes multiple documents based on the model `model`
-    filtered using the object `conditions`
-  */
-  deleteMany: function (model, conditions, callback) {
-    model.deleteMany(conditions, function (error, result) {
-      if (error) return callback(false);
-      console.log('Document deleted: ' + result.deletedCount);
-      return callback(true);
-    });
-  }
+    /*
+        deletes multiple documents based on the model `model`
+        filtered using the object `conditions`
+    */
+    deleteMany: function (model, conditions, callback) {
+        model.deleteMany(conditions, function (error, result) {
+            if (error) return callback(false);
+            //console.log('Document deleted: ' + result.deletedCount);
+            return callback(true);
+        });
+    }
 }
 
 /*
