@@ -553,22 +553,54 @@ app.post("/getConfirmDetails", function(req, res) {
   });
 });
 app.post("/updateOrderStatus", function(req, res) {
-  database.findOne(Order, {_id: req.body._id}, {}, function(order) {
-    var newOrder = {
-      user_id: order.user_id,
-      address: order.address,
-      mobile: order.mobile,
-      special_instructions: order.special_instructions,
-      data_time: order.date_time,
-      is_completed: req.body.changeTo == "Completed"
-    }
-    database.updateOne(Order, {_id: req.body._id}, newOrder);
-    
-    var newStatus = req.body.changeTo == "Completed" ? "Completed" : "Pending"
-    res.status(200).send({
-      newStatus: newStatus
+  if (req.body.changeTo == "Completed") {
+    database.findOne(Order, {_id: req.body._id}, {}, function(order) {
+      var newOrder = {
+        user_id: order.user_id,
+        address: order.address,
+        mobile: order.mobile,
+        special_instructions: order.special_instructions,
+        data_time: order.date_time,
+        is_completed: req.body.changeTo == "Completed"
+      }
+      database.updateOne(Order, {_id: req.body._id}, newOrder);
+      
+      var newStatus = req.body.changeTo == "Completed" ? "Completed" : "Pending"
+      res.status(200).send({
+        ok: true,
+        newStatus: newStatus
+      });
     });
-  });
+  } else if (req.body.changeTo == "Pending"){
+    database.findOne(Order, {_id: req.body._id}, {}, function(order_outer) {
+      database.findOne(Order, {user_id: order_outer.user_id, is_completed: false}, {}, function(order) {
+        if (order) {
+          res.status(200).send({
+            ok: false,
+            message: "user can only have one pending order at a time!"
+          });
+        } else {
+          database.findOne(Order, {_id: req.body._id}, {}, function(order) {
+            var newOrder = {
+              user_id: order.user_id,
+              address: order.address,
+              mobile: order.mobile,
+              special_instructions: order.special_instructions,
+              data_time: order.date_time,
+              is_completed: req.body.changeTo == "Completed"
+            }
+            database.updateOne(Order, {_id: req.body._id}, newOrder);
+            
+            var newStatus = req.body.changeTo == "Completed" ? "Completed" : "Pending"
+            res.status(200).send({
+              ok: true,
+              newStatus: newStatus
+            });
+          });
+        }
+      });
+    });
+  }
 })
 /* ---------------------------------- FOR 404 PAGE ---------------------------------- */
 app.use((req, res, next) => {

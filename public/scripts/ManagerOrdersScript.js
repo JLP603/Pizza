@@ -79,20 +79,24 @@ $(document).ready(function() {
   $("#confirm-change").click(function() {
     $("#confirm-change").html("<strong>Updating...</strong>");
     $.post("/updateOrderStatus", {_id: $("#current-id").html(), changeTo: $("#change-to").html()}, function(data, status) {
-      if (data.newStatus == "Pending") {
-        $(".getConfirmDetails").eq($("#current-pos").html()).removeClass("btn-success");
-        $(".getConfirmDetails").eq($("#current-pos").html()).addClass("btn-warning");
-        $(".getConfirmDetails").eq($("#current-pos").html()).html("Pending");
+      if (data.ok) {
+        if (data.newStatus == "Pending") {
+          $(".getConfirmDetails").eq($("#current-pos").html()).removeClass("btn-success");
+          $(".getConfirmDetails").eq($("#current-pos").html()).addClass("btn-warning");
+          $(".getConfirmDetails").eq($("#current-pos").html()).html("Pending");
+        } else {
+          $(".getConfirmDetails").eq($("#current-pos").html()).removeClass("btn-warning");
+          $(".getConfirmDetails").eq($("#current-pos").html()).addClass("btn-success");
+          $(".getConfirmDetails").eq($("#current-pos").html()).html("Completed");
+        }
+
+        $("#confirm-change").html("<strong>Updated!</strong>");
+        $('#changeStatusModal').modal('toggle');
+
+        $("#change-warning").css("display", "block");
       } else {
-        $(".getConfirmDetails").eq($("#current-pos").html()).removeClass("btn-warning");
-        $(".getConfirmDetails").eq($("#current-pos").html()).addClass("btn-success");
-        $(".getConfirmDetails").eq($("#current-pos").html()).html("Completed");
+        $("#confirm-change").html("<strong>" + data.message + "</strong>");
       }
-
-      $("#confirm-change").html("<strong>Updated!</strong>");
-      $('#changeStatusModal').modal('toggle');
-
-      $("#change-warning").css("display", "block");
     });
   });
 });
