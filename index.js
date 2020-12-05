@@ -39,6 +39,20 @@ app.use(session({
   saveUninitialized: false	
 }));
 
+if (process.argv[2]) {
+  if(process.argv[2] == "delay") {
+    console.log("Running with 1 second delay");
+    app.use((req, res, next) => {
+      setTimeout(() => next(), 1000);
+    });
+  }
+}
+
+const server = app.listen(port, function() {
+  console.log("App listening at port "  + port);
+  db.connect();
+});
+
 const myHelpers = {
   equalsHelper: function (arg1, arg2, options) {
     return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
@@ -69,11 +83,6 @@ handlebars.registerHelper("minus", myHelpers.minusHelper)
 
 handlebars.registerHelper("dateFormat", require("handlebars-dateformat")),
 handlebars.registerHelper("repeat", require("handlebars-helper-repeat"))
-
-const server = app.listen(port, function() {
-  console.log("App listening at port "  + port);
-  db.connect();
-});
 
 /* ---------------------------------------- ALL 8 ROUTES ---------------------------------------- */
 
@@ -467,42 +476,32 @@ app.post("/order", function(req, res) {
 // [PAGE-02] CHECKOUT ORDER POST
 app.post("/postorder", function(req, res) {
   if (req.session._id) {
-    database.findOne(Order, {user_id: req.session._id, is_completed: false}, {}, function(order) {
-      if (!order) {
-        database.findOne(User, {_id: req.session._id}, {}, function(user) {
-          var today = new Date();
-          var newOrder = {
-            user_id: user._id,
-            address: req.body.address,
-            mobile: req.body.contact,
-            order: user.current_order,
-            special_instructions: req.body.special_instructions,
-            date_time: today,
-            is_completed: false,
-          };
-    
-          database.insertOne(Order, newOrder, function() {
-            var updatedUser = {
-              username: user.username,
-              password: user.password,
-              user_type: user.user_type,
-              current_order: "[]",
-            }
-            database.updateOne(User, {_id: user._id}, updatedUser);
-            
-            res.status(200).send({
-              has_current: false,
-              loggedin: true
-            });
-          });
-        });
-      } else {
+    database.findOne(User, {_id: req.session._id}, {}, function(user) {
+      var today = new Date();
+      var newOrder = {
+        user_id: user._id,
+        address: req.body.address,
+        mobile: req.body.contact,
+        order: user.current_order,
+        special_instructions: req.body.special_instructions,
+        date_time: today,
+        is_completed: false,
+      };
+
+      database.insertOne(Order, newOrder, function() {
+        var updatedUser = {
+          username: user.username,
+          password: user.password,
+          user_type: user.user_type,
+          current_order: "[]",
+        }
+        database.updateOne(User, {_id: user._id}, updatedUser);
+        
         res.status(200).send({
-          loggedin: true,
-          has_current: true,
+          loggedin: true
         });
-      }
-    });        
+      });
+    });     
   } else {
     res.status(200).send({
       loggedin: false
@@ -553,22 +552,54 @@ app.post("/getConfirmDetails", function(req, res) {
   });
 });
 app.post("/updateOrderStatus", function(req, res) {
-  database.findOne(Order, {_id: req.body._id}, {}, function(order) {
-    var newOrder = {
-      user_id: order.user_id,
-      address: order.address,
-      mobile: order.mobile,
-      special_instructions: order.special_instructions,
-      data_time: order.date_time,
-      is_completed: req.body.changeTo == "Completed"
-    }
-    database.updateOne(Order, {_id: req.body._id}, newOrder);
-    
-    var newStatus = req.body.changeTo == "Completed" ? "Completed" : "Pending"
-    res.status(200).send({
-      newStatus: newStatus
+  if (req.body.changeTo == "Completed") {
+    database.findOne(Order, {_id: req.body._id}, {}, function(order) {
+      var newOrder = {
+        user_id: order.user_id,
+        address: order.address,
+        mobile: order.mobile,
+        special_instructions: order.special_instructions,
+        data_time: order.date_time,
+        is_completed: req.body.changeTo == "Completed"
+      }
+      database.updateOne(Order, {_id: req.body._id}, newOrder);
+      
+      var newStatus = req.body.changeTo == "Completed" ? "Completed" : "Pending"
+      res.status(200).send({
+        ok: true,
+        newStatus: newStatus
+      });
     });
-  });
+  } else if (req.body.changeTo == "Pending") {
+    database.findOne(Order, {_id: req.body._id}, {}, function(order_outer) {
+      database.findOne(Order, {user_id: order_outer.user_id, is_completed: false}, {}, function(order) {
+        if (order) {
+          res.status(200).send({
+            ok: false,
+            message: "Each user can only have one pending order at a time!"
+          });
+        } else {
+          database.findOne(Order, {_id: req.body._id}, {}, function(order) {
+            var newOrder = {
+              user_id: order.user_id,
+              address: order.address,
+              mobile: order.mobile,
+              special_instructions: order.special_instructions,
+              data_time: order.date_time,
+              is_completed: req.body.changeTo == "Completed"
+            }
+            database.updateOne(Order, {_id: req.body._id}, newOrder);
+            
+            var newStatus = req.body.changeTo == "Completed" ? "Completed" : "Pending"
+            res.status(200).send({
+              ok: true,
+              newStatus: newStatus
+            });
+          });
+        }
+      });
+    });
+  }
 })
 /* ---------------------------------- FOR 404 PAGE ---------------------------------- */
 app.use((req, res, next) => {

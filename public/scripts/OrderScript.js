@@ -99,6 +99,12 @@ $(document).ready(function() {
           }
         }
       }
+
+      for (var i = 0; i < $(".item-name").length; i++) {
+        if(!$(".toggle").eq(i).is(":checked")) {
+          $(".quantity").eq(i).val(1);
+        }
+      }
     } else {
       $(".quantity").val(1);
     }
@@ -145,7 +151,7 @@ $(document).ready(function() {
     } else if (status == 2) {
       warning = "Cannot have no orders!";
     }
-
+    
     $("#warning").html(warning);
   });
 

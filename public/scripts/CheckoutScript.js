@@ -45,16 +45,10 @@ $(document).ready(function () {
     }
 
     if (valid) {
+      $("#checkout").prop("disabled", true);
       $.post("/postorder", {address: $("#address").val(), contact: $("#contact").val(), special_instructions: $("#special_instructions").val()}, function(data, status) {
         if (data.loggedin) {
-          if (data.has_current) {
-            $("#warning").html("You current have an ongoing order");
-            $("#warning").css("display", "block");
-            $("#link").html("view it here");
-            $("#link").css("display", "block");
-          } else {
-            window.location = "/user_orders";
-          }
+          window.location = "/user_orders";
         } else {
           window.location = "/login";
         }
