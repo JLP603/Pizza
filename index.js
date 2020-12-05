@@ -332,11 +332,12 @@ app.get("/404", function(req, res) {
 /* ---------------------------------- FEATURES & POST REQUESTS ---------------------------------- */
  // [PAGE-03] LOGIN & REGISTER REQUESTS
 app.post("/newUser", function (req, res) {
-  if (req.body.type == "username_check") {
+  if (req.body.type == "username_check") {    
     db.findOne(User, {username: req.body.username.toLowerCase()}, {}, function(user) {
       if (user) {
         res.status(200).send({
-          ok: false
+          ok: false,
+          message: "Username already taken!"
         });
       } else {
         res.status(200).send({

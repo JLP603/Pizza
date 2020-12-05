@@ -114,22 +114,41 @@ $(document).ready(function () {
     $("#error2").html("");
     $("#error2").css("display", "none");
 
-    $.post("/newUser", {type: "username_check", username: $("#username2").val()}, function(data, status) {
-      if (!data.ok) {
-        $("#error2").html("Username already exists!");
-        $("#error2").css("display", "block");
-      }
-    });
+    if ($("#username2").val().length < 6) {
+      $("#error2").html("Username too short, must be 6-15 characters!");
+      $("#error2").css("display", "block");
+    } else if ($("#username2").val().length > 15) {
+      $("#error2").html("Username too long, must be 6-15 characters!");
+      $("#error2").css("display", "block");
+    } else {
+      $.post("/newUser", {type: "username_check", username: $("#username2").val()}, function(data, status) {
+        if (!data.ok) {
+          $("#error2").html(data.message);
+          $("#error2").css("display", "block");
+        }
+      });
+    }
   });
 
-  // register check for matching passwords
-  $("#pswrd_2").keyup(function() {
-    $("#error").html("");
-    $("#error").css("display", "none");
+  // register check for password length
+  $("#pswrd_1").blur(function() {
+    $("#error2").html("");
+    $("#error2").css("display", "none");
+
+    if ($("#pswrd_1").val().length < 6) {
+      $("#error2").html("Passwords must be at least 6 characters!");
+      $("#error2").css("display", "block");
+    }
+  });
+
+  // register check for matching passwords  
+  $("#pswrd_2").blur(function() {
+    $("#error2").html("");
+    $("#error2").css("display", "none");
 
     if ($("#pswrd_1").val() != $("#pswrd_2").val()) {
-      $("#error").html("Passwords do not match!");
-      $("#error").css("display", "block");
+      $("#error2").html("Passwords do not match!");
+      $("#error2").css("display", "block");
     }
   });
 
@@ -142,11 +161,20 @@ $(document).ready(function () {
     if ($("#username2").val() == "") {
       $("#error2").html("Username empty!");
       $("#error2").css("display", "block");
+    } else if ($("#username2").val().length < 6) {
+      $("#error2").html("Username too short, must be 6-15 characters!");
+      $("#error2").css("display", "block");
+    } else if ($("#username2").val().length > 15) {
+      $("#error2").html("Username too long, must be 6-15 characters!");
+      $("#error2").css("display", "block");
     } else if ($("#pswrd_1").val() == "" || $("#pswrd_2").val() == "") {
       $("#error2").html("Password empty!");
       $("#error2").css("display", "block");
     } else if ($("#pswrd_1").val() != $("#pswrd_2").val()) {
       $("#error2").html("Passwords do not match!");
+      $("#error2").css("display", "block");
+    } else if ($("#pswrd_1").val().length < 6) {
+      $("#error2").html("Passwords must be at least 6 characters!");
       $("#error2").css("display", "block");
     } else if (!$("#checkbox").is(":checked")) {
       $("#error2").html("Please agree to the terms and conditions!");
