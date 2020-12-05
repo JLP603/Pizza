@@ -8,11 +8,11 @@ const bcrypt = require("bcrypt");
 
 const router = express.Router();
 
-const db = require("./models/db.js")
+const database = require("./models/db.js")
 const User = require("./models/UserModel.js");
 const Product = require("./models/ProductModel.js");
 const Order = require("./models/OrderModel.js");
-const database = require("./models/db.js")
+const Category = require("./models/CategoryModel.js");
 
 const app = express()
 const port = 9000
@@ -50,7 +50,7 @@ if (process.argv[2]) {
 
 const server = app.listen(port, function() {
   console.log("App listening at port "  + port);
-  db.connect();
+  database.connect();
 });
 
 const myHelpers = {
@@ -150,20 +150,55 @@ app.get("/login", function(req, res) {
 })
 // [PAGE-04] MENU
 app.get("/menu", function(req, res) {
-  db.findMany(Product, {}, {}, function(productArray) {        
-    res.render("menu", {
-      title: "Menu",
+  var filter = req.query.category || "All"
 
-      username: req.session.username,
-      user_type: req.session.user_type,
-
-      products: productArray,
-    });
+  database.findMany(Category, {}, {}, function(categoryArray) {
+    if (filter == "All") {
+      database.findMany(Product, {}, {}, function(productArray) {
+        res.render("menu", {
+          title: "Menu",
+  
+          username: req.session.username,
+          user_type: req.session.user_type,
+  
+          products: productArray,
+          categories: categoryArray,
+          category: filter
+        });
+      });
+    } else {
+      database.findMany(Product, {category: filter}, {}, function(productArray) {
+        res.render("menu", {
+          title: "Menu",
+  
+          username: req.session.username,
+          user_type: req.session.user_type,
+  
+          products: productArray,
+          categories: categoryArray,
+          category: filter
+        });
+      });
+    }
   });
+  /*
+  database.findMany(Product, {}, {}, function(productArray) {        
+    database.findMany(Category, {}, {}, function(categoryArray) {
+      res.render("menu", {
+        title: "Menu",
+
+        username: req.session.username,
+        user_type: req.session.user_type,
+
+        products: productArray,
+        categories: categoryArray
+      });
+    });
+  });*/
 })
 // [PAGE-05] ORDER
 app.get("/order", function(req, res) {
-  db.findMany(Product, {}, {}, function(productArray) {
+  database.findMany(Product, {}, {}, function(productArray) {
     var productsNoDescriptionNoCategories = []
     productArray.forEach(function(doc) {
       var cur = {
@@ -351,7 +386,7 @@ app.get("/404", function(req, res) {
  // [PAGE-03] LOGIN & REGISTER REQUESTS
 app.post("/newUser", function (req, res) {
   if (req.body.type == "username_check") {    
-    db.findOne(User, {username: req.body.username.toLowerCase()}, {}, function(user) {
+    database.findOne(User, {username: req.body.username.toLowerCase()}, {}, function(user) {
       if (user) {
         res.status(200).send({
           ok: false,
@@ -364,7 +399,7 @@ app.post("/newUser", function (req, res) {
       }
     });
   } else if (req.body.type == "register") {
-    db.findOne(User, {username: req.body.username.toLowerCase()}, {}, function(user) {
+    database.findOne(User, {username: req.body.username.toLowerCase()}, {}, function(user) {
       if (user) {
         res.status(200).send({
           ok: false, 
@@ -379,7 +414,7 @@ app.post("/newUser", function (req, res) {
             current_order: "[]"
           };
 
-          db.insertOne(User, newUser, (result) => {})
+          database.insertOne(User, newUser, (result) => {})
         });
 
         res.status(200).send({
@@ -392,7 +427,7 @@ app.post("/newUser", function (req, res) {
 });
 app.post("/login", function(req, res) {
   if (req.body.type == "username_check") {
-    db.findOne(User, {username: req.body.username.toLowerCase()}, {}, function(user) {
+    database.findOne(User, {username: req.body.username.toLowerCase()}, {}, function(user) {
       if (user) {
         res.status(200).send({
           ok: true
@@ -404,7 +439,7 @@ app.post("/login", function(req, res) {
       }
     });
   } else if (req.body.type == "login") {
-    db.findOne(User, { username: req.body.username.toLowerCase() }, {}, function (user) {
+    database.findOne(User, { username: req.body.username.toLowerCase() }, {}, function (user) {
       if (user) {
         bcrypt.compare(req.body.password, user.password, function (err, equal) {
           if (equal) {
@@ -446,7 +481,7 @@ app.post("/logout", function(req, res) {
 // [PAGE-05] GET AND POST CURRENT_ORDER REQUESTS
 app.get("/getcurrentorder", function(req, res) {
   if (req.session._id) {
-    db.findOne(User, {_id: req.session._id}, {}, function(user) {
+    database.findOne(User, {_id: req.session._id}, {}, function(user) {
       res.status(200).send({
         loggedin: true, 
         order: user.current_order
@@ -460,7 +495,7 @@ app.get("/getcurrentorder", function(req, res) {
 });
 app.post("/order", function(req, res) {
   if (req.session._id) {
-    db.findOne(User, {_id: req.session._id}, {}, function(user) {
+    database.findOne(User, {_id: req.session._id}, {}, function(user) {
       var updated = {
         username: user.username,
         password: user.password,
@@ -468,7 +503,7 @@ app.post("/order", function(req, res) {
         current_order: req.body.order
       }
 
-      db.updateOne(User, {_id: req.session._id}, updated); 
+      database.updateOne(User, {_id: req.session._id}, updated); 
     });
   }
 });
