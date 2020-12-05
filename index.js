@@ -226,7 +226,12 @@ app.get("/user_orders", function(req, res) {
           order: orderNew,
         })
       } else {
-        database.findOne(Order, {user_id: req.session._id, is_completed: true}, {}, function(db_order) {
+        Order
+        .find({user_id: req.session._id, is_completed: true})
+        .sort({date_time: -1})
+        .limit(1)
+        .exec(function(err, db_order_array) {
+          var db_order = db_order_array[0];
           if (db_order) {
             var details = db_order;
             var order = JSON.parse(details.order);
