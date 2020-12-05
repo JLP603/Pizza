@@ -95,6 +95,7 @@ app.get("/", function(req, res) {
     user_type: req.session.user_type,
   });
 })
+
 // [PAGE-02] CHECKOUT
 app.get("/checkout", function(req, res) {
   if (req.session._id) {
@@ -138,6 +139,7 @@ app.get("/checkout", function(req, res) {
     res.redirect("/login");
   }
 })
+
 // [PAGE-03] LOGIN & REGISTER
 app.get("/login", function(req, res) {
   if (req.session._id) {
@@ -196,6 +198,7 @@ app.get("/menu", function(req, res) {
     });
   });*/
 })
+
 // [PAGE-05] ORDER
 app.get("/order", function(req, res) {
   database.findMany(Product, {}, {}, function(productArray) {
@@ -236,6 +239,7 @@ app.get("/order", function(req, res) {
     
   });
 })
+
 // [PAGE-06] USER_ORDERS
 app.get("/user_orders", function(req, res) {
   if (req.session._id) {
@@ -322,6 +326,7 @@ app.get("/user_orders", function(req, res) {
     res.redirect("/login");
   }
 })
+
 // [PAGE-07] MANAGER_ORDERS
 app.get("/manager_orders", function(req, res) {
   if (req.session.user_type == "admin") {      
@@ -370,6 +375,7 @@ app.get("/manager_orders", function(req, res) {
     res.redirect("/404");
   }
 });
+
 // [PAGE-08] 404
 app.get("/404", function(req, res) {
   res.render("404", {

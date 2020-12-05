@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const url = "mongodb://localhost:27017/pizza";
 
 const options = {
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
-    useCreateIndex: true
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+  useCreateIndex: true
 };
 
 // database functions (CRUD functions)
@@ -43,31 +43,31 @@ const database = {
         });
     },
 
-    /*
-        searches for a single document based on the model `model`
-        filtered through the object `query`
-        limits the fields returned based on the string `projection`
-        callback function is called after the execution of findOne() function
-    */
-    findOne: function (model, query, projection, callback) {
-        model.findOne(query, projection, function (error, result) {
-            if (error) return callback(false);
-            return callback(result);
-        });
-    },
+  /*
+    searches for a single document based on the model `model`
+    filtered through the object `query`
+    limits the fields returned based on the string `projection`
+    callback function is called after the execution of findOne() function
+  */
+  findOne: function (model, query, projection, callback) {
+    model.findOne(query, projection, function (error, result) {
+      if (error) return callback(false);
+      return callback(result);
+    });
+  },
 
-    /*
-        searches for multiple documents based on the model `model`
-        filtered through the object `query`
-        limits the fields returned based on the string `projection`
-        callback function is called after the execution of findMany() function
-    */
-    findMany: function (model, query, projection, callback) {
-        model.find(query, projection, function (error, result) {
-            if (error) return callback(false);
-            return callback(result);
-        });
-    },
+  /*
+    searches for multiple documents based on the model `model`
+    filtered through the object `query`
+    limits the fields returned based on the string `projection`
+    callback function is called after the execution of findMany() function
+  */
+  findMany: function (model, query, projection, callback) {
+    model.find(query, projection, function (error, result) {
+      if (error) return callback(false);
+      return callback(result);
+    });
+  },
 
     /*
         updates the value defined in the object `update`
@@ -121,7 +121,7 @@ const database = {
 }
 
 /*
-    exports the object `database` (defined above)
-    when another script exports from this file
+  exports the object `database` (defined above)
+  when another script exports from this file
 */
 module.exports = database;
