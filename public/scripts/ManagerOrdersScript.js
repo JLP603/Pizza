@@ -8,6 +8,7 @@ function getPosition(eArray, e) {
 }
 
 $(document).ready(function() {
+  // get order details of customer when clicking 'View Details'
   $(".getDetails").click(function() {
     $("#username").html("Loading...");
     $("#details-card").html("Loading...");
@@ -18,7 +19,6 @@ $(document).ready(function() {
 
     var pos = getPosition($(".getDetails"), this);
 
-    // get order details of customer when clicking 'View Details'
     $.post("/getdetails", {_id: $("._id").eq(pos).html()}, function(data, status) {
       $("#details-card").html("");
       var grandtotal = parseFloat(0);
@@ -27,11 +27,11 @@ $(document).ready(function() {
         var entry = "";
         entry += "<div class='d-flex flex-row justify-content-between item'><h4 class='item-name'>";
         entry += data.details[i].name;
-        entry += "</h4><h4 class='item-col'> Php";
+        entry += "</h4><h4 class='item-col'> Php ";
         entry += parseFloat(data.details[i].price).toFixed(2);
         entry += "</h4><h4 class='item-col'>";
         entry += data.details[i].quantity;
-        entry += "</h4><h4 class='item-col'> Php";
+        entry += "</h4><h4 class='item-col'> Php ";
         entry += parseFloat(data.details[i].total).toFixed(2);
         entry += "</h4></div>";
 
@@ -50,13 +50,16 @@ $(document).ready(function() {
       $("#special_instructions").html(data.special_instructions);
     });
   });
+  // get confirmation details when clicking the status
   $(".getConfirmDetails").click(function() {
     $("#confirm-change").attr("disabled", true);
 
     $("#confirm-name").html("Loading...");
-    $("#confirm-question").html("Loading...");
-    $("#confirm-change").html("Loading...");
-    
+    $("#confirm-question").html("");
+    $("#confirm-change").html("");
+    $("#confirm-change").removeClass("btn-success");
+    $("#confirm-change").removeClass("btn-warning");
+
     var pos = getPosition($(".getConfirmDetails"), this);
     $("#current-id").html($("._id").eq(pos).html());
     $("#current-pos").html(pos);
@@ -81,6 +84,7 @@ $(document).ready(function() {
       $("#confirm-change").prop("disabled", false);
     });
   });
+  // post status update when clicking the change to [status] button 
   $("#confirm-change").click(function() {
     $("#confirm-change").prop("disabled", true);
     $("#confirm-change").html("<strong>Updating...</strong>");

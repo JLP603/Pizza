@@ -477,42 +477,32 @@ app.post("/order", function(req, res) {
 // [PAGE-02] CHECKOUT ORDER POST
 app.post("/postorder", function(req, res) {
   if (req.session._id) {
-    database.findOne(Order, {user_id: req.session._id, is_completed: false}, {}, function(order) {
-      if (!order) {
-        database.findOne(User, {_id: req.session._id}, {}, function(user) {
-          var today = new Date();
-          var newOrder = {
-            user_id: user._id,
-            address: req.body.address,
-            mobile: req.body.contact,
-            order: user.current_order,
-            special_instructions: req.body.special_instructions,
-            date_time: today,
-            is_completed: false,
-          };
-    
-          database.insertOne(Order, newOrder, function() {
-            var updatedUser = {
-              username: user.username,
-              password: user.password,
-              user_type: user.user_type,
-              current_order: "[]",
-            }
-            database.updateOne(User, {_id: user._id}, updatedUser);
-            
-            res.status(200).send({
-              has_current: false,
-              loggedin: true
-            });
-          });
-        });
-      } else {
+    database.findOne(User, {_id: req.session._id}, {}, function(user) {
+      var today = new Date();
+      var newOrder = {
+        user_id: user._id,
+        address: req.body.address,
+        mobile: req.body.contact,
+        order: user.current_order,
+        special_instructions: req.body.special_instructions,
+        date_time: today,
+        is_completed: false,
+      };
+
+      database.insertOne(Order, newOrder, function() {
+        var updatedUser = {
+          username: user.username,
+          password: user.password,
+          user_type: user.user_type,
+          current_order: "[]",
+        }
+        database.updateOne(User, {_id: user._id}, updatedUser);
+        
         res.status(200).send({
-          loggedin: true,
-          has_current: true,
+          loggedin: true
         });
-      }
-    });        
+      });
+    });     
   } else {
     res.status(200).send({
       loggedin: false

@@ -61,15 +61,19 @@ $(document).ready(function () {
 
   // login verification and post on button click
   $("#log").click(function() {
+    $("#log").prop("disabled", true);
+    
     $("#error1").html("");
     $("#error1").css("display", "none");
 
     if ($("#username1").val() == "") {
       $("#error1").html("Username empty!");
       $("#error1").css("display", "block");
+      $("#log").prop("disabled", false);
     } else if ($("#password").val() == "") {
       $("#error1").html("Password empty!");
       $("#error1").css("display", "block");
+      $("#log").prop("disabled", false);
     } else {
       $.post("/login", {type: "login", username: $("#username1").val(), password: $("#password").val()}, function(data, status) {
         if (data.ok) {
@@ -77,6 +81,7 @@ $(document).ready(function () {
         } else {
           $("#error1").html(data.message);
           $("#error1").css("display", "block");
+          $("#log").prop("disabled", false);
         }
       });
     }
@@ -85,15 +90,18 @@ $(document).ready(function () {
   // login verification and post on enter key press
   $("#password").keypress(function (e) {
     if (e.which == 13) {
+      $("#log").prop("disabled", true);
       $("#error1").html("");
       $("#error1").css("display", "none");
 
       if ($("#username1").val() == "") {
         $("#error1").html("Username empty!");
         $("#error1").css("display", "block");
+        $("#log").prop("disabled", false);
       } else if ($("#password").val() == "") {
         $("#error1").html("Password empty!");
         $("#error1").css("display", "block");
+        $("#log").prop("disabled", false);
       } else {
         $.post("/login", {type: "login", username: $("#username1").val(), password: $("#password").val()}, function(data, status) {
           if (data.ok) {
@@ -101,6 +109,7 @@ $(document).ready(function () {
           } else {
             $("#error1").html(data.message);
             $("#error1").css("display", "block");
+            $("#log").prop("disabled", false);
           }
         });
       }
@@ -154,6 +163,7 @@ $(document).ready(function () {
 
   // register verification and post
   $("#reg").click(function() {
+    $("#reg").prop("disabled", true);
     $("#error2").html("");
     $("#error2").css("display", "none");
     $("#confirm").css("display", "none");
@@ -161,24 +171,31 @@ $(document).ready(function () {
     if ($("#username2").val() == "") {
       $("#error2").html("Username empty!");
       $("#error2").css("display", "block");
+      $("#reg").prop("disabled", false);
     } else if ($("#username2").val().length < 6) {
       $("#error2").html("Username too short, must be 6-15 characters!");
       $("#error2").css("display", "block");
+      $("#reg").prop("disabled", false);
     } else if ($("#username2").val().length > 15) {
       $("#error2").html("Username too long, must be 6-15 characters!");
       $("#error2").css("display", "block");
+      $("#reg").prop("disabled", false);
     } else if ($("#pswrd_1").val() == "" || $("#pswrd_2").val() == "") {
       $("#error2").html("Password empty!");
       $("#error2").css("display", "block");
+      $("#reg").prop("disabled", false);
     } else if ($("#pswrd_1").val() != $("#pswrd_2").val()) {
       $("#error2").html("Passwords do not match!");
       $("#error2").css("display", "block");
+      $("#reg").prop("disabled", false);
     } else if ($("#pswrd_1").val().length < 6) {
       $("#error2").html("Passwords must be at least 6 characters!");
       $("#error2").css("display", "block");
+      $("#reg").prop("disabled", false);
     } else if (!$("#checkbox").is(":checked")) {
       $("#error2").html("Please agree to the terms and conditions!");
       $("#error2").css("display", "block");
+      $("#reg").prop("disabled", false);
     } else {
       $.post("/newUser", {type: "register", username: $("#username2").val(), password: $("#pswrd_1").val()}, function(data, status) {
         if (data.ok) {
@@ -194,6 +211,7 @@ $(document).ready(function () {
           $("#error2").css("display", "block");
           $("#error2").html(data.message);
         }
+        $("#reg").prop("disabled", false);
       });
     }
   });

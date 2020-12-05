@@ -5,11 +5,11 @@
 1. **`node addData`**
 2. Then choose a script to run:
 
-scripts|
------- |
-**`npm run start`** 
-**`npm run start-delay`**
-**`npm run dev`**
+| scripts                   |
+| ------------------------- |
+| **`npm run start`**       |
+| **`npm run start-delay`** |
+| **`npm run dev`**         |
 
 3. Open a browser and got to [localhost:9000](http://localhost:9000)
 
@@ -24,9 +24,9 @@ scripts|
 ---
 
 ## Script Info
-Script | Description | command executed
------- | ------ | ------
-**`npm run start`**|run normally|**`node index.js`**
-**`npm run start-delay`**|run with 1 delay response|**`node index.js delay`**
-**`npm run dev`**|automatically restart app when changes occur|**`nodemon index.js`**
-**`npm run test`**|reset database and run tests|**`node addData.js && mocha --exit \|\| true`**
+| Script                    | Description                                  | command executed                                |
+| ------------------------- | -------------------------------------------- | ----------------------------------------------- |
+| **`npm run start`**       | run normally                                 | **`node index.js`**                             |
+| **`npm run start-delay`** | run with 1 delay response                    | **`node index.js delay`**                       |
+| **`npm run dev`**         | automatically restart app when changes occur | **`nodemon index.js`**                          |
+| **`npm run test`**        | reset database and run tests                 | **`node addData.js && mocha --exit \|\| true`** |
