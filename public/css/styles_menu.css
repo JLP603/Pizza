@@ -1,3 +1,11 @@
+#current-category-box {
+  padding-left: 20px;
+}
+
+#current-category {
+  padding-left: 10px;
+}
+
 .menu-card-container {
   display: flex;
   flex-direction: row;
