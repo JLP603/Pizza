@@ -1,45 +1,61 @@
 <link rel="stylesheet" href="css/styles_user_orders.css">
-<script src="scripts/managerOrderScript.js"></script>
+<script src="scripts/ManagerOrdersScript.js"></script>
 
 <div class="d-flex flex-column mx-5 mt-5 px-5"> 
   <div class="container">
-    <h2>Pending Customer Orders</h2>
+    {{#if isPending}}
+    <h2>Pending Customer Orders</h2><br>
+    <h6 id="change-warning" style="display:none">Refreshing the page will move completed orders to the <a href="/manager_orders?pending=false">Completed Orders Page</a></h6>
+    {{else}}
+    <h2>Completed Customer Orders</h2>
+    <h6 id="change-warning"style="display:none">Refreshing the page will move pending orders to the <a href="/manager_orders?pending=true">Pending Orders Page</a></h6>
+    {{/if}}
     <br>
   </div>
 </div>
 
 <div class="d-flex flex-column mx-5">
   <a style="text-decoration: none; color: rgb(33, 37, 41);">
-    {{#each order_details}}
-    <div class="card d-flex flex-row justify-content-between home-box">
-      <div class="_id">{{this._id}}</div>
-      <div class="d-flex">
-        <h4 id="ordernumber">{{this.username}}</h4>
+    {{#if none}}
+      <div class="d-flex flex-row justify-content-center">
+        {{#if isPending}}
+        <h3 style="color: gray">No Pending Orders</h3>
+        {{else}}
+        <h3 style="color: gray">No Completed Orders</h3>
+        {{/if}}
       </div>
-
-      <div class="d-flex">
-        <div class="home-col1">
-          <button type="button" class="btn btn-outline-dark btn-block home-date">{{dateFormat this.date_time "LTS"}}</button>
+    {{else}}    
+      {{#each order_details}}
+      <div class="card d-flex flex-row justify-content-between home-box">
+        <div class="_id">{{this._id}}</div>
+        <div class="d-flex">
+          <h4 id="ordernumber">{{this.username}}</h4>
         </div>
 
-        <div class="home-col1">
-          <button type="button" class="btn btn-outline-dark btn-block home-date">{{dateFormat this.date_time "MMM Do, YYYY"}}</button>
-        </div>
+        <div class="d-flex">
+          <div class="home-col1">
+            <button type="button" class="btn btn-outline-dark btn-block home-date">{{dateFormat this.date_time "LTS"}}</button>
+          </div>
 
-        <div class="home-col2">
-          <button type="button" class="btn btn-warning btn-block home-status getDetails"  data-toggle="modal" data-target="#myModal">View Details</button>
-        </div>
+          <div class="home-col1">
+            <button type="button" class="btn btn-outline-dark btn-block home-date">{{dateFormat this.date_time "MMM Do, YYYY"}}</button>
+          </div>
 
-        <div class="home-col3">
-          {{#if this.is_completed}}
-          <button buttontype="button" class="btn btn-success btn-block home-status" data-toggle="modal" data-target="#changeStatusModal">Completed</button>
-          {{else}}
-          <button buttontype="button" class="btn btn-warning btn-block home-status" data-toggle="modal" data-target="#changeStatusModal">Pending</button>
-          {{/if}}
+          <div class="home-col2">
+            <button type="button" class="btn btn-warning btn-block home-status getDetails"  data-toggle="modal" data-target="#myModal">View Details</button>
+          </div>
+
+          <div class="home-col3">
+            {{#if this.is_completed}}
+            <button buttontype="button" class="btn btn-success btn-block home-status getConfirmDetails" data-toggle="modal" data-target="#changeStatusModal">Completed</button>
+            {{else}}
+            <button buttontype="button" class="btn btn-warning btn-block home-status getConfirmDetails" data-toggle="modal" data-target="#changeStatusModal">Pending</button>
+            {{/if}}
+          </div>
         </div>
       </div>
-    </div>
-    {{/each}}
+      {{/each}}
+    {{/if}}
   </a>
   
   <!-- The Modal details -->
@@ -63,12 +79,14 @@
           </div>
 
           <div id="details-card" class="card item">
+            <!--
             <div class="d-flex flex-row justify-content-between item">
-              <h4 class="item-name">Item 1 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maiores ducimus facilis, architecto at dicta sapiente perferendis, ad itaque fugiat harum deserunt odio eum tempora minus. Iste culpa eveniet quod error!</h4>
+              <h4 class="item-name">Item Name</h4>
               <h4 class="item-col">Php 1.00</h4>
               <h4 class="item-col">3</h4>
               <h4 class="item-col">Php 3.00</h4>
             </div>
+            -->
           </div>
           <hr>
 
@@ -76,7 +94,7 @@
             <h4 class="item-name"></h4>
             <h4 class="item-col"</h4>
             <h4 class="item-col">Total</h4>
-            <h4 id="grand-total" class="item-col important"><strong>Php 69.00</strong></h4>
+            <h4 id="grand-total" class="item-col important"><strong><!-- Php 100.00 --></strong></h4>
           </div>
           <br>
           <div class="d-flex flex-row justify-content-between title">
@@ -107,13 +125,16 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Order for &lt;username&gt;</h4>
+          <div id="current-id"></div>
+          <div id="current-pos"></div>
+          <div id="change-to"></div>
+          <h4 id="confirm-name" class="modal-title"><!-- Order for username --></h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
-          <div class="d-flex flex-row">
-            <h4>Change order status for [username] to [status]?</h4>
-            <button buttontype="button" class="btn btn-success btn-block home-status">Change to [status]</button>
+          <div class="d-flex flex-row justify-content-between">
+            <h4 id="confirm-question"><!-- Change order status for [username] to [status]? --></h4>
+            <button id="confirm-change" buttontype="button" class="btn btn-block home-status"><!-- Change to [status] --></button>
           </div>
         </div>
       </div>

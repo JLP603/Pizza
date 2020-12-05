@@ -279,9 +279,11 @@ app.get("/manager_orders", function(req, res) {
     Order.countDocuments({is_completed: !(req.query.pending == "true")}, function(err, count) {
       var perPage = 10;
       var page = parseInt(req.query.page) || 1;
-      
+      var sort = req.query.pending == "true" ? 1 : -1;
+
       Order
       .find({is_completed: !(req.query.pending == "true")})
+      .sort({date_time: sort})
       .skip(perPage * page - perPage)
       .limit(perPage)
       .exec(function(err, orders) {
@@ -298,14 +300,16 @@ app.get("/manager_orders", function(req, res) {
             order_details.push(new_detail);
           });
         });
-
+        
         res.render("manager_orders", {
           title: "Orders",
           
           username: req.session.username,
           user_type: req.session.user_type,
           
+          isPending: req.query.pending == "true",
           order_details: order_details,
+          none: orders.length == 0,
 
           url: "manager_orders?pending=" + req.query.pending + "&",
           current: page,
@@ -502,7 +506,7 @@ app.post("/postorder", function(req, res) {
 });
 
 // [PAGE-07] ORDER DETAILS REQUEST
-app.post("/getdetails", function (req, res) {
+app.post("/getdetails", function(req, res) {
   database.findOne(Order, {_id: req.body._id}, {}, function(db_order) {
     database.findOne(User, {_id: db_order.user_id}, {}, function(user) {
       var order = JSON.parse(db_order.order);
@@ -532,6 +536,35 @@ app.post("/getdetails", function (req, res) {
     });
   });
 });
+app.post("/getConfirmDetails", function(req, res) {
+  database.findOne(Order, {_id: req.body._id}, {}, function(order) {
+    database.findOne(User, {_id: order.user_id}, {}, function(user) {
+      res.status(200).send({
+        username: user.username,
+        status: order.is_completed ? "Completed" : "Pending",
+        statusOpposite: order.is_completed ? "Pending" : "Completed",
+      });
+    });
+  });
+});
+app.post("/updateOrderStatus", function(req, res) {
+  database.findOne(Order, {_id: req.body._id}, {}, function(order) {
+    var newOrder = {
+      user_id: order.user_id,
+      address: order.address,
+      mobile: order.mobile,
+      special_instructions: order.special_instructions,
+      data_time: order.date_time,
+      is_completed: req.body.changeTo == "Completed"
+    }
+    database.updateOne(Order, {_id: req.body._id}, newOrder);
+    
+    var newStatus = req.body.changeTo == "Completed" ? "Completed" : "Pending"
+    res.status(200).send({
+      newStatus: newStatus
+    });
+  });
+})
 /* ---------------------------------- FOR 404 PAGE ---------------------------------- */
 app.use((req, res, next) => {
   res.status(404).redirect("/404");

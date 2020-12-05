@@ -8,7 +8,7 @@
     {{type}}
     {{#if has_order}}
     <div class="d-flex flex-row justify-content-between title">
-      <h4 class="item-name"><b>Status</b></h4>
+      <h4 class="item-name"><b>Status</b> (refresh the page to get latest status)</h4>
     </div>
     <a style="text-decoration: none; color: rgb(33, 37, 41);">
       <div class="card d-flex flex-row justify-content-between home-box">
@@ -22,7 +22,7 @@
             
         <div class="home-col1">
           {{#if details.is_completed}}
-          <buttontype="button" class="btn btn-success btn-block home-status" data-toggle="modal" data-target="#myModal">Competed</button>
+          <buttontype="button" class="btn btn-success btn-block home-status" data-toggle="modal" data-target="#myModal">Completed</button>
           {{else}}
           <buttontype="button" class="btn btn-warning btn-block home-status" data-toggle="modal" data-target="#myModal">Pending</button>
           {{/if}}
