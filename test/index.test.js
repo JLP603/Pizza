@@ -176,7 +176,6 @@ describe("login and register requests", function() {
     .send()
     .expect(200, done);
   })
-  //process.exit(1);
 });
 
 describe("current_order requests", function() {

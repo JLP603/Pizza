@@ -39,7 +39,6 @@ app.use(session({
   saveUninitialized: false	
 }));
 
-/* UNCOMMENT THIS TO SIMULATE SERVER DELAY */
 if (process.argv[2]) {
   if(process.argv[2] == "delay") {
     console.log("Running with 1 second delay");
@@ -609,5 +608,5 @@ app.use((req, res, next) => {
 
 module.exports = {
   myHelpers,
-  //server
+  server
 }
