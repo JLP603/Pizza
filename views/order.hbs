@@ -37,16 +37,12 @@
         <h4 class="item-name">Subtotal</h4>
         <div class="d-flex flex-row justify-content-between">
           <h4 id="subtotal">Php 0.00</h4>
-          <button buttontype="button"  {{#if username}}
-                                  {{#if hascurrent}}
-                                    id="hascurrent"
-                                  {{else}}
-                                    id="checkout"
-                                  {{/if}}
-                                {{else}}
-                                id="forbidden"
-                                {{/if}}
-          class="btn btn-success btn-block quantity">Checkout</button>
+          <button {{#if username}}
+                    {{#if hascurrent}}id="hascurrent"{{else}}id="checkout" {{/if}}
+                  {{else}}
+                  id="forbidden" 
+                  {{/if}}
+          buttontype="button" class="btn btn-success btn-block quantity">Checkout</button>
         </div>
       </div>
     </div>

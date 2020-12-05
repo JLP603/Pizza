@@ -14,8 +14,6 @@ function getPosition(eArray, e) {
   3 - total quantity 0 or 0 values
 */
 function selectedValid(checkBoxes, quantities) {
-  var totalQty = 0;
-
   for (var i = 0; i < checkBoxes.length; i++) {
     if ($(checkBoxes[i]).is(":checked")) {
       if (quantities.eq(i).val() < 0) {
@@ -24,8 +22,6 @@ function selectedValid(checkBoxes, quantities) {
         return 2;
       } else if (quantities.eq(i).val() == 0) {
         return 3;
-      } else {
-        totalQty += quantities.eq(i).val();
       }
     }            
   }
@@ -149,7 +145,9 @@ $(document).ready(function() {
     } else if (status == 1) {
       warning = "Cannot have less than one order!";
     } else if (status == 2) {
-      warning = "Cannot have no orders!";
+      warning = "Missing fields!";
+    } else if (status == 3) {
+      warning = "cannot have 0 orders for an item!";
     }
     
     $("#warning").html(warning);
@@ -164,7 +162,6 @@ $(document).ready(function() {
   });
 
   //updating subtotal on change
-  //updating current_order if signed in
   $(".toggle").change(function() {
     updateSubtotal();
     updateWarning();
