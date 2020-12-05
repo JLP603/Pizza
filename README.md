@@ -1,18 +1,32 @@
 # STSWENG Pizza Delivery Project
-
-## Type the following into the command line before anything
+### Type the following into the command line before anything
 **`npm i`**
-## Type the following into the command line to run the application
+### Type the following into the command line to run the application
 1. **`node addData`**
-1. **`node index`** or **`npm run dev`**
- - **`node index`** - run normally
- - **`npm run dev`** - restarts the application when there's new changes
-1. Open a browser and got to [localhost:9000](localhost:9000)
+2. Then choose a script to run:
 
-## Type the following into the command line to test the application
+scripts|
+------ |
+**`npm run start`** 
+**`npm run start-delay`**
+**`npm run dev`**
+
+3. Open a browser and got to [localhost:9000](http://localhost:9000)
+
+### Type the following into the command line to test the application
 1. **`npm run test`**
 
-## To view database using MongoDB Compass
+### To view database using MongoDB Compass
 -   Paste this into the 'connect' field
 -   **`mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false`**
 -   navigate to 'pizza' to see all the collections
+
+---
+
+## Script Info
+Script | Description | command executed
+------ | ------ | ------
+**`npm run start`**|run normally|**`node index.js`**
+**`npm run start-delay`**|run with 1 delay response|**`node index.js delay`**
+**`npm run dev`**|automatically restart app when changes occur|**`nodemon index.js`**
+**`npm run test`**|reset database and run tests|**`node addData.js && mocha --exit \|\| true`**

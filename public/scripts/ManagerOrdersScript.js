@@ -51,6 +51,8 @@ $(document).ready(function() {
     });
   });
   $(".getConfirmDetails").click(function() {
+    $("#confirm-change").attr("disabled", true);
+
     $("#confirm-name").html("Loading...");
     $("#confirm-question").html("Loading...");
     $("#confirm-change").html("Loading...");
@@ -68,15 +70,19 @@ $(document).ready(function() {
       $("#confirm-question").html($("#confirm-question").html() + "Change order status for <strong>" + data.username + "</strong><br>");
       $("#confirm-question").html($("#confirm-question").html() + " from " + data.status + " to " + data.statusOpposite + "?");
       if (data.statusOpposite == "Pending") {
+        $("#confirm-change").removeClass("btn-success");
         $("#confirm-change").addClass("btn-warning");
       } else if (data.statusOpposite == "Completed") {
+        $("#confirm-change").removeClass("btn-warning");
         $("#confirm-change").addClass("btn-success");
       }
       
       $("#confirm-change").html("Change to <strong>" + data.statusOpposite + "</strong>");
+      $("#confirm-change").prop("disabled", false);
     });
   });
   $("#confirm-change").click(function() {
+    $("#confirm-change").prop("disabled", true);
     $("#confirm-change").html("<strong>Updating...</strong>");
     $.post("/updateOrderStatus", {_id: $("#current-id").html(), changeTo: $("#change-to").html()}, function(data, status) {
       if (data.ok) {

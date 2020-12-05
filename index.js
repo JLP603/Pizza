@@ -39,6 +39,21 @@ app.use(session({
   saveUninitialized: false	
 }));
 
+/* UNCOMMENT THIS TO SIMULATE SERVER DELAY */
+if (process.argv[2]) {
+  if(process.argv[2] == "delay") {
+    console.log("Running with 1 second delay");
+    app.use((req, res, next) => {
+      setTimeout(() => next(), 1000);
+    });
+  }
+}
+
+const server = app.listen(port, function() {
+  console.log("App listening at port "  + port);
+  db.connect();
+});
+
 const myHelpers = {
   equalsHelper: function (arg1, arg2, options) {
     return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
@@ -69,11 +84,6 @@ handlebars.registerHelper("minus", myHelpers.minusHelper)
 
 handlebars.registerHelper("dateFormat", require("handlebars-dateformat")),
 handlebars.registerHelper("repeat", require("handlebars-helper-repeat"))
-
-const server = app.listen(port, function() {
-  console.log("App listening at port "  + port);
-  db.connect();
-});
 
 /* ---------------------------------------- ALL 8 ROUTES ---------------------------------------- */
 
@@ -571,13 +581,13 @@ app.post("/updateOrderStatus", function(req, res) {
         newStatus: newStatus
       });
     });
-  } else if (req.body.changeTo == "Pending"){
+  } else if (req.body.changeTo == "Pending") {
     database.findOne(Order, {_id: req.body._id}, {}, function(order_outer) {
       database.findOne(Order, {user_id: order_outer.user_id, is_completed: false}, {}, function(order) {
         if (order) {
           res.status(200).send({
             ok: false,
-            message: "user can only have one pending order at a time!"
+            message: "Each user can only have one pending order at a time!"
           });
         } else {
           database.findOne(Order, {_id: req.body._id}, {}, function(order) {
@@ -609,5 +619,5 @@ app.use((req, res, next) => {
 
 module.exports = {
   myHelpers,
-  server
+  //server
 }
