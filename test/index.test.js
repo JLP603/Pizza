@@ -112,7 +112,7 @@ describe("login and register requests", function() {
     request(index.server).post("/newUser")
     .send({type: "username_check", username: "test-customer"})
     .expect(200)
-    .expect({ok: false}, done);
+    .expect({ok: false, message: "Username already taken!"}, done);
   });
 
   it("register name check - username available", function(done) {
@@ -176,7 +176,7 @@ describe("login and register requests", function() {
     .send()
     .expect(200, done);
   })
-  process.exit(1);
+  //process.exit(1);
 });
 
 describe("current_order requests", function() {
