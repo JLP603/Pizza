@@ -45,9 +45,15 @@ var serverDelayMessage = "Running with \x1b[42m\x1b[30m ";
 if (process.argv[2]) {
   if(process.argv[2] == "delay") {
     if (process.argv[3]) {
-      serverDelay = parseInt(process.argv[3]);
-      serverDelayMessage += serverDelay + "";
-      serverDelayMessage +=  "ms \x1b[0m delay"
+      if (isNaN(process.argv[3])) {
+        console.log("\x1b[31mArgument not a number, using default\x1b[0m");
+        serverDelayMessage += serverDelay + "";
+        serverDelayMessage += " ms \x1b[0m delay\x1b[36m (default)\x1b[0m";
+      } else {
+        serverDelay = parseInt(process.argv[3]);
+        serverDelayMessage += serverDelay + "";
+        serverDelayMessage +=  " ms \x1b[0m delay"
+      }
     } else {
       serverDelayMessage += serverDelay + "";
       serverDelayMessage += " ms \x1b[0m delay\x1b[36m (default)\x1b[0m";
