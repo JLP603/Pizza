@@ -9,10 +9,10 @@ const bcrypt = require("bcrypt");
 const router = express.Router();
 
 const database = require("./models/db.js")
-const User = require("./models/UserModel.js");
-const Product = require("./models/ProductModel.js");
-const Order = require("./models/OrderModel.js");
-const Category = require("./models/CategoryModel.js");
+const User = require("./models/userModel.js");
+const Product = require("./models/productModel.js");
+const Order = require("./models/orderModel.js");
+const Category = require("./models/categoryModel.js");
 
 const app = express()
 const port = 9000
