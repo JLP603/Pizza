@@ -509,8 +509,13 @@ app.post("/order", function(req, res) {
         current_order: req.body.order
       }
 
-      database.updateOne(User, {_id: req.session._id}, updated); 
+      database.updateOne(User, {_id: req.session._id}, updated);
+      res.status(200).send({});
     });
+  } else {
+    res.status(200).send({
+      message: "not logged in"
+    })
   }
 });
 
@@ -529,7 +534,7 @@ app.post("/postorder", function(req, res) {
         is_completed: false,
       };
 
-      database.insertOne(Order, newOrder, function() {
+      database.insertOne(Order, newOrder, function(db_order) {
         var updatedUser = {
           username: user.username,
           password: user.password,
@@ -539,7 +544,8 @@ app.post("/postorder", function(req, res) {
         database.updateOne(User, {_id: user._id}, updatedUser);
         
         res.status(200).send({
-          loggedin: true
+          loggedin: true,
+          id: db_order._id
         });
       });
     });     
@@ -552,93 +558,111 @@ app.post("/postorder", function(req, res) {
 
 // [PAGE-07] ORDER DETAILS REQUEST
 app.post("/getdetails", function(req, res) {
-  database.findOne(Order, {_id: req.body._id}, {}, function(db_order) {
-    database.findOne(User, {_id: db_order.user_id}, {}, function(user) {
-      var order = JSON.parse(db_order.order);
-      var orderDetails = [];
-      order.forEach(function (doc, i, array) {
-        database.findOne(Product, {name: doc.name}, {}, function(product) {
-          var newDetail = {
-            name: product.name,
-            price: product.price,
-            quantity: doc.quantity,
-            total: product.price * parseInt(doc.quantity),
-          };
+  if (req.session.user_type == "admin") {
+    database.findOne(Order, {_id: req.body._id}, {}, function(db_order) {
+      database.findOne(User, {_id: db_order.user_id}, {}, function(user) {
+        var order = JSON.parse(db_order.order);
+        var orderDetails = [];
+        order.forEach(function (doc, i, array) {
+          database.findOne(Product, {name: doc.name}, {}, function(product) {
+            var newDetail = {
+              name: product.name,
+              price: product.price,
+              quantity: doc.quantity,
+              total: product.price * parseInt(doc.quantity),
+            };
 
-          orderDetails.push(newDetail);
+            orderDetails.push(newDetail);
 
-          if (i == array.length - 1) {
+            if (i == array.length - 1) {
+              res.status(200).send({
+                username: user.username,
+                address: db_order.address,
+                contact: db_order.mobile,
+                special_instructions: db_order.special_instructions,
+                details: orderDetails,
+              });
+            }
+          });
+        });
+      });
+    });
+  } else {
+    res.status(403).send({
+      message: "forbidden"
+    });
+  }
+});
+app.post("/getConfirmDetails", function(req, res) {
+  if (req.session.user_type == "admin") {
+    database.findOne(Order, {_id: req.body._id}, {}, function(order) {
+      database.findOne(User, {_id: order.user_id}, {}, function(user) {
+        res.status(200).send({
+          username: user.username,
+          status: order.is_completed ? "Completed" : "Pending",
+          statusOpposite: order.is_completed ? "Pending" : "Completed",
+        });
+      });
+    });
+  } else {
+    res.status(403).send({
+      message: "forbidden"
+    });
+  }
+});
+app.post("/updateOrderStatus", function(req, res) {
+  if (req.session.user_type == "admin") {
+    if (req.body.changeTo == "Completed") {
+      database.findOne(Order, {_id: req.body._id}, {}, function(order) {
+        var newOrder = {
+          user_id: order.user_id,
+          address: order.address,
+          mobile: order.mobile,
+          special_instructions: order.special_instructions,
+          data_time: order.date_time,
+          is_completed: req.body.changeTo == "Completed"
+        }
+        database.updateOne(Order, {_id: req.body._id}, newOrder);
+        
+        var newStatus = req.body.changeTo == "Completed" ? "Completed" : "Pending"
+        res.status(200).send({
+          ok: true,
+          newStatus: newStatus
+        });
+      });
+    } else if (req.body.changeTo == "Pending") {
+      database.findOne(Order, {_id: req.body._id}, {}, function(order_outer) {
+        database.findOne(Order, {user_id: order_outer.user_id, is_completed: false}, {}, function(order) {
+          if (order) {
             res.status(200).send({
-              username: user.username,
-              address: db_order.address,
-              contact: db_order.mobile,
-              special_instructions: db_order.special_instructions,
-              details: orderDetails,
+              ok: false,
+              message: "Each user can only have one pending order at a time!"
+            });
+          } else {
+            database.findOne(Order, {_id: req.body._id}, {}, function(order) {
+              var newOrder = {
+                user_id: order.user_id,
+                address: order.address,
+                mobile: order.mobile,
+                special_instructions: order.special_instructions,
+                data_time: order.date_time,
+                is_completed: req.body.changeTo == "Completed"
+              }
+              database.updateOne(Order, {_id: req.body._id}, newOrder);
+              
+              var newStatus = req.body.changeTo == "Completed" ? "Completed" : "Pending"
+              res.status(200).send({
+                ok: true,
+                newStatus: newStatus
+              });
             });
           }
         });
       });
-    });
-  });
-});
-app.post("/getConfirmDetails", function(req, res) {
-  database.findOne(Order, {_id: req.body._id}, {}, function(order) {
-    database.findOne(User, {_id: order.user_id}, {}, function(user) {
-      res.status(200).send({
-        username: user.username,
-        status: order.is_completed ? "Completed" : "Pending",
-        statusOpposite: order.is_completed ? "Pending" : "Completed",
-      });
-    });
-  });
-});
-app.post("/updateOrderStatus", function(req, res) {
-  if (req.body.changeTo == "Completed") {
-    database.findOne(Order, {_id: req.body._id}, {}, function(order) {
-      var newOrder = {
-        user_id: order.user_id,
-        address: order.address,
-        mobile: order.mobile,
-        special_instructions: order.special_instructions,
-        data_time: order.date_time,
-        is_completed: req.body.changeTo == "Completed"
-      }
-      database.updateOne(Order, {_id: req.body._id}, newOrder);
-      
-      var newStatus = req.body.changeTo == "Completed" ? "Completed" : "Pending"
-      res.status(200).send({
-        ok: true,
-        newStatus: newStatus
-      });
-    });
-  } else if (req.body.changeTo == "Pending") {
-    database.findOne(Order, {_id: req.body._id}, {}, function(order_outer) {
-      database.findOne(Order, {user_id: order_outer.user_id, is_completed: false}, {}, function(order) {
-        if (order) {
-          res.status(200).send({
-            ok: false,
-            message: "Each user can only have one pending order at a time!"
-          });
-        } else {
-          database.findOne(Order, {_id: req.body._id}, {}, function(order) {
-            var newOrder = {
-              user_id: order.user_id,
-              address: order.address,
-              mobile: order.mobile,
-              special_instructions: order.special_instructions,
-              data_time: order.date_time,
-              is_completed: req.body.changeTo == "Completed"
-            }
-            database.updateOne(Order, {_id: req.body._id}, newOrder);
-            
-            var newStatus = req.body.changeTo == "Completed" ? "Completed" : "Pending"
-            res.status(200).send({
-              ok: true,
-              newStatus: newStatus
-            });
-          });
-        }
-      });
+    }
+  } else {
+    res.status(403).send({
+      message: "forbidden"
     });
   }
 })
