@@ -39,13 +39,20 @@ app.use(session({
   saveUninitialized: false	
 }));
 
+var serverDelay = 1000;
 if (process.argv[2]) {
   if(process.argv[2] == "delay") {
-    console.log("Running with 1 second delay");
+    if (process.argv[3]) {
+      serverDelay = parseInt(process.argv[3]);
+      console.log("Running with \x1b[42m\x1b[30m " + serverDelay + " ms " + "\x1b[0m delay");
+    } else {
+      console.log("Running with \x1b[42m\x1b[30m 1000 ms \x1b[0m ms delay \x1b[36m(default)\x1b[0m");
+    }
     app.use((req, res, next) => {
-      setTimeout(() => next(), 1000);
+      setTimeout(() => next(), serverDelay);
     });
   }
+
 }
 
 const server = app.listen(port, function() {

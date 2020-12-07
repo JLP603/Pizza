@@ -145,7 +145,7 @@ const addCategories = () => {
 
 /* ---------------------------------------- CALLING FUNCTIONS IN ORDER ---------------------------------------- */
 const addData = async () => {
-  console.log("\x1b[36m", "[RESETTING DATABASE...]", "\x1b[0m");
+  console.log("\x1b[32m [RESETTING DATABASE...] \x1b[0m");
   await deleteUsers();
   await deleteProducts();
   await deleteOrders();
@@ -154,7 +154,7 @@ const addData = async () => {
   await addUserAdmin();
   await addProducts();
   await addCategories();
-  console.log("\x1b[36m", "[RESET COMPLETE]", "\x1b[0m");
+  console.log("\x1b[32m [RESET COMPLETE] \x1b[0m");
 }
 
 addData().then(function(result) {
