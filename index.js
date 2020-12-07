@@ -39,20 +39,25 @@ app.use(session({
   saveUninitialized: false	
 }));
 
+/* ---------------------------------------- FOR RESPONSE DELAY ---------------------------------------- */
 var serverDelay = 1000;
+var serverDelayMessage = "Running with \x1b[42m\x1b[30m ";
 if (process.argv[2]) {
   if(process.argv[2] == "delay") {
     if (process.argv[3]) {
       serverDelay = parseInt(process.argv[3]);
-      console.log("Running with \x1b[42m\x1b[30m " + serverDelay + " ms " + "\x1b[0m delay");
+      serverDelayMessage += serverDelay + "";
+      serverDelayMessage +=  "ms \x1b[0m delay"
     } else {
-      console.log("Running with \x1b[42m\x1b[30m 1000 ms \x1b[0m ms delay \x1b[36m(default)\x1b[0m");
+      serverDelayMessage += serverDelay + "";
+      serverDelayMessage += " ms \x1b[0m delay\x1b[36m (default)\x1b[0m";
     }
+
+    console.log(serverDelayMessage);
     app.use((req, res, next) => {
       setTimeout(() => next(), serverDelay);
     });
   }
-
 }
 
 const server = app.listen(port, function() {
@@ -60,6 +65,7 @@ const server = app.listen(port, function() {
   database.connect();
 });
 
+/* ---------------------------------------- HANDLEBARS HELPERS ---------------------------------------- */
 const myHelpers = {
   equalsHelper: function (arg1, arg2, options) {
     return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
@@ -92,7 +98,6 @@ handlebars.registerHelper("dateFormat", require("handlebars-dateformat")),
 handlebars.registerHelper("repeat", require("handlebars-helper-repeat"))
 
 /* ---------------------------------------- ALL 8 ROUTES ---------------------------------------- */
-
 // [PAGE-01] ABOUT
 app.get("/", function(req, res) {
   res.render("about", {
@@ -102,7 +107,6 @@ app.get("/", function(req, res) {
     user_type: req.session.user_type,
   });
 })
-
 // [PAGE-02] CHECKOUT
 app.get("/checkout", function(req, res) {
   if (req.session._id) {
@@ -146,7 +150,6 @@ app.get("/checkout", function(req, res) {
     res.redirect("/login");
   }
 })
-
 // [PAGE-03] LOGIN & REGISTER
 app.get("/login", function(req, res) {
   if (req.session._id) {
@@ -205,7 +208,6 @@ app.get("/menu", function(req, res) {
     });
   });*/
 })
-
 // [PAGE-05] ORDER
 app.get("/order", function(req, res) {
   database.findMany(Product, {}, {}, function(productArray) {
@@ -246,7 +248,6 @@ app.get("/order", function(req, res) {
     
   });
 })
-
 // [PAGE-06] USER_ORDERS
 app.get("/user_orders", function(req, res) {
   if (req.session._id) {
@@ -333,7 +334,6 @@ app.get("/user_orders", function(req, res) {
     res.redirect("/login");
   }
 })
-
 // [PAGE-07] MANAGER_ORDERS
 app.get("/manager_orders", function(req, res) {
   if (req.session.user_type == "admin") {      
@@ -382,7 +382,6 @@ app.get("/manager_orders", function(req, res) {
     res.redirect("/404");
   }
 });
-
 // [PAGE-08] 404
 app.get("/404", function(req, res) {
   res.render("404", {
@@ -673,6 +672,7 @@ app.post("/updateOrderStatus", function(req, res) {
     });
   }
 })
+
 /* ---------------------------------- FOR 404 PAGE ---------------------------------- */
 app.use((req, res, next) => {
   res.status(404).redirect("/404");
