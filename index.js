@@ -9,10 +9,10 @@ const bcrypt = require("bcrypt");
 const router = express.Router();
 
 const database = require("./models/db.js")
-const User = require("./models/UserModel.js");
-const Product = require("./models/ProductModel.js");
-const Order = require("./models/OrderModel.js");
-const Category = require("./models/CategoryModel.js");
+const User = require("./models/userModel.js");
+const Product = require("./models/productModel.js");
+const Order = require("./models/orderModel.js");
+const Category = require("./models/categoryModel.js");
 
 const app = express()
 const port = 9000
@@ -39,11 +39,29 @@ app.use(session({
   saveUninitialized: false	
 }));
 
+/* ---------------------------------------- FOR RESPONSE DELAY ---------------------------------------- */
+var serverDelay = 1000;
+var serverDelayMessage = "Running with \x1b[42m\x1b[30m ";
 if (process.argv[2]) {
   if(process.argv[2] == "delay") {
-    console.log("Running with 1 second delay");
+    if (process.argv[3]) {
+      if (isNaN(process.argv[3])) {
+        console.log("\x1b[31mArgument not a number, using default\x1b[0m");
+        serverDelayMessage += serverDelay + "";
+        serverDelayMessage += " ms \x1b[0m delay\x1b[36m (default)\x1b[0m";
+      } else {
+        serverDelay = parseInt(process.argv[3]);
+        serverDelayMessage += serverDelay + "";
+        serverDelayMessage +=  " ms \x1b[0m delay"
+      }
+    } else {
+      serverDelayMessage += serverDelay + "";
+      serverDelayMessage += " ms \x1b[0m delay\x1b[36m (default)\x1b[0m";
+    }
+
+    console.log(serverDelayMessage);
     app.use((req, res, next) => {
-      setTimeout(() => next(), 1000);
+      setTimeout(() => next(), serverDelay);
     });
   }
 }
@@ -53,6 +71,7 @@ const server = app.listen(port, function() {
   database.connect();
 });
 
+/* ---------------------------------------- HANDLEBARS HELPERS ---------------------------------------- */
 const myHelpers = {
   equalsHelper: function (arg1, arg2, options) {
     return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
@@ -85,7 +104,6 @@ handlebars.registerHelper("dateFormat", require("handlebars-dateformat")),
 handlebars.registerHelper("repeat", require("handlebars-helper-repeat"))
 
 /* ---------------------------------------- ALL 8 ROUTES ---------------------------------------- */
-
 // [PAGE-01] ABOUT
 app.get("/", function(req, res) {
   res.render("about", {
@@ -95,7 +113,6 @@ app.get("/", function(req, res) {
     user_type: req.session.user_type,
   });
 })
-
 // [PAGE-02] CHECKOUT
 app.get("/checkout", function(req, res) {
   if (req.session._id) {
@@ -139,7 +156,6 @@ app.get("/checkout", function(req, res) {
     res.redirect("/login");
   }
 })
-
 // [PAGE-03] LOGIN & REGISTER
 app.get("/login", function(req, res) {
   if (req.session._id) {
@@ -198,7 +214,6 @@ app.get("/menu", function(req, res) {
     });
   });*/
 })
-
 // [PAGE-05] ORDER
 app.get("/order", function(req, res) {
   database.findMany(Product, {}, {}, function(productArray) {
@@ -239,7 +254,6 @@ app.get("/order", function(req, res) {
     
   });
 })
-
 // [PAGE-06] USER_ORDERS
 app.get("/user_orders", function(req, res) {
   if (req.session._id) {
@@ -326,7 +340,6 @@ app.get("/user_orders", function(req, res) {
     res.redirect("/login");
   }
 })
-
 // [PAGE-07] MANAGER_ORDERS
 app.get("/manager_orders", function(req, res) {
   if (req.session.user_type == "admin") {      
@@ -375,7 +388,6 @@ app.get("/manager_orders", function(req, res) {
     res.redirect("/404");
   }
 });
-
 // [PAGE-08] 404
 app.get("/404", function(req, res) {
   res.render("404", {
@@ -509,8 +521,13 @@ app.post("/order", function(req, res) {
         current_order: req.body.order
       }
 
-      database.updateOne(User, {_id: req.session._id}, updated); 
+      database.updateOne(User, {_id: req.session._id}, updated);
+      res.status(200).send({});
     });
+  } else {
+    res.status(200).send({
+      message: "not logged in"
+    })
   }
 });
 
@@ -529,7 +546,7 @@ app.post("/postorder", function(req, res) {
         is_completed: false,
       };
 
-      database.insertOne(Order, newOrder, function() {
+      database.insertOne(Order, newOrder, function(db_order) {
         var updatedUser = {
           username: user.username,
           password: user.password,
@@ -539,7 +556,8 @@ app.post("/postorder", function(req, res) {
         database.updateOne(User, {_id: user._id}, updatedUser);
         
         res.status(200).send({
-          loggedin: true
+          loggedin: true,
+          id: db_order._id
         });
       });
     });     
@@ -552,96 +570,115 @@ app.post("/postorder", function(req, res) {
 
 // [PAGE-07] ORDER DETAILS REQUEST
 app.post("/getdetails", function(req, res) {
-  database.findOne(Order, {_id: req.body._id}, {}, function(db_order) {
-    database.findOne(User, {_id: db_order.user_id}, {}, function(user) {
-      var order = JSON.parse(db_order.order);
-      var orderDetails = [];
-      order.forEach(function (doc, i, array) {
-        database.findOne(Product, {name: doc.name}, {}, function(product) {
-          var newDetail = {
-            name: product.name,
-            price: product.price,
-            quantity: doc.quantity,
-            total: product.price * parseInt(doc.quantity),
-          };
+  if (req.session.user_type == "admin") {
+    database.findOne(Order, {_id: req.body._id}, {}, function(db_order) {
+      database.findOne(User, {_id: db_order.user_id}, {}, function(user) {
+        var order = JSON.parse(db_order.order);
+        var orderDetails = [];
+        order.forEach(function (doc, i, array) {
+          database.findOne(Product, {name: doc.name}, {}, function(product) {
+            var newDetail = {
+              name: product.name,
+              price: product.price,
+              quantity: doc.quantity,
+              total: product.price * parseInt(doc.quantity),
+            };
 
-          orderDetails.push(newDetail);
+            orderDetails.push(newDetail);
 
-          if (i == array.length - 1) {
+            if (i == array.length - 1) {
+              res.status(200).send({
+                username: user.username,
+                address: db_order.address,
+                contact: db_order.mobile,
+                special_instructions: db_order.special_instructions,
+                details: orderDetails,
+              });
+            }
+          });
+        });
+      });
+    });
+  } else {
+    res.status(403).send({
+      message: "forbidden"
+    });
+  }
+});
+app.post("/getConfirmDetails", function(req, res) {
+  if (req.session.user_type == "admin") {
+    database.findOne(Order, {_id: req.body._id}, {}, function(order) {
+      database.findOne(User, {_id: order.user_id}, {}, function(user) {
+        res.status(200).send({
+          username: user.username,
+          status: order.is_completed ? "Completed" : "Pending",
+          statusOpposite: order.is_completed ? "Pending" : "Completed",
+        });
+      });
+    });
+  } else {
+    res.status(403).send({
+      message: "forbidden"
+    });
+  }
+});
+app.post("/updateOrderStatus", function(req, res) {
+  if (req.session.user_type == "admin") {
+    if (req.body.changeTo == "Completed") {
+      database.findOne(Order, {_id: req.body._id}, {}, function(order) {
+        var newOrder = {
+          user_id: order.user_id,
+          address: order.address,
+          mobile: order.mobile,
+          special_instructions: order.special_instructions,
+          data_time: order.date_time,
+          is_completed: req.body.changeTo == "Completed"
+        }
+        database.updateOne(Order, {_id: req.body._id}, newOrder);
+        
+        var newStatus = req.body.changeTo == "Completed" ? "Completed" : "Pending"
+        res.status(200).send({
+          ok: true,
+          newStatus: newStatus
+        });
+      });
+    } else if (req.body.changeTo == "Pending") {
+      database.findOne(Order, {_id: req.body._id}, {}, function(order_outer) {
+        database.findOne(Order, {user_id: order_outer.user_id, is_completed: false}, {}, function(order) {
+          if (order) {
             res.status(200).send({
-              username: user.username,
-              address: db_order.address,
-              contact: db_order.mobile,
-              special_instructions: db_order.special_instructions,
-              details: orderDetails,
+              ok: false,
+              message: "Each user can only have one pending order at a time!"
+            });
+          } else {
+            database.findOne(Order, {_id: req.body._id}, {}, function(order) {
+              var newOrder = {
+                user_id: order.user_id,
+                address: order.address,
+                mobile: order.mobile,
+                special_instructions: order.special_instructions,
+                data_time: order.date_time,
+                is_completed: req.body.changeTo == "Completed"
+              }
+              database.updateOne(Order, {_id: req.body._id}, newOrder);
+              
+              var newStatus = req.body.changeTo == "Completed" ? "Completed" : "Pending"
+              res.status(200).send({
+                ok: true,
+                newStatus: newStatus
+              });
             });
           }
         });
       });
-    });
-  });
-});
-app.post("/getConfirmDetails", function(req, res) {
-  database.findOne(Order, {_id: req.body._id}, {}, function(order) {
-    database.findOne(User, {_id: order.user_id}, {}, function(user) {
-      res.status(200).send({
-        username: user.username,
-        status: order.is_completed ? "Completed" : "Pending",
-        statusOpposite: order.is_completed ? "Pending" : "Completed",
-      });
-    });
-  });
-});
-app.post("/updateOrderStatus", function(req, res) {
-  if (req.body.changeTo == "Completed") {
-    database.findOne(Order, {_id: req.body._id}, {}, function(order) {
-      var newOrder = {
-        user_id: order.user_id,
-        address: order.address,
-        mobile: order.mobile,
-        special_instructions: order.special_instructions,
-        data_time: order.date_time,
-        is_completed: req.body.changeTo == "Completed"
-      }
-      database.updateOne(Order, {_id: req.body._id}, newOrder);
-      
-      var newStatus = req.body.changeTo == "Completed" ? "Completed" : "Pending"
-      res.status(200).send({
-        ok: true,
-        newStatus: newStatus
-      });
-    });
-  } else if (req.body.changeTo == "Pending") {
-    database.findOne(Order, {_id: req.body._id}, {}, function(order_outer) {
-      database.findOne(Order, {user_id: order_outer.user_id, is_completed: false}, {}, function(order) {
-        if (order) {
-          res.status(200).send({
-            ok: false,
-            message: "Each user can only have one pending order at a time!"
-          });
-        } else {
-          database.findOne(Order, {_id: req.body._id}, {}, function(order) {
-            var newOrder = {
-              user_id: order.user_id,
-              address: order.address,
-              mobile: order.mobile,
-              special_instructions: order.special_instructions,
-              data_time: order.date_time,
-              is_completed: req.body.changeTo == "Completed"
-            }
-            database.updateOne(Order, {_id: req.body._id}, newOrder);
-            
-            var newStatus = req.body.changeTo == "Completed" ? "Completed" : "Pending"
-            res.status(200).send({
-              ok: true,
-              newStatus: newStatus
-            });
-          });
-        }
-      });
+    }
+  } else {
+    res.status(403).send({
+      message: "forbidden"
     });
   }
 })
+
 /* ---------------------------------- FOR 404 PAGE ---------------------------------- */
 app.use((req, res, next) => {
   res.status(404).redirect("/404");

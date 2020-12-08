@@ -78,7 +78,6 @@ function sendCurrentOrder() {
 }
 
 $(document).ready(function() {
-  
   // get user current order - initialize values to 1 if no order found / not logged in
   $.get("/getcurrentorder", function(data, status) {
     if (data.loggedin) {

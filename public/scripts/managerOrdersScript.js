@@ -50,6 +50,7 @@ $(document).ready(function() {
       $("#special_instructions").html(data.special_instructions);
     });
   });
+  
   // get confirmation details when clicking the status
   $(".getConfirmDetails").click(function() {
     $("#confirm-change").attr("disabled", true);
@@ -84,6 +85,7 @@ $(document).ready(function() {
       $("#confirm-change").prop("disabled", false);
     });
   });
+
   // post status update when clicking the change to [status] button 
   $("#confirm-change").click(function() {
     $("#confirm-change").prop("disabled", true);

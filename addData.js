@@ -1,8 +1,8 @@
 const database = require('./models/db.js')
-const User = require('./models/UserModel.js');
-const Product = require('./models/ProductModel.js');
-const Order = require('./models/OrderModel.js');
-const Category = require('./models/CategoryModel.js')
+const User = require('./models/userModel.js');
+const Product = require('./models/productModel.js');
+const Order = require('./models/orderModel.js');
+const Category = require('./models/categoryModel.js')
 const bcrypt = require('bcrypt');
 database.connect();
 
@@ -145,6 +145,7 @@ const addCategories = () => {
 
 /* ---------------------------------------- CALLING FUNCTIONS IN ORDER ---------------------------------------- */
 const addData = async () => {
+  console.log("\x1b[32m[RESETTING DATABASE...]\x1b[0m");
   await deleteUsers();
   await deleteProducts();
   await deleteOrders();
@@ -153,9 +154,9 @@ const addData = async () => {
   await addUserAdmin();
   await addProducts();
   await addCategories();
+  console.log("\x1b[32m[RESET COMPLETE]\x1b[0m");
 }
 
 addData().then(function(result) {
-  console.log("[PROCESS COMPLETE]");
   process.exit();
 })
