@@ -1,0 +1,66 @@
+<link rel="stylesheet" href="css/styles_menu.css">
+<script src="scripts/menuScript.js"></script>
+
+<h1 class="px-5 pt-5 text-center">Menu</h1>
+<h5 class="px-5 pb-5 text-center">Click each item to see their full description</h5>
+<div class="dropdown d-flex flex-row justify-content-start">
+  <div class="dropdown">
+    <button class="dropbtn">Category</button>
+    <div class="dropdown-content">
+      <a href="/menu">All</a>
+      {{#each categories}}
+      <a href="/menu?category={{this.name}}">{{this.name}}</a>
+      {{/each}}
+    </div>
+  </div>
+
+  <div class="d-flex flex-row">
+    <div class="current-category">Currently Viewing:</div>
+    <div class="current-category">{{category}}</div>
+  </div>
+</div>
+<br>
+<div class="menu-card-container">
+
+  {{#each products}}
+  <div class="menu-card">
+    <div class="card-img">
+      <div class="show-overlay">
+        <img src="{{concat "img/menu/" this.name}}">
+      </div>
+    </div>
+    <div class="menu-info">
+      <div class="menu-item-title">
+        <div class="show-overlay">
+          <h2>{{this.name}}</h2>
+        </div>
+      </div>
+      <div class="menu-item-desc">{{this.description}}</div>
+      <div class="menu-item-price text-right">Php {{this.price}}</div>
+    </div>
+  </div>
+  <div class="overlay">
+    <div class="overlay-container vertical-center d-flex flex-column justify-content-start">
+      <div class="d-flex flex-row justify-content-end overlay-close-container">
+        <div class="overlay-close">&#10006;</div>
+      </div>
+      <div class="d-flex flex-row justify-content-start overlay-content-container">
+        <div class="d-flex flex-column justify-content-end overlay-product-container">
+          <div class="overlay-image">
+            <img src="{{concat "img/menu/" this.name}}">
+          </div>
+          <div class="overlay-name">
+            <h4>{{this.name}}</h4>
+          </div>
+          <div class="overlay-price">
+            <h4>Php {{this.price}}</h4>
+          </div>
+        </div>
+        <div class="overlay-desc">
+          <h3>{{this.description}}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/each}}
+</div>

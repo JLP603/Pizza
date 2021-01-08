@@ -1,0 +1,51 @@
+<link rel="stylesheet" href="css/styles_pagination.css">
+<!-- <script src=""></script> -->
+
+<div class="d-flex flex-row justify-content-center page-container">
+  {{#equals current 1}}
+  {{else}}
+  <a href="/{{url}}page={{minus current 1}}">
+    <div class="page card">
+      prev
+    </div>
+  </a>
+  {{/equals}}
+
+  {{#equals 0 pages}}
+  {{else}}
+    {{#equals 1 pages}}
+    {{else}}
+      {{#repeat count=pages start=1}}
+        {{#equals current @index}}
+          <div class="page card active">
+            {{@index}}
+          </div>
+        {{else}}
+        <a href="/{{url}}page={{@index}}">
+          <div class="page card">
+            {{@index}}
+          </div>
+        </a>
+        {{/equals}}
+      {{else}}
+      <div class="page card active">
+        <a href="{{url}}page=1">
+          1
+        </a>
+      </div>
+      {{/repeat}}
+    {{/equals}}
+  {{/equals}}
+  
+  {{#equals 0 pages}}
+  {{else}}
+    {{#equals current pages}}
+    {{else}}
+    <a href="/{{url}}page={{add current 1}}">
+    <div class="page card">
+      next
+    </div>
+    </a>
+    {{/equals}}
+  {{/equals}}
+</div>
