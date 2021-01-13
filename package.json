@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    //"start": "node index.js",
     "start": "node addData && node index.js",
     "start-delay": "node index.js delay",
     "dev": "nodemon index.js",
