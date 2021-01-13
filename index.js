@@ -16,6 +16,10 @@ const Category = require("./models/categoryModel.js");
 
 const app = express();
 const port = process.env.PORT || 9000;
+/*
+const app = express()
+const port = process.env.PORT || 9000
+*/
 
 app.engine("hbs", exphandle({
   extname: "hbs",
