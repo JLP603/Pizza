@@ -14,7 +14,7 @@ const Product = require("./models/productModel.js");
 const Order = require("./models/orderModel.js");
 const Category = require("./models/categoryModel.js");
 
-const app = express()
+const app = express();
 const port = process.env.PORT || 9000;
 
 app.engine("hbs", exphandle({
