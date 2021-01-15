@@ -23,7 +23,15 @@
 
 ---
 
-## Script Info
+### User Credentials
+| Username      | Password | Type    |
+| ------------- | -------- | ------- |
+| test-customer | root     | admin   |
+| test-admin    | root     | regular |
+
+---
+
+### Script Info
 | Script                    | Description                                  | command executed                                  |
 | ------------------------- | -------------------------------------------- | ------------------------------------------------- |
 | **`npm run start`**       | run normally                                 | **`node index.js`**                               |

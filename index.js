@@ -1,3 +1,7 @@
+const { envPort } = require('./config.js');
+const { envDatabaseURL } = require('./config.js');
+const { envSessionKey } = require('./config.js');
+
 const express = require("express")
 const path = require("path")
 const exphandle = require("express-handlebars")
@@ -14,8 +18,12 @@ const Product = require("./models/productModel.js");
 const Order = require("./models/orderModel.js");
 const Category = require("./models/categoryModel.js");
 
+const app = express();
+const port = envPort || 9000;
+/*
 const app = express()
-const port = 9000
+const port = process.env.PORT || 9000
+*/
 
 app.engine("hbs", exphandle({
   extname: "hbs",
@@ -34,7 +42,7 @@ app.use(express.static("public"))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(session({
-  secret: "palacepizza",
+  secret: envSessionKey || "palacepizza",
   resave: false,
   saveUninitialized: false	
 }));
@@ -172,47 +180,39 @@ app.get("/menu", function(req, res) {
 
   database.findMany(Category, {}, {}, function(categoryArray) {
     if (filter == "All") {
-      database.findMany(Product, {}, {}, function(productArray) {
-        res.render("menu", {
-          title: "Menu",
-  
-          username: req.session.username,
-          user_type: req.session.user_type,
-  
-          products: productArray,
-          categories: categoryArray,
-          category: filter
+      Product.countDocuments({}, function(err, count) {
+        database.findMany(Product, {}, {}, function(productArray) {
+          res.render("menu", {
+            title: "Menu",
+    
+            username: req.session.username,
+            user_type: req.session.user_type,
+            
+            products: productArray,
+            categories: categoryArray,
+            category: filter,
+            none: count == 0,
+          });
         });
       });
     } else {
-      database.findMany(Product, {category: filter}, {}, function(productArray) {
-        res.render("menu", {
-          title: "Menu",
-  
-          username: req.session.username,
-          user_type: req.session.user_type,
-  
-          products: productArray,
-          categories: categoryArray,
-          category: filter
+      Product.countDocuments({category: filter}, function(err, count) {
+        database.findMany(Product, {category: filter}, {}, function(productArray) {
+          res.render("menu", {
+            title: "Menu",
+    
+            username: req.session.username,
+            user_type: req.session.user_type,
+    
+            products: productArray,
+            categories: categoryArray,
+            category: filter,
+            none: count == 0,
+          });
         });
       });
     }
   });
-  /*
-  database.findMany(Product, {}, {}, function(productArray) {        
-    database.findMany(Category, {}, {}, function(categoryArray) {
-      res.render("menu", {
-        title: "Menu",
-
-        username: req.session.username,
-        user_type: req.session.user_type,
-
-        products: productArray,
-        categories: categoryArray
-      });
-    });
-  });*/
 })
 // [PAGE-05] ORDER
 app.get("/order", function(req, res) {
