@@ -180,47 +180,39 @@ app.get("/menu", function(req, res) {
 
   database.findMany(Category, {}, {}, function(categoryArray) {
     if (filter == "All") {
-      database.findMany(Product, {}, {}, function(productArray) {
-        res.render("menu", {
-          title: "Menu",
-  
-          username: req.session.username,
-          user_type: req.session.user_type,
-  
-          products: productArray,
-          categories: categoryArray,
-          category: filter
+      Product.countDocuments({}, function(err, count) {
+        database.findMany(Product, {}, {}, function(productArray) {
+          res.render("menu", {
+            title: "Menu",
+    
+            username: req.session.username,
+            user_type: req.session.user_type,
+            
+            products: productArray,
+            categories: categoryArray,
+            category: filter,
+            none: count == 0,
+          });
         });
       });
     } else {
-      database.findMany(Product, {category: filter}, {}, function(productArray) {
-        res.render("menu", {
-          title: "Menu",
-  
-          username: req.session.username,
-          user_type: req.session.user_type,
-  
-          products: productArray,
-          categories: categoryArray,
-          category: filter
+      Product.countDocuments({category: filter}, function(err, count) {
+        database.findMany(Product, {category: filter}, {}, function(productArray) {
+          res.render("menu", {
+            title: "Menu",
+    
+            username: req.session.username,
+            user_type: req.session.user_type,
+    
+            products: productArray,
+            categories: categoryArray,
+            category: filter,
+            none: count == 0,
+          });
         });
       });
     }
   });
-  /*
-  database.findMany(Product, {}, {}, function(productArray) {        
-    database.findMany(Category, {}, {}, function(categoryArray) {
-      res.render("menu", {
-        title: "Menu",
-
-        username: req.session.username,
-        user_type: req.session.user_type,
-
-        products: productArray,
-        categories: categoryArray
-      });
-    });
-  });*/
 })
 // [PAGE-05] ORDER
 app.get("/order", function(req, res) {
