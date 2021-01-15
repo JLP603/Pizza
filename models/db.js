@@ -3,7 +3,7 @@ const { envDatabaseURL } = require('../config.js');
 const { envSessionKey } = require('../config.js');
 
 const mongoose = require('mongoose');
-const url = envDatabaseURL;
+const url = envDatabaseURL || "mongodb://localhost:27017/pizza";
 
 const options = {
   useUnifiedTopology: true,
