@@ -1,3 +1,7 @@
+const { envPort } = require('./config.js');
+const { envDatabaseURL } = require('./config.js');
+const { envSessionKey } = require('./config.js');
+
 const express = require("express")
 const path = require("path")
 const exphandle = require("express-handlebars")
@@ -15,7 +19,7 @@ const Order = require("./models/orderModel.js");
 const Category = require("./models/categoryModel.js");
 
 const app = express();
-const port = process.env.PORT || 9000;
+const port = envPort || 9000;
 /*
 const app = express()
 const port = process.env.PORT || 9000
@@ -38,7 +42,7 @@ app.use(express.static("public"))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(session({
-  secret: "palacepizza",
+  secret: envSessionKey,
   resave: false,
   saveUninitialized: false	
 }));
