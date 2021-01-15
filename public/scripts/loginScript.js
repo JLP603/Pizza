@@ -65,6 +65,7 @@ $(document).ready(function () {
     
     $("#error1").html("");
     $("#error1").css("display", "none");
+    $("#confirm").css("display", "none");
 
     if ($("#username1").val() == "") {
       $("#error1").html("Username empty!");
@@ -93,6 +94,7 @@ $(document).ready(function () {
       $("#log").prop("disabled", true);
       $("#error1").html("");
       $("#error1").css("display", "none");
+      $("#confirm").css("display", "none");
 
       if ($("#username1").val() == "") {
         $("#error1").html("Username empty!");
