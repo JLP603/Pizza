@@ -42,7 +42,7 @@ app.use(express.static("public"))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(session({
-  secret: envSessionKey,
+  secret: envSessionKey || "palacepizza",
   resave: false,
   saveUninitialized: false	
 }));
