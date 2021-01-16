@@ -47,21 +47,41 @@ function updateSubtotal() {
   $("#subtotal").html("Php " + total.toFixed(2));
 }
 
-// updates the warning message
+// updates the warning , and update checkout button
 function updateWarning() {
   $("#warning").html("");
   var status = selectedValid($(".toggle"), $(".quantity"));
-
+  var disable = false;
   var warning = "";
+
   if (status == 1) {
     warning = "Cannot have less than one order!";
+    disable = true;
   } else if (status == 2) {
     warning = "Missing fields!";
+    disable = true;
   } else if (status == 3) {
     warning = "cannot have 0 orders for an item!";
+    disable = true;
+  }
+
+  if (noneSelected($(".toggle"))) {
+    disable = true;
   }
 
   $("#warning").html(warning);
+  $("#checkout").prop("disabled", disable);
+}
+
+// $(".toggle")
+function noneSelected(checkBoxes) {
+  for (var i = 0; i < checkBoxes.length; i++) {
+    if ($(checkBoxes[i]).is(":checked")) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 // posts the current order
@@ -116,6 +136,10 @@ $(document).ready(function() {
     }
     updateSubtotal();
     updateWarning();
+
+    if (noneSelected($(".toggle"))) {
+      $("#checkout").prop("disabled", true);
+    };
   });
   
   // on checkbox change, grayout/ungray corresponding input field
