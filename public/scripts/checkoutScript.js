@@ -23,6 +23,13 @@ $(document).ready(function () {
     }
   });
 
+  // check if contact negative on blur
+  $("#contact").blur(function() {
+    if (parseInt($("#contact").val()) < 0) {
+      $("#contact").css("border", "solid 1px red");
+    }
+  });
+
   // verify and post order on checkout
   $("#checkout").click(function () {
     $("#address").css("border", "");
@@ -40,6 +47,11 @@ $(document).ready(function () {
     }
 
     if ($("#contact").val() == "" || isNaN($("#contact").val())) {
+        $("#contact").css("border", "solid 1px red");
+        valid = false;
+    }
+
+    if (parseInt($("#contact").val()) < 0) {
       $("#contact").css("border", "solid 1px red");
       valid = false;
     }
