@@ -4,7 +4,6 @@ const session = require("supertest-session");
 
 const database = require("../models/db.js");
 const Order = require("../models/orderModel.js");
-const User = require("../models/userModel.js");
 
 const index = require("../index.js");
 
@@ -424,6 +423,18 @@ describe("requests - user_type: admin", function() {
     .expect({
       ok: true,
       newStatus: "Completed",
+    }, done);
+  });
+
+  it("/getConfirmDetails - pending order", function(done) {
+    authenticatedSession
+    .post("/getConfirmDetails")
+    .send({_id: order_id})
+    .expect(200)
+    .expect({
+      username: "test-customer",
+      status: "Completed",
+      statusOpposite: "Pending",
     }, done);
   });
 
