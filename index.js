@@ -388,7 +388,16 @@ app.get("/manager_orders", function(req, res) {
     res.redirect("/404");
   }
 });
-// [PAGE-08] 404
+// [PAGE-08] TERMS AND CONDITIONS
+app.get("/terms_and_conditions", function(req, res) {
+  res.render("terms_and_conditions", {
+    title: "Terms and Conditions",
+
+    username: req.session.username,
+    user_type: req.session.user_type,
+  });
+});
+// [PAGE-09] 404
 app.get("/404", function(req, res) {
   res.render("404", {
     title: "404 Not Found",
