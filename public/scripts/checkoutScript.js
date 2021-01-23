@@ -15,10 +15,10 @@ $(document).ready(function () {
     }
   });
 
-  // check if contact empty on blur
+  // check if contact empty on blur / not a number / over 20 chars
   $("#contact").blur(function() {
     $("#contact").css("border", "");
-    if ($("#contact").val() == "" || isNaN($("#contact").val())) {
+    if ($("#contact").val() == "" || isNaN($("#contact").val()) || $("#contact").val().length > 20) {
       $("#contact").css("border", "solid 1px red");
     }
   });
