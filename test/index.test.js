@@ -224,7 +224,7 @@ describe("login and register requests", function() {
     request(index.server).post("/login")
     .send({type: "login", username: "test-admin", password: "root"})
     .expect(200)
-    .expect({ok: true, redirect_url: "/manager_orders?pending=true"}, done)
+    .expect({ok: true, redirect_url: "/manager_orders"}, done)
   });
 });
 
