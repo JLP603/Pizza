@@ -2,6 +2,9 @@ const assert = require("chai").assert;
 const request = require("supertest");
 const session = require("supertest-session");
 
+const database = require("../models/db.js");
+const Order = require("../models/orderModel.js");
+
 const index = require("../index.js");
 
 var testSession = null;
@@ -344,5 +347,105 @@ describe("requests - user_type: customer", function() {
     .send({})
     .expect(403)
     .expect({message: "forbidden"}, done)
+  });
+});
+
+const getOrder_id = () => {
+  return new Promise((resolve, reject) => {
+    database.findOne(Order, {}, {}, function(order) {
+      resolve(order._id);
+    });
+  });
+};
+
+const getOrder_idAsync = async () => {
+  return await getOrder_id();
+};
+
+describe("requests - user_type: admin", function() {
+  var authenticatedSession;
+  var order_id;
+
+  beforeEach(function(done) {
+    testSession.post("/login")
+    .send({type: "login", username: "test-admin", password: "root"})
+    .expect(200)
+    .expect({ok: true, redirect_url: "/manager_orders"})
+    .end(function(err) {
+      if (err) return done(err);
+      authenticatedSession = testSession;
+      return done();
+    });
+
+    getOrder_idAsync().then(function(result) {
+      order_id = result;
+    })
+  });
+
+  it("/getdetails", function(done) {    
+    authenticatedSession
+    .post("/getdetails")
+    .send({_id: order_id})
+    .expect(200)
+    .expect({
+      username: "test-customer",
+      address: "sample address",
+      contact: "012345",
+      special_instructions: "sample SI",
+      details: [
+        {
+          name: "Cheese Pizza",
+          price: 100.01,
+          quantity: "1",
+          total: 100.01
+        }
+      ]
+    }, done);
+  });
+
+  it("/getConfirmDetails - pending order", function(done) {
+    authenticatedSession
+    .post("/getConfirmDetails")
+    .send({_id: order_id})
+    .expect(200)
+    .expect({
+      username: "test-customer",
+      status: "Pending",
+      statusOpposite: "Completed",
+    }, done);
+  });
+
+  it("/updateOrderStatus - update to completed", function(done) {
+    authenticatedSession
+    .post("/updateOrderStatus")
+    .send({_id: order_id, changeTo: "Completed"})
+    .expect(200)
+    .expect({
+      ok: true,
+      newStatus: "Completed",
+    }, done);
+  });
+
+  it("/getConfirmDetails - pending order", function(done) {
+    authenticatedSession
+    .post("/getConfirmDetails")
+    .send({_id: order_id})
+    .expect(200)
+    .expect({
+      username: "test-customer",
+      status: "Completed",
+      statusOpposite: "Pending",
+    }, done);
+  });
+
+  it("/updateOrderStatus - update to pending", function(done) {
+    authenticatedSession
+    .post("/updateOrderStatus")
+    .send({_id: order_id, changeTo: "Pending"})
+    .expect(200)
+    .expect({
+      ok: true,
+      newStatus: "Pending",
+    }, done);
   });
 });
