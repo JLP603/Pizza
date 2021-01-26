@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 3.2.2 (Python 3.9.1 on win32)" generated="20210125 22:24:52.498" rpa="false">
+<suite id="s1" name="Admin" source="C:\Users\igery\Downloads\Pizza-testing\Automation\admin.robot">
+<test id="s1-t1" name="Admin Check Pending Orders">
+<kw name="Valid Admin Login" library="resource">
+<kw name="Open Browser" library="SeleniumLibrary">
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<arguments>
+<arg>${SERVER}</arg>
+<arg>${BROWSER}</arg>
+</arguments>
+<msg timestamp="20210125 22:24:52.758" level="INFO">Opening browser 'Chrome' to base url 'http://localhost:9000'.</msg>
+<status status="PASS" starttime="20210125 22:24:52.758" endtime="20210125 22:24:57.971"></status>
+</kw>
+<kw name="Maximize Browser Window" library="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" starttime="20210125 22:24:57.971" endtime="20210125 22:24:58.107"></status>
+</kw>
+<kw name="Set Selenium Speed" library="SeleniumLibrary">
+<doc>Sets the delay that is waited after each Selenium command.</doc>
+<arguments>
+<arg>${DELAY}</arg>
+</arguments>
+<status status="PASS" starttime="20210125 22:24:58.107" endtime="20210125 22:24:58.108"></status>
+</kw>
+<kw name="Click Link" library="SeleniumLibrary">
+<doc>Clicks a link identified by ``locator``.</doc>
+<arguments>
+<arg>Sign in</arg>
+</arguments>
+<msg timestamp="20210125 22:24:58.108" level="INFO">Clicking link 'Sign in'.</msg>
+<status status="PASS" starttime="20210125 22:24:58.108" endtime="20210125 22:24:59.100"></status>
+</kw>
+<kw name="Page Should Contain Element" library="SeleniumLibrary">
+<doc>Verifies that element ``locator`` is found on the current page.</doc>
+<arguments>
+<arg>log</arg>
+</arguments>
+<msg timestamp="20210125 22:24:59.321" level="INFO">Current page contains element 'log'.</msg>
+<status status="PASS" starttime="20210125 22:24:59.100" endtime="20210125 22:24:59.321"></status>
+</kw>
+<kw name="Location Should Be" library="SeleniumLibrary">
+<doc>Verifies that the current URL is exactly ``url``.</doc>
+<arguments>
+<arg>${LOGIN URL}</arg>
+</arguments>
+<msg timestamp="20210125 22:24:59.541" level="INFO">Current location is 'http://localhost:9000/login'.</msg>
+<status status="PASS" starttime="20210125 22:24:59.321" endtime="20210125 22:24:59.541"></status>
+</kw>
+<kw name="Input Text" library="SeleniumLibrary">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>username1</arg>
+<arg>${VALID ADMINNAME}</arg>
+</arguments>
+<msg timestamp="20210125 22:24:59.542" level="INFO">Typing text 'test-admin' into text field 'username1'.</msg>
+<status status="PASS" starttime="20210125 22:24:59.541" endtime="20210125 22:25:00.293"></status>
+</kw>
+<kw name="Input Text" library="SeleniumLibrary">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>password</arg>
+<arg>${VALID ADMINPASS}</arg>
+</arguments>
+<msg timestamp="20210125 22:25:00.294" level="INFO">Typing text 'root' into text field 'password'.</msg>
+<status status="PASS" starttime="20210125 22:25:00.293" endtime="20210125 22:25:01.090"></status>
+</kw>
+<kw name="Click Button" library="SeleniumLibrary">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>log</arg>
+</arguments>
+<msg timestamp="20210125 22:25:01.091" level="INFO">Clicking button 'log'.</msg>
+<status status="PASS" starttime="20210125 22:25:01.090" endtime="20210125 22:25:02.043"></status>
+</kw>
+<status status="PASS" starttime="20210125 22:24:52.757" endtime="20210125 22:25:02.043"></status>
+</kw>
+<kw name="Location Should Be" library="SeleniumLibrary">
+<doc>Verifies that the current URL is exactly ``url``.</doc>
+<arguments>
+<arg>${ADMIN HOME PAGE}</arg>
+</arguments>
+<msg timestamp="20210125 22:25:02.407" level="INFO">Current location is 'http://localhost:9000/manager_orders'.</msg>
+<status status="PASS" starttime="20210125 22:25:02.044" endtime="20210125 22:25:02.407"></status>
+</kw>
+<status status="PASS" starttime="20210125 22:24:52.756" endtime="20210125 22:25:02.408" critical="yes"></status>
+</test>
+<test id="s1-t2" name="Admin Check Completed Orders">
+<kw name="Valid Admin Login" library="resource">
+<kw name="Open Browser" library="SeleniumLibrary">
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<arguments>
+<arg>${SERVER}</arg>
+<arg>${BROWSER}</arg>
+</arguments>
+<msg timestamp="20210125 22:25:02.410" level="INFO">Opening browser 'Chrome' to base url 'http://localhost:9000'.</msg>
+<status status="PASS" starttime="20210125 22:25:02.410" endtime="20210125 22:25:05.108"></status>
+</kw>
+<kw name="Maximize Browser Window" library="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" starttime="20210125 22:25:05.108" endtime="20210125 22:25:05.449"></status>
+</kw>
+<kw name="Set Selenium Speed" library="SeleniumLibrary">
+<doc>Sets the delay that is waited after each Selenium command.</doc>
+<arguments>
+<arg>${DELAY}</arg>
+</arguments>
+<status status="PASS" starttime="20210125 22:25:05.449" endtime="20210125 22:25:05.450"></status>
+</kw>
+<kw name="Click Link" library="SeleniumLibrary">
+<doc>Clicks a link identified by ``locator``.</doc>
+<arguments>
+<arg>Sign in</arg>
+</arguments>
+<msg timestamp="20210125 22:25:05.450" level="INFO">Clicking link 'Sign in'.</msg>
+<status status="PASS" starttime="20210125 22:25:05.450" endtime="20210125 22:25:06.433"></status>
+</kw>
+<kw name="Page Should Contain Element" library="SeleniumLibrary">
+<doc>Verifies that element ``locator`` is found on the current page.</doc>
+<arguments>
+<arg>log</arg>
+</arguments>
+<msg timestamp="20210125 22:25:06.650" level="INFO">Current page contains element 'log'.</msg>
+<status status="PASS" starttime="20210125 22:25:06.433" endtime="20210125 22:25:06.650"></status>
+</kw>
+<kw name="Location Should Be" library="SeleniumLibrary">
+<doc>Verifies that the current URL is exactly ``url``.</doc>
+<arguments>
+<arg>${LOGIN URL}</arg>
+</arguments>
+<msg timestamp="20210125 22:25:06.872" level="INFO">Current location is 'http://localhost:9000/login'.</msg>
+<status status="PASS" starttime="20210125 22:25:06.650" endtime="20210125 22:25:06.872"></status>
+</kw>
+<kw name="Input Text" library="SeleniumLibrary">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>username1</arg>
+<arg>${VALID ADMINNAME}</arg>
+</arguments>
+<msg timestamp="20210125 22:25:06.873" level="INFO">Typing text 'test-admin' into text field 'username1'.</msg>
+<status status="PASS" starttime="20210125 22:25:06.872" endtime="20210125 22:25:07.646"></status>
+</kw>
+<kw name="Input Text" library="SeleniumLibrary">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>password</arg>
+<arg>${VALID ADMINPASS}</arg>
+</arguments>
+<msg timestamp="20210125 22:25:07.647" level="INFO">Typing text 'root' into text field 'password'.</msg>
+<status status="PASS" starttime="20210125 22:25:07.646" endtime="20210125 22:25:08.436"></status>
+</kw>
+<kw name="Click Button" library="SeleniumLibrary">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>log</arg>
+</arguments>
+<msg timestamp="20210125 22:25:08.437" level="INFO">Clicking button 'log'.</msg>
+<status status="PASS" starttime="20210125 22:25:08.436" endtime="20210125 22:25:09.383"></status>
+</kw>
+<status status="PASS" starttime="20210125 22:25:02.409" endtime="20210125 22:25:09.383"></status>
+</kw>
+<kw name="Location Should Be" library="SeleniumLibrary">
+<doc>Verifies that the current URL is exactly ``url``.</doc>
+<arguments>
+<arg>${ADMIN HOME PAGE}</arg>
+</arguments>
+<msg timestamp="20210125 22:25:09.601" level="INFO">Current location is 'http://localhost:9000/manager_orders'.</msg>
+<status status="PASS" starttime="20210125 22:25:09.384" endtime="20210125 22:25:09.601"></status>
+</kw>
+<kw name="Click Link" library="SeleniumLibrary">
+<doc>Clicks a link identified by ``locator``.</doc>
+<arguments>
+<arg>Completed Customer Orders</arg>
+</arguments>
+<msg timestamp="20210125 22:25:09.602" level="INFO">Clicking link 'Completed Customer Orders'.</msg>
+<status status="PASS" starttime="20210125 22:25:09.601" endtime="20210125 22:25:10.382"></status>
+</kw>
+<kw name="Location Should Be" library="SeleniumLibrary">
+<doc>Verifies that the current URL is exactly ``url``.</doc>
+<arguments>
+<arg>${ADMIN HOME PAGE}?pending=false</arg>
+</arguments>
+<msg timestamp="20210125 22:25:10.599" level="INFO">Current location is 'http://localhost:9000/manager_orders?pending=false'.</msg>
+<status status="PASS" starttime="20210125 22:25:10.384" endtime="20210125 22:25:10.599"></status>
+</kw>
+<status status="PASS" starttime="20210125 22:25:02.409" endtime="20210125 22:25:10.600" critical="yes"></status>
+</test>
+<test id="s1-t3" name="Admin Change Order Status">
+<kw name="Valid Admin Login" library="resource">
+<kw name="Open Browser" library="SeleniumLibrary">
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<arguments>
+<arg>${SERVER}</arg>
+<arg>${BROWSER}</arg>
+</arguments>
+<msg timestamp="20210125 22:25:10.603" level="INFO">Opening browser 'Chrome' to base url 'http://localhost:9000'.</msg>
+<status status="PASS" starttime="20210125 22:25:10.602" endtime="20210125 22:25:16.484"></status>
+</kw>
+<kw name="Maximize Browser Window" library="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" starttime="20210125 22:25:16.484" endtime="20210125 22:25:16.823"></status>
+</kw>
+<kw name="Set Selenium Speed" library="SeleniumLibrary">
+<doc>Sets the delay that is waited after each Selenium command.</doc>
+<arguments>
+<arg>${DELAY}</arg>
+</arguments>
+<status status="PASS" starttime="20210125 22:25:16.823" endtime="20210125 22:25:16.824"></status>
+</kw>
+<kw name="Click Link" library="SeleniumLibrary">
+<doc>Clicks a link identified by ``locator``.</doc>
+<arguments>
+<arg>Sign in</arg>
+</arguments>
+<msg timestamp="20210125 22:25:16.824" level="INFO">Clicking link 'Sign in'.</msg>
+<status status="PASS" starttime="20210125 22:25:16.824" endtime="20210125 22:25:17.840"></status>
+</kw>
+<kw name="Page Should Contain Element" library="SeleniumLibrary">
+<doc>Verifies that element ``locator`` is found on the current page.</doc>
+<arguments>
+<arg>log</arg>
+</arguments>
+<msg timestamp="20210125 22:25:18.071" level="INFO">Current page contains element 'log'.</msg>
+<status status="PASS" starttime="20210125 22:25:17.840" endtime="20210125 22:25:18.071"></status>
+</kw>
+<kw name="Location Should Be" library="SeleniumLibrary">
+<doc>Verifies that the current URL is exactly ``url``.</doc>
+<arguments>
+<arg>${LOGIN URL}</arg>
+</arguments>
+<msg timestamp="20210125 22:25:18.290" level="INFO">Current location is 'http://localhost:9000/login'.</msg>
+<status status="PASS" starttime="20210125 22:25:18.071" endtime="20210125 22:25:18.290"></status>
+</kw>
+<kw name="Input Text" library="SeleniumLibrary">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>username1</arg>
+<arg>${VALID ADMINNAME}</arg>
+</arguments>
+<msg timestamp="20210125 22:25:18.291" level="INFO">Typing text 'test-admin' into text field 'username1'.</msg>
+<status status="PASS" starttime="20210125 22:25:18.290" endtime="20210125 22:25:19.045"></status>
+</kw>
+<kw name="Input Text" library="SeleniumLibrary">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>password</arg>
+<arg>${VALID ADMINPASS}</arg>
+</arguments>
+<msg timestamp="20210125 22:25:19.046" level="INFO">Typing text 'root' into text field 'password'.</msg>
+<status status="PASS" starttime="20210125 22:25:19.045" endtime="20210125 22:25:19.794"></status>
+</kw>
+<kw name="Click Button" library="SeleniumLibrary">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>log</arg>
+</arguments>
+<msg timestamp="20210125 22:25:19.795" level="INFO">Clicking button 'log'.</msg>
+<status status="PASS" starttime="20210125 22:25:19.794" endtime="20210125 22:25:20.753"></status>
+</kw>
+<status status="PASS" starttime="20210125 22:25:10.602" endtime="20210125 22:25:20.753"></status>
+</kw>
+<kw name="Location Should Be" library="SeleniumLibrary">
+<doc>Verifies that the current URL is exactly ``url``.</doc>
+<arguments>
+<arg>${ADMIN HOME PAGE}</arg>
+</arguments>
+<msg timestamp="20210125 22:25:20.971" level="INFO">Current location is 'http://localhost:9000/manager_orders'.</msg>
+<status status="PASS" starttime="20210125 22:25:20.754" endtime="20210125 22:25:20.971"></status>
+</kw>
+<kw name="Element Should Contain" library="SeleniumLibrary">
+<doc>Verifies that element ``locator`` contains text ``expected``.</doc>
+<arguments>
+<arg>css:.getConfirmDetails</arg>
+<arg>Pending</arg>
+</arguments>
+<msg timestamp="20210125 22:25:21.403" level="INFO">Element 'css:.getConfirmDetails' contains text 'Pending'.</msg>
+<status status="PASS" starttime="20210125 22:25:20.972" endtime="20210125 22:25:21.403"></status>
+</kw>
+<kw name="Click Element" library="SeleniumLibrary">
+<doc>Click the element identified by ``locator``.</doc>
+<arguments>
+<arg>css:.getConfirmDetails</arg>
+</arguments>
+<msg timestamp="20210125 22:25:21.404" level="INFO">Clicking element 'css:.getConfirmDetails'.</msg>
+<status status="PASS" starttime="20210125 22:25:21.404" endtime="20210125 22:25:21.874"></status>
+</kw>
+<kw name="Click Element" library="SeleniumLibrary">
+<doc>Click the element identified by ``locator``.</doc>
+<arguments>
+<arg>id:confirm-change</arg>
+</arguments>
+<msg timestamp="20210125 22:25:21.875" level="INFO">Clicking element 'id:confirm-change'.</msg>
+<status status="PASS" starttime="20210125 22:25:21.874" endtime="20210125 22:25:22.344"></status>
+</kw>
+<kw name="Element Should Contain" library="SeleniumLibrary">
+<doc>Verifies that element ``locator`` contains text ``expected``.</doc>
+<arguments>
+<arg>css:.getConfirmDetails</arg>
+<arg>Completed</arg>
+</arguments>
+<msg timestamp="20210125 22:25:22.780" level="INFO">Element 'css:.getConfirmDetails' contains text 'Completed'.</msg>
+<status status="PASS" starttime="20210125 22:25:22.345" endtime="20210125 22:25:22.780"></status>
+</kw>
+<kw name="Click Link" library="SeleniumLibrary">
+<doc>Clicks a link identified by ``locator``.</doc>
+<arguments>
+<arg>Completed Customer Orders</arg>
+</arguments>
+<msg timestamp="20210125 22:25:22.781" level="INFO">Clicking link 'Completed Customer Orders'.</msg>
+<status status="PASS" starttime="20210125 22:25:22.781" endtime="20210125 22:25:23.556"></status>
+</kw>
+<kw name="Location Should Be" library="SeleniumLibrary">
+<doc>Verifies that the current URL is exactly ``url``.</doc>
+<arguments>
+<arg>${ADMIN HOME PAGE}?pending=false</arg>
+</arguments>
+<msg timestamp="20210125 22:25:23.769" level="INFO">Current location is 'http://localhost:9000/manager_orders?pending=false'.</msg>
+<status status="PASS" starttime="20210125 22:25:23.557" endtime="20210125 22:25:23.769"></status>
+</kw>
+<kw name="Click Link" library="SeleniumLibrary">
+<doc>Clicks a link identified by ``locator``.</doc>
+<arguments>
+<arg>Pending Customer Orders</arg>
+</arguments>
+<msg timestamp="20210125 22:25:23.770" level="INFO">Clicking link 'Pending Customer Orders'.</msg>
+<status status="PASS" starttime="20210125 22:25:23.770" endtime="20210125 22:25:24.568"></status>
+</kw>
+<kw name="Location Should Be" library="SeleniumLibrary">
+<doc>Verifies that the current URL is exactly ``url``.</doc>
+<arguments>
+<arg>${ADMIN HOME PAGE}?pending=true</arg>
+</arguments>
+<msg timestamp="20210125 22:25:24.790" level="INFO">Current location is 'http://localhost:9000/manager_orders?pending=true'.</msg>
+<status status="PASS" starttime="20210125 22:25:24.570" endtime="20210125 22:25:24.790"></status>
+</kw>
+<status status="PASS" starttime="20210125 22:25:10.601" endtime="20210125 22:25:24.791" critical="yes"></status>
+</test>
+<doc>This is a test suite for the admin's functions.
+</doc>
+<status status="PASS" starttime="20210125 22:24:52.500" endtime="20210125 22:25:24.794"></status>
+</suite>
+<statistics>
+<total>
+<stat pass="3" fail="0">Critical Tests</stat>
+<stat pass="3" fail="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="3" fail="0" id="s1" name="Admin">Admin</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
