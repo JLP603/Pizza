@@ -32,10 +32,10 @@
 ---
 
 ### Script Info
-| Script                              | Description                                  | command executed                                |
-| ----------------------------------- | -------------------------------------------- | ----------------------------------------------- |
-| **`npm run start`**                 | run normally                                 | **`node index.js`**                             |
-| **`npm run start-delay`**           | run with 1000 ms delay response              | **`node index.js delay`**                       |
-| **`npm run start-delay <msdelay>`** | run with custom delay response               | **`node index.js delay <msdalay>`**             |
-| **`npm run dev`**                   | automatically restart app when changes occur | **`nodemon index.js`**                          |
-| **`npm run test`**                  | reset database and run tests                 | **`node addData.js && mocha --exit \|\| true`** |
+| Script                    | Description                                  | command executed                                  |
+| ------------------------- | -------------------------------------------- | ------------------------------------------------- |
+| **`npm run start`**       | run normally                                 | **`node index.js`**                               |
+| **`npm run start-delay`** | run with 1000 ms delay response              | **`node index.js delay`**                         |
+|                           | run with custom delay response               | **`node index.js delay <delay_in_milliseconds>`** |
+| **`npm run dev`**         | automatically restart app when changes occur | **`nodemon index.js`**                            |
+| **`npm run test`**        | reset database and run tests                 | **`node addData.js && mocha --exit \|\| true`**   |
