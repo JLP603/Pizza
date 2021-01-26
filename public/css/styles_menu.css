@@ -46,7 +46,7 @@
 .menu-card-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-wrap: wrap;
 
   margin-left: 5%;
@@ -184,7 +184,7 @@ a:hover {
   width: 65%;
   height: 100%;
   margin: 20px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .overlay-image {

@@ -123,7 +123,7 @@ app.get("/", function(req, res) {
 })
 // [PAGE-02] CHECKOUT
 app.get("/checkout", function(req, res) {
-  if (req.session._id) {
+  if (req.session.user_type == "customer") {
     database.findOne(Order, {user_id: req.session._id, is_completed: false}, {}, function(db_order) {
       if (!db_order) {
         database.findOne(User, {_id: req.session._id}, {}, function(user) {
@@ -160,6 +160,8 @@ app.get("/checkout", function(req, res) {
         res.redirect("/order");
       }
     });
+  } else if (req.session.user_type == "admin") {
+    res.redirect("/manager_orders");
   } else {
     res.redirect("/login");
   }
@@ -180,47 +182,39 @@ app.get("/menu", function(req, res) {
 
   database.findMany(Category, {}, {}, function(categoryArray) {
     if (filter == "All") {
-      database.findMany(Product, {}, {}, function(productArray) {
-        res.render("menu", {
-          title: "Menu",
-  
-          username: req.session.username,
-          user_type: req.session.user_type,
-  
-          products: productArray,
-          categories: categoryArray,
-          category: filter
+      Product.countDocuments({}, function(err, count) {
+        database.findMany(Product, {}, {}, function(productArray) {
+          res.render("menu", {
+            title: "Menu",
+    
+            username: req.session.username,
+            user_type: req.session.user_type,
+            
+            products: productArray,
+            categories: categoryArray,
+            category: filter,
+            none: count == 0,
+          });
         });
       });
     } else {
-      database.findMany(Product, {category: filter}, {}, function(productArray) {
-        res.render("menu", {
-          title: "Menu",
-  
-          username: req.session.username,
-          user_type: req.session.user_type,
-  
-          products: productArray,
-          categories: categoryArray,
-          category: filter
+      Product.countDocuments({category: filter}, function(err, count) {
+        database.findMany(Product, {category: filter}, {}, function(productArray) {
+          res.render("menu", {
+            title: "Menu",
+    
+            username: req.session.username,
+            user_type: req.session.user_type,
+    
+            products: productArray,
+            categories: categoryArray,
+            category: filter,
+            none: count == 0,
+          });
         });
       });
     }
   });
-  /*
-  database.findMany(Product, {}, {}, function(productArray) {        
-    database.findMany(Category, {}, {}, function(categoryArray) {
-      res.render("menu", {
-        title: "Menu",
-
-        username: req.session.username,
-        user_type: req.session.user_type,
-
-        products: productArray,
-        categories: categoryArray
-      });
-    });
-  });*/
 })
 // [PAGE-05] ORDER
 app.get("/order", function(req, res) {
@@ -235,7 +229,7 @@ app.get("/order", function(req, res) {
       productsNoDescriptionNoCategories.push(cur);
     });
     
-    if (req.session._id) {
+    if (req.session.user_type == "customer") {
       database.findOne(Order, {user_id: req.session._id, is_completed: false}, {}, function(db_order) {
         var hascurrent = db_order ? true: false;
         res.render("order", {
@@ -248,6 +242,8 @@ app.get("/order", function(req, res) {
             products: productsNoDescriptionNoCategories,
           });        
       });
+    } else if (req.session.user_type == "admin") {
+      res.redirect("/manager_orders");
     } else {
       res.render("order", {
         title: "Order",
@@ -264,7 +260,7 @@ app.get("/order", function(req, res) {
 })
 // [PAGE-06] USER_ORDERS
 app.get("/user_orders", function(req, res) {
-  if (req.session._id) {
+  if (req.session.user_type == "customer") {
     database.findOne(Order, {user_id: req.session._id, is_completed: false}, {}, function(db_order) {
       if (db_order) {                
         var details = db_order;
@@ -344,6 +340,8 @@ app.get("/user_orders", function(req, res) {
         });
       }
     })
+  } else if (req.session.user_type == "admin") {
+    res.redirect("/manager_orders");
   } else {
     res.redirect("/login");
   }
@@ -351,13 +349,14 @@ app.get("/user_orders", function(req, res) {
 // [PAGE-07] MANAGER_ORDERS
 app.get("/manager_orders", function(req, res) {
   if (req.session.user_type == "admin") {      
-    Order.countDocuments({is_completed: !(req.query.pending == "true")}, function(err, count) {
+    var isPending = req.query.pending || "true";
+    Order.countDocuments({is_completed: !(isPending == "true")}, function(err, count) {
       var perPage = 10;
       var page = parseInt(req.query.page) || 1;
-      var sort = req.query.pending == "true" ? 1 : -1;
+      var sort = isPending == "true" ? 1 : -1;
 
       Order
-      .find({is_completed: !(req.query.pending == "true")})
+      .find({is_completed: !(isPending == "true")})
       .sort({date_time: sort})
       .skip(perPage * page - perPage)
       .limit(perPage)
@@ -382,11 +381,11 @@ app.get("/manager_orders", function(req, res) {
           username: req.session.username,
           user_type: req.session.user_type,
           
-          isPending: req.query.pending == "true",
+          isPending: isPending == "true",
           order_details: order_details,
           none: orders.length == 0,
 
-          url: "manager_orders?pending=" + req.query.pending + "&",
+          url: "manager_orders?pending=" + isPending + "&",
           current: page,
           pages: Math.ceil(count / perPage),
         });
@@ -396,7 +395,16 @@ app.get("/manager_orders", function(req, res) {
     res.redirect("/404");
   }
 });
-// [PAGE-08] 404
+// [PAGE-08] TERMS AND CONDITIONS
+app.get("/terms_and_conditions", function(req, res) {
+  res.render("terms_and_conditions", {
+    title: "Terms and Conditions",
+
+    username: req.session.username,
+    user_type: req.session.user_type,
+  });
+});
+// [PAGE-09] 404
 app.get("/404", function(req, res) {
   res.render("404", {
     title: "404 Not Found",
@@ -477,7 +485,7 @@ app.post("/login", function(req, res) {
             if (user.user_type == "customer") {
               redirect_url = "/";
             } else {
-              redirect_url = "/manager_orders?pending=true";
+              redirect_url = "/manager_orders";
             }
             res.status(200).send({
               ok: true, 
