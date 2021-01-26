@@ -50,7 +50,6 @@ $(document).ready(function () {
   $("#username1").blur(function() {
     $("#error1").html("");
     $("#error1").css("display", "none");
-    $("#confirm").css("display", "none");
 
     $.post("/login", {type: "username_check", username: $("#username1").val()}, function(data, status) {
       if (!data.ok) {
@@ -66,7 +65,6 @@ $(document).ready(function () {
     
     $("#error1").html("");
     $("#error1").css("display", "none");
-    $("#confirm").css("display", "none");
 
     if ($("#username1").val() == "") {
       $("#error1").html("Username empty!");
@@ -95,7 +93,6 @@ $(document).ready(function () {
       $("#log").prop("disabled", true);
       $("#error1").html("");
       $("#error1").css("display", "none");
-      $("#confirm").css("display", "none");
 
       if ($("#username1").val() == "") {
         $("#error1").html("Username empty!");
@@ -200,7 +197,6 @@ $(document).ready(function () {
       $("#error2").css("display", "block");
       $("#reg").prop("disabled", false);
     } else {
-      $("#processing").css("display", "block");
       $.post("/newUser", {type: "register", username: $("#username2").val(), password: $("#pswrd_1").val()}, function(data, status) {
         if (data.ok) {
           $("#username2").val("");
@@ -216,7 +212,6 @@ $(document).ready(function () {
           $("#error2").html(data.message);
         }
         $("#reg").prop("disabled", false);
-        $("#processing").css("display", "none");
       });
     }
   });

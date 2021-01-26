@@ -18,7 +18,6 @@
   text-align: left;
   align-items: center;
   margin-bottom: 15px;
-  overflow-x: auto;
 }
 
 input[type=checkbox]
@@ -50,14 +49,12 @@ input[type=checkbox]
   padding-left: 10px;
   padding-right: 10px;
   width: 100px;
-  margin-right: 10px;
 }
 
 .quantity-gray {
   padding-left: 10px;
   padding-right: 10px;
   width: 100px;
-  margin-right: 10px;
 }
 
 .total {

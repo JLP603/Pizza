@@ -1,9 +1,4 @@
 /* ------------------------------------ [PAGE-06] USER_ORDERS -------------------------------------- */
-.status {
-  text-decoration: none;
-  color: rgb(33, 37, 41);
-}
-
 .home-box {
   background-color: #f7f7f7;
   padding: 10px;
@@ -66,13 +61,11 @@
 
 .title {
   padding: 10px;
-  overflow-x: auto;
 }
 
 .item {
   background-color: #f7f7f7;
   padding: 10px;
-  overflow-x: auto;
 }
 
 .item-name {

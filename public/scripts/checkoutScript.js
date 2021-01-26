@@ -15,17 +15,10 @@ $(document).ready(function () {
     }
   });
 
-  // check if contact empty on blur / not a number / over 20 chars
+  // check if contact empty on blur
   $("#contact").blur(function() {
     $("#contact").css("border", "");
-    if ($("#contact").val() == "" || isNaN($("#contact").val()) || $("#contact").val().length > 20) {
-      $("#contact").css("border", "solid 1px red");
-    }
-  });
-
-  // check if contact negative on blur
-  $("#contact").blur(function() {
-    if (parseInt($("#contact").val()) < 0) {
+    if ($("#contact").val() == "" || isNaN($("#contact").val())) {
       $("#contact").css("border", "solid 1px red");
     }
   });
@@ -47,11 +40,6 @@ $(document).ready(function () {
     }
 
     if ($("#contact").val() == "" || isNaN($("#contact").val())) {
-        $("#contact").css("border", "solid 1px red");
-        valid = false;
-    }
-
-    if (parseInt($("#contact").val()) < 0) {
       $("#contact").css("border", "solid 1px red");
       valid = false;
     }

@@ -10,7 +10,7 @@
     <div class="d-flex flex-row justify-content-between title">
       <h4 class="item-name"><b>Status</b> (refresh the page to get latest status)</h4>
     </div>
-    <div class="status">
+    <a style="text-decoration: none; color: rgb(33, 37, 41);">
       <div class="card d-flex flex-row justify-content-between home-box">
         <div class="home-col1">
           <button type="button" class="btn btn-outline-dark btn-block home-date">{{dateFormat details.date_time "MMM Do, YYYY"}}</button>
@@ -28,7 +28,7 @@
           {{/if}}
         </div>  
       </div>      
-    </div>
+    </a>
     <!-- The Modal -->
     <div class="modal" id="myModal">
       <div class="modal-dialog">
@@ -61,7 +61,7 @@
       <h4 class="item-col">Quantity</h4>
       <h4 class="item-col">Total</h4>
     </div>
-    <div class="card">
+    <div class="card item">
       {{#each order}}
       <div class="d-flex flex-row justify-content-between item detail">
         <h4 class="item-name">{{this.name}}</h4>
